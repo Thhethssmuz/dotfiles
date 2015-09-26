@@ -1,0 +1,67 @@
+xrdb ~/.Xresources
+
+###############################################################################
+#
+# Keyboard / Mouse
+#
+###############################################################################
+
+# Set numlock status to on at start.
+numlockx &
+
+# Explicitly set keyboard layout with `setxkbmap` to work around glitch with
+# `xdotool` that assumes my keyboard is querty :/
+setxkbmap "no(dvorak)"
+
+# Hide mouse cursor when inactive for a short period.
+#unclutter -grab -noevents -root &
+
+# TODO: mouse acceleration and sensitivity
+
+
+###############################################################################
+#
+# Desktop
+#
+###############################################################################
+
+# Set background image.
+hsetroot -fill /home/thhethssmuz/Pictures/wallpaper.jpg &
+
+# Enable window transparency and effects.
+compton &
+
+# Dim brightness and screen colours at night.
+redshift &
+
+# Turn off bell sound
+xset b off
+
+# Turn off screen saver
+xset s off
+
+# Blank the screen after 25 minutes of inactivity.
+xset dpms 1500 1500 1500
+
+# Lock screen after 30
+xautolock -locker slimlock -time 30 &
+
+
+###############################################################################
+#
+# Other
+#
+###############################################################################
+
+# Start the pulse audio daemon.
+pulseaudio --start
+
+
+###############################################################################
+#
+# Main
+#
+###############################################################################
+
+# Start the window manager
+exec xmonad
