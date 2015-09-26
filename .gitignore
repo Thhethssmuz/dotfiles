@@ -1,0 +1,20 @@
+# Ignore by default
+*
+
+# `rc` files are generally interesting, would rather ignore specific once later
+!*rc
+.npmrc
+.nvidia-settings-rc
+
+# Shell
+!*.sh
+!.bash_ps1
+!.Xresources
+
+# Compton
+!.compton.conf
+
+# GHCI
+!.ghci
+
+# XMonad
