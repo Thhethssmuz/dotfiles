@@ -3,13 +3,15 @@
 
 # `rc` files are generally interesting, would rather ignore specific once later
 !*rc
+
 .npmrc
 .nvidia-settings-rc
 
-# Shell
-!*.sh
 !.bash_ps1
 !.Xresources
+!.config
+
+
 
 # Compton
 !.compton.conf
@@ -17,4 +19,34 @@
 # GHCI
 !.ghci
 
+# mpd
+!.config/mpd
+!.config/mpd/mpd.conf
+
+# ncmpcpp
+!.ncmpcpp
+!.ncmpcpp/config
+
+# Sublime Text
+!.config/sublime-text-3
+!.config/sublime-text-3/Packages
+!.config/sublime-text-3/Packages/**
+
+.config/sublime-text-3/Packages/bz2
+.config/sublime-text-3/Packages/HTML
+.config/sublime-text-3/Packages/Rails
+.config/sublime-text-3/Packages/ssl-linux
+**.cache
+**.*-ca-bundle
+**.last-run
+
+# RedShift
+!.config/redshift.conf
+
 # XMonad
+!.xmonad
+!.xmonad/xmonad.hs
+!.xmonad/scripts
+!.xmonad/scripts/**
+!.xmonad/icons/src
+!.xmonad/icons/scr/*
