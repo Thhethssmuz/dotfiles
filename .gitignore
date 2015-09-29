@@ -55,8 +55,9 @@
 !.xmonad/xmonad.hs
 !.xmonad/scripts
 !.xmonad/scripts/**
+!.xmonad/icons
 !.xmonad/icons/src
-!.xmonad/icons/scr/*
+!.xmonad/icons/src/*
 
 
 
