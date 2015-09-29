@@ -1,0 +1,341 @@
+{-# LANGUAGE DeriveDataTypeable #-}
+
+import XMonad hiding ((|||))
+
+import XMonad.Layout.LayoutCombinators
+import XMonad.Layout.Grid
+import XMonad.Layout.Spacing
+import XMonad.Layout.Fullscreen
+import XMonad.Layout.NoBorders
+import XMonad.Layout.ResizableTile
+import XMonad.Layout.Renamed
+
+import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks, docksEventHook)
+import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat)
+import XMonad.Util.WorkspaceCompare (getSortByXineramaPhysicalRule)
+
+import XMonad.Hooks.EwmhDesktops (ewmh)
+import XMonad.Util.Run (spawnPipe, safeSpawn)
+import qualified XMonad.StackSet as W
+import qualified XMonad.Util.ExtensibleState as XS
+
+import XMonad.Hooks.UrgencyHook
+import XMonad.Util.NamedWindows
+import XMonad.Util.WindowProperties (getProp32)
+
+import qualified Data.Map as M
+import Data.Bits ((.|.))
+import Data.List
+import Data.Maybe
+import Data.Monoid
+import Control.Monad
+
+import System.IO (hPutStrLn)
+import System.Exit
+
+-- import System.Posix.Unistd (host, hostname)
+
+-------------------------------------------------------------------------------
+-- Main
+-------------------------------------------------------------------------------
+
+main = do
+  l <- spawnPipe "/home/thhethssmuz/.xmonad/scripts/dzen-bar-left.sh"
+  m <- spawn "~/.xmonad/scripts/clock.sh"
+  r <- spawn "~/.xmonad/scripts/status-bar.sh"
+  xmonad
+    . withUrgencyHookC CMDNotify myUrgencyConf
+    . ewmh
+    $ defaultConfig
+    { borderWidth        = 1
+    , workspaces         = myWorkspaces
+    , layoutHook         = myLayout
+    , terminal           = "urxvt"
+    , normalBorderColor  = background
+    , focusedBorderColor = foreground
+    , modMask            = mod1Mask
+    , keys               = myKeys
+    , logHook            = myLogHook l
+    -- , startupHook        = startupHook
+    -- , mouseBindings      = mouseBindings
+    , manageHook         = myManageHook
+    , handleEventHook    = myHandleEventHook
+    , focusFollowsMouse  = True
+    -- , clickJustFocuses   = clickJustFocuses
+    }
+
+-------------------------------------------------------------------------------
+-- Workspaces
+-------------------------------------------------------------------------------
+
+myWorkspaces = clickable $ map (:[]) set
+  where
+    set       = "abcdefghi"
+    clickable = map ca . zip ks
+    ca (k,w)  = "^ca(1, xdotool key alt+" ++ k ++ ")" ++ w ++ "^ca()"
+    ks        = [ "aring", "comma", "period", "a", "o", "e", "ae", "q", "j" ]
+
+-------------------------------------------------------------------------------
+-- Layouts
+-------------------------------------------------------------------------------
+
+myLayoutIDs = [ "S", "T", "F", "G" ]
+
+myLayout = tiledSpace ||| tiled ||| fullScreen ||| grid
+  where
+
+    tiledSpace = renamed [Replace "S"]
+               . avoidStruts
+               . spacing 60
+               $ ResizableTall nmaster delta ratio []
+
+    tiled      = renamed [Replace "T"]
+               . avoidStruts
+               . spacing 5
+               $ ResizableTall nmaster delta ratio []
+
+    fullScreen = renamed [Replace "F"]
+               . noBorders
+               $ fullscreenFull Full
+
+    grid       = renamed [Replace "G"]
+               . avoidStruts
+               . spacing 5
+               $ GridRatio (16/9)
+
+    nmaster    = 1
+    delta      = 5/100
+    ratio      = toRational (2/(1 + sqrt 5 :: Double))
+
+
+-- Layout state that stores previous layout, allows to toggle fullscreen :D
+data LayoutState = LayoutState {
+  layoutMap :: M.Map String (String, String)
+} deriving (Show)
+
+instance ExtensionClass LayoutState where
+  initialValue = LayoutState $ M.fromList []
+
+-- jump to layout i, unless we are already on layout i then go back to previous
+layout i = do
+  ws    <- gets (W.currentTag . windowset)
+  m     <- fmap layoutMap XS.get
+
+  let h       = head myLayoutIDs
+      (c, p ) = fromMaybe (h,h) . M.lookup ws $ m
+      (c',p') = if i == c then (p,c) else (i,c)
+
+  XS.put . LayoutState . M.insert ws (c',p') $ m
+  sendMessage . JumpToLayout $ c'
+
+-- next layout
+cycleLayouts = do
+  ws    <- gets (W.currentTag . windowset)
+  m     <- fmap layoutMap XS.get
+
+  let h     = head myLayoutIDs
+      (c,_) = fromMaybe (h,h) . M.lookup ws $ m
+      c'    = (!!) (cycle myLayoutIDs)
+            . (+1) . fromJust . findIndex (== c) $ myLayoutIDs
+
+  XS.put . LayoutState . M.insert ws (c',c) $ m
+  sendMessage NextLayout
+
+resetLayoutState l = do
+  ws    <- gets (W.currentTag . windowset)
+  m     <- fmap layoutMap XS.get
+  XS.put . LayoutState . M.delete ws $ m
+  setLayout l
+
+-------------------------------------------------------------------------------
+-- Notifications
+-------------------------------------------------------------------------------
+
+data CMDNotify = CMDNotify deriving (Show, Read)
+
+instance UrgencyHook CMDNotify where
+  urgencyHook _ w = do
+    let soundFile = "/usr/share/sounds/freedesktop/stereo/window-attention.oga"
+
+    name <- fmap show . getName $ w
+    ws   <- fmap (fromMaybe "?" . W.findTag w) . gets $ windowset
+    pipe <- spawnPipe $ "~/.xmonad/scripts/notify.sh -ts " ++ soundFile
+
+    --io . hPutStrLn pipe . dzenClickableWorkspace ws $ (name ++ " " ++ ws)
+    io . hPutStrLn pipe $ name ++ " " ++ ws
+
+    withDisplay $ \d -> io $ fromJust <$> initColor d "red" >>= setWindowBorder d w
+
+
+myUrgencyConf  = urgencyConfig { suppressWhen = Focused, remindWhen = Dont }
+
+-------------------------------------------------------------------------------
+-- Manage hooks
+-------------------------------------------------------------------------------
+
+myManageHook = (composeAll
+  [ resource =? "feh" --> doIgnore
+  , resource =? "dzen2" --> doIgnore
+  , manageDocks
+  ]) <+> manageHook defaultConfig
+
+-------------------------------------------------------------------------------
+-- Handle event hooks
+-------------------------------------------------------------------------------
+
+myHandleEventHook = refreshOnFullscreen <+> fullscreenEventHook <+> docksEventHook
+
+-- hack for fullscreening chromium inside a tiled window
+refreshOnFullscreen :: Event -> X All
+refreshOnFullscreen (ClientMessageEvent _ _ _ dpy win typ (action:dats)) = do
+  wmstate <- getAtom "_NET_WM_STATE"
+  fullsc  <- getAtom "_NET_WM_STATE_FULLSCREEN"
+  wstate  <- fromMaybe [] `fmap` getProp32 wmstate win
+
+  when (typ == wmstate && fromIntegral fullsc `elem` dats) $ do
+    when (action == 1 || (action == 2 && not (fromIntegral fullsc `elem` wstate))) $ do
+      sendMessage Shrink
+      sendMessage Expand
+
+  return $ All True
+
+refreshOnFullscreen _ = return $ All True
+
+-------------------------------------------------------------------------------
+-- Status bar
+-------------------------------------------------------------------------------
+
+myLogHook h = dynamicLogWithPP $ defaultPP
+  { ppCurrent   = dzenColor foreground ""
+  , ppVisible   = dzenColor color3 ""
+  , ppUrgent    = dzenColor color1 "" . dzenStrip
+  , ppHidden    = dzenColor background ""
+  , ppWsSep     = sep
+  , ppSep       = ""
+  , ppSort      = getSortByXineramaPhysicalRule
+  , ppLayout    = \x -> case x of
+                    "S" ->  "^i(/home/thhethssmuz/.xmonad/icons/layout_spaced.xpm) "
+                    "T" ->  "^i(/home/thhethssmuz/.xmonad/icons/layout_tiled.xpm) "
+                    "F" ->  "^i(/home/thhethssmuz/.xmonad/icons/layout_full.xpm) "
+                    "G" ->  "^i(/home/thhethssmuz/.xmonad/icons/layout_grid.xpm) "
+                    _   ->  "?"
+  , ppOrder     = \(ws:l:t:_) -> [ pre ws, icon, l, t ]
+  , ppOutput    = hPutStrLn h
+  }
+  where
+    pre       = wrap ("^fg(" ++ background ++ ")^bg(" ++ color4 ++ ") ") " ^fg()^bg()"
+    sep       = " ^fn(Ubuntu Mono:size=10)->^fn() "
+    icon      = "^i(/home/thhethssmuz/.xmonad/icons/hsep.xpm) "
+    pretty xs = let i     = (\is -> if length is >= 3 then is !! 2 else length xs - 1)
+                          . findIndices (== '·') $ xs
+                    (v,h) = splitAt i xs
+                in          concat [ dzenColor color7 "" "[ "
+                                   , v
+                                   , dzenColor color7 "" "] "
+                                   , sep
+                                   , drop 1 h
+                                   ]
+
+-------------------------------------------------------------------------------
+-- Key Bindings
+-------------------------------------------------------------------------------
+
+myKeys conf@(XConfig { modMask = modMask }) = M.fromList $
+  [ ((modMask .|. shiftMask,    xK_Return ), spawn $ terminal conf)
+  , ((modMask,                  xK_r      ), spawn "gmrun")
+  , ((modMask .|. shiftMask,    xK_c      ), kill)
+
+  , ((modMask .|. shiftMask,    xK_space  ), resetLayoutState $ XMonad.layoutHook conf)
+  , ((modMask,                  xK_space  ), cycleLayouts)
+  , ((modMask,                  xK_f      ), layout "F")
+  , ((modMask,                  xK_g      ), layout "G")
+
+  , ((mod1Mask,                 xK_Tab    ), windows W.focusDown)
+  , ((mod1Mask .|. shiftMask,   xK_Tab    ), windows W.focusUp)
+  , ((modMask,                  xK_m      ), windows W.focusMaster)
+
+  , ((modMask,                  xK_Return ), windows W.swapMaster)
+
+  , ((modMask,                  xK_minus  ), sendMessage Shrink)
+  , ((modMask,                  xK_plus   ), sendMessage Expand)
+  , ((modMask,                  xK_t      ), withFocused $ windows . W.sink)
+  -- , ((modMask,                   ), sendMessage $ IncMasterN 1)
+  -- , ((modMask,                   ), sendMessage $ IncMasterN (-1))
+
+
+  -- set focus to what ever workspace is visible on screen n
+  , ((modMask,                  xK_1      ), screenWorkspace 2 >>= flip whenJust (windows . W.view))
+  , ((modMask,                  xK_2      ), screenWorkspace 0 >>= flip whenJust (windows . W.view))
+  , ((modMask,                  xK_3      ), screenWorkspace 1 >>= flip whenJust (windows . W.view))
+
+  -- move window to what ever workspace is visible on screen n
+  , ((modMask .|. shiftMask,    xK_1      ), screenWorkspace 2 >>= flip whenJust (windows . W.shift))
+  , ((modMask .|. shiftMask,    xK_2      ), screenWorkspace 0 >>= flip whenJust (windows . W.shift))
+  , ((modMask .|. shiftMask,    xK_3      ), screenWorkspace 1 >>= flip whenJust (windows . W.shift))
+
+  -- set focus to workspace n
+  , ((modMask,                   xK_aring ), windows . W.greedyView $ workspaces conf !! 0)
+  , ((modMask,                   xK_comma ), windows . W.greedyView $ workspaces conf !! 1)
+  , ((modMask,                   xK_period), windows . W.greedyView $ workspaces conf !! 2)
+  , ((modMask,                   xK_a     ), windows . W.greedyView $ workspaces conf !! 3)
+  , ((modMask,                   xK_o     ), windows . W.greedyView $ workspaces conf !! 4)
+  , ((modMask,                   xK_e     ), windows . W.greedyView $ workspaces conf !! 5)
+  , ((modMask,                   xK_ae    ), windows . W.greedyView $ workspaces conf !! 6)
+  , ((modMask,                   xK_q     ), windows . W.greedyView $ workspaces conf !! 7)
+  , ((modMask,                   xK_j     ), windows . W.greedyView $ workspaces conf !! 8)
+
+  -- move window to workspace n
+  , ((modMask .|. shiftMask,     xK_aring ), windows . W.shift      $ workspaces conf !! 0)
+  , ((modMask .|. shiftMask,     xK_comma ), windows . W.shift      $ workspaces conf !! 1)
+  , ((modMask .|. shiftMask,     xK_period), windows . W.shift      $ workspaces conf !! 2)
+  , ((modMask .|. shiftMask,     xK_a     ), windows . W.shift      $ workspaces conf !! 3)
+  , ((modMask .|. shiftMask,     xK_o     ), windows . W.shift      $ workspaces conf !! 4)
+  , ((modMask .|. shiftMask,     xK_e     ), windows . W.shift      $ workspaces conf !! 5)
+  , ((modMask .|. shiftMask,     xK_ae    ), windows . W.shift      $ workspaces conf !! 6)
+  , ((modMask .|. shiftMask,     xK_q     ), windows . W.shift      $ workspaces conf !! 7)
+  , ((modMask .|. shiftMask,     xK_j     ), windows . W.shift      $ workspaces conf !! 8)
+
+  -- screen lock
+  , ((mod1Mask .|. controlMask,  xK_l      ), spawn "slimlock")
+  -- , ((modMask .|. shiftMask,    xK_q      ), io $ exitWith ExitSuccess)
+  -- , ((modMask,                  xK_q      ), spawn "xmonad --recompile && xmonad --restart")
+
+  -- print screen
+  , ((0,                         xK_Print  ), spawn "~/.xmonad/scripts/screenshot.sh")
+  , ((shiftMask,                 xK_Print  ), spawn "~/.xmonad/scripts/screenshot.sh -s")
+
+  -- volume control
+  , ((0,                        0x1008FF12), spawn "~/.xmonad/scripts/volume.sh -m")
+  , ((0,                        0x1008FF11), spawn "~/.xmonad/scripts/volume.sh -d")
+  , ((0,                        0x1008FF13), spawn "~/.xmonad/scripts/volume.sh -i")
+
+  -- espeak
+  , ((0,                        xK_F9     ), spawn "xsel | espeak -s 220")
+  , ((shiftMask,                xK_F9     ), spawn "xsel | espeak -v no -s 220")
+  , ((0,                        xK_F10    ), spawn "pkill -9 espeak")
+
+  ]
+
+-------------------------------------------------------------------------------
+-- Colours
+-------------------------------------------------------------------------------
+
+foreground = "#FFFFFF"
+background = "#000000"
+color0     = "#2E3436"
+color1     = "#CC0000"
+color2     = "#4E9A06"
+color3     = "#C4A000"
+color4     = "#3465A4"
+color5     = "#75507B"
+color6     = "#06989A"
+color7     = "#D3D7CF"
+color8     = "#555753"
+color9     = "#EF2929"
+color10    = "#8AE234"
+color11    = "#FCE94F"
+color12    = "#729FCF"
+color13    = "#AD7FA8"
+color14    = "#32E2E2"
+color15    = "#EEEEEC"
