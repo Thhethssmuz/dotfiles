@@ -1,0 +1,8 @@
+<snippet>
+	<description>Do While Loop</description>
+    <content><![CDATA[do {
+	${0:}
+} while (${1:});]]></content>
+    <tabTrigger>do</tabTrigger>
+    <scope>source.c, source.objc, source.c++, source.objc++</scope>
+</snippet>

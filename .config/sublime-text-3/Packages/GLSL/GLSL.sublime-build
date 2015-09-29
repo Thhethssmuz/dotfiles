@@ -1,0 +1,12 @@
+{
+  "cmd": ["cabal", "run", "$file"],
+  "selector": "source.vs, source.fs, source.gs, source.vert, source.frag, source.geom, source.glsl",
+
+  "file_regex": "GLSLTypeChecker: (.+)\\]",
+  "line_regex": "(\\d+):(\\d+) - (.*)$",
+
+  "working_dir": "/home/thhethssmuz/Dropbox/IKT411 - GLSL/Code",
+
+  "variants": [
+  ]
+}

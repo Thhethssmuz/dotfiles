@@ -1,0 +1,26 @@
+[
+
+  { "keys": ["ctrl+shift+b"], "command": "build", "args": {"variant": "Rebuild"} },
+  { "keys": ["f7"], "command": "build", "args": {"variant": "Run"} },
+
+  { "keys": ["ctrl+shift+7"], "command": "toggle_comment", "args": { "block": false } },
+
+  { "keys": ["ctrl+0"], "command": "unfold_all" },
+  { "keys": ["ctrl+1"], "command": "fold_by_level", "args": {"level": 1} },
+  { "keys": ["ctrl+2"], "command": "fold_by_level", "args": {"level": 2} },
+  { "keys": ["ctrl+3"], "command": "fold_by_level", "args": {"level": 3} },
+  { "keys": ["ctrl+4"], "command": "fold_by_level", "args": {"level": 4} },
+  { "keys": ["ctrl+5"], "command": "fold_by_level", "args": {"level": 5} },
+  { "keys": ["ctrl+6"], "command": "fold_by_level", "args": {"level": 6} },
+  { "keys": ["ctrl+7"], "command": "fold_by_level", "args": {"level": 7} },
+  { "keys": ["ctrl+8"], "command": "fold_by_level", "args": {"level": 8} },
+  { "keys": ["ctrl+9"], "command": "fold_by_level", "args": {"level": 9} },
+
+  { "keys": ["ctrl+pagedown"], "command": "next_view" },
+  { "keys": ["ctrl+pageup"], "command": "prev_view" },
+
+  { "keys": ["ctrl+tab"], "command": "next_view" },
+  { "keys": ["ctrl+shift+tab"], "command": "prev_view" },
+
+
+]

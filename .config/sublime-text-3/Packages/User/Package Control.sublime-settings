@@ -1,0 +1,19 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"Bash Build System",
+		"BracketHighlighter",
+		"Clang Format",
+		"Git Config",
+		"JSHint",
+		"MarkdownEditing",
+		"OpenGL Shading Language (GLSL)",
+		"Package Control",
+		"SSH Config",
+		"WordCount"
+	]
+}

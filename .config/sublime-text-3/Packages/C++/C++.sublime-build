@@ -1,0 +1,20 @@
+{
+  "cmd": ["make"],
+  "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+  "working_dir": "${file_path/(src|test|shaders).*//}",
+  "selector": "source.c, source.c++, source.cpp",
+
+  "variants": [
+    {
+      "name": "Run", 
+      "file_regex": "^\\[.*\\] (..[^:]*): [0-9]+\\(([0-9]+)\\) : ?([0-9]+)?(.*)$",
+      "cmd": ["make", "run"]
+    },
+    {
+      "name": "Rebuild", 
+      ["cmd": ["echo", "."]]
+      "cmd": ["make", "quick/${file/.*\\/mmm\\///}"] 
+    }
+  ]
+
+}

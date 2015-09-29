@@ -1,0 +1,12 @@
+{
+	"shell_cmd": "python -u \"$file\"",
+	"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+	"selector": "source.python",
+
+  "variants": [
+    {
+      "name": "Run",
+      "shell_cmd": "python2.7 -u \"$file\""
+    }
+  ]
+}

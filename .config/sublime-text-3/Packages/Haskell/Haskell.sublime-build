@@ -1,0 +1,14 @@
+{
+	"shell_cmd": "runhaskell \"$file\"",
+	"file_regex": "^(...*?):([0-9]*):?([0-9]*)",
+	"selector": "source.haskell",
+
+  "variants": [
+    {
+      "name": "Run",
+      "file_regex": "^(...*?):([0-9]*):?([0-9]*)",
+      "shell_cmd": "runhaskell \"$file\""
+    }
+  ]
+
+}

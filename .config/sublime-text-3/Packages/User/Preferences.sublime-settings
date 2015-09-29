@@ -1,0 +1,45 @@
+{
+	"added_words":
+	[
+		"Shaders",
+		"commandline",
+		"Synthclipse",
+		"plugin",
+		"parsemonious"
+	],
+	"auto_complete_commit_on_tab": true,
+	"auto_indent": true,
+	"color_scheme": "Packages/User/MorrowindDark.tmTheme",
+	"dictionary": "Packages/Language - English/en_GB.dic",
+	"draw_indent_guides": false,
+	"ensure_newline_at_eof_on_save": true,
+	"fade_fold_buttons": true,
+	"fold_buttons": true,
+	"font_face": "Ubuntu Mono",
+	"font_size": 15,
+	"ignored_packages":
+	[
+		"Markdown",
+		"Vintage"
+	],
+	"ignored_words":
+	[
+		"Cyclomatic",
+		"cyclomatic",
+		"shader",
+		"shaders"
+	],
+	"overlay_scroll_bars": "enabled",
+	"rulers":
+	[
+		80
+	],
+	"shift_tab_unindent": true,
+	"spell_check": true,
+	"tab_size": 2,
+	"translate_tabs_to_spaces": true,
+	"trim_trailing_white_space_on_save": true,
+	"use_tab_stops": false,
+	"word_wrap": false,
+	"wrap_width": 100000
+}

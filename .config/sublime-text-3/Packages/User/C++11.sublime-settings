@@ -1,0 +1,14 @@
+{
+	"extensions":
+	[
+		"cxx",
+		"c++",
+		"hxx",
+		"h++",
+		"ipp",
+		"tpp",
+		"tpp",
+		"hpp",
+		"cpp"
+	]
+}

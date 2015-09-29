@@ -1,0 +1,17 @@
+{
+  "selector": "source.js",
+
+  "cmd": ["jshint", "$file", "--reporter", "$packages/JSHint/reporter.js"],
+
+  "file_regex": "JSHint: (.+)\\]",
+  "line_regex": "(\\d+),(\\d+): (.*)$",
+
+  "variants": [
+    {
+      "name": "Run",
+      "cmd": ["node", "$file"],
+      "file_regex": "^([^:]{2,}):(\\d+)$",
+      "line_regex": "^[^:]{2,}:(\\d+):?(\\d+)?$"
+    }
+  ]
+}
