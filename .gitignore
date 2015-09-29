@@ -16,6 +16,13 @@
 # Compton
 !.compton.conf
 
+# gedit
+!.local
+!.local/share
+!.local/share/gedit
+!.local/share/gedit/styles
+!.local/share/gedit/styles/thhe-dark.xml
+
 # GHCI
 !.ghci
 
@@ -50,6 +57,7 @@
 !.xmonad/scripts/**
 !.xmonad/icons/src
 !.xmonad/icons/scr/*
+
 
 
 # Install scripts
