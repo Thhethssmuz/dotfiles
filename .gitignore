@@ -50,3 +50,8 @@
 !.xmonad/scripts/**
 !.xmonad/icons/src
 !.xmonad/icons/scr/*
+
+
+# Install scripts
+!.install
+!.install/*
