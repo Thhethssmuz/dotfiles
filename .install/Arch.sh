@@ -173,6 +173,16 @@ systemctl start nmbd
 # Failed to start Samba SMB/CIFS server
 # try: $ chmod 0755 /var/cache/samba/msg
 
+
+# -- Fonts --------------------------------------------------------------------
+
+wget https://github.com/driftyco/ionicons/blob/master/fonts/ionicons.ttf \
+  ~/.local/share/fonts/ionicons.ttf
+
+wget https://github.com/FontAwesome/Font-Awesome/blob/master/fonts/fontawesome-webfont.ttf \
+  ~/.local/share/fonts/fontawesome-webfont.ttf
+
+
 # -- Crypton ------------------------------------------------------------------
 
 # Set ownership
