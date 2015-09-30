@@ -44,7 +44,7 @@ xset s off
 xset dpms 1500 1500 1500
 
 # Lock screen after 30
-xautolock -locker slimlock -time 30 &
+xautolock -locker "~/.xmonad/scripts/system.sh --lock" -time 30 &
 
 
 ###############################################################################
@@ -55,6 +55,10 @@ xautolock -locker slimlock -time 30 &
 
 # Start the pulse audio daemon.
 pulseaudio --start
+
+# Start status bars
+~/.xmonad/scripts/clock.sh
+~/.xmonad/scripts/status-bar.sh
 
 
 ###############################################################################

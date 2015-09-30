@@ -30,11 +30,11 @@ import Data.List
 import Data.Maybe
 import Data.Monoid
 import Control.Monad
+import Control.Applicative ((<$>))
 
 import System.IO (hPutStrLn)
 import System.Exit
 
--- import System.Posix.Unistd (host, hostname)
 
 -------------------------------------------------------------------------------
 -- Main
@@ -42,8 +42,6 @@ import System.Exit
 
 main = do
   l <- spawnPipe "/home/thhethssmuz/.xmonad/scripts/dzen-bar-left.sh"
-  m <- spawn "~/.xmonad/scripts/clock.sh"
-  r <- spawn "~/.xmonad/scripts/status-bar.sh"
   xmonad
     . withUrgencyHookC CMDNotify myUrgencyConf
     . ewmh
@@ -112,7 +110,7 @@ myLayout = tiledSpace ||| tiled ||| fullScreen ||| grid
 -- Layout state that stores previous layout, allows to toggle fullscreen :D
 data LayoutState = LayoutState {
   layoutMap :: M.Map String (String, String)
-} deriving (Show)
+} deriving (Typeable, Show)
 
 instance ExtensionClass LayoutState where
   initialValue = LayoutState $ M.fromList []
@@ -297,13 +295,13 @@ myKeys conf@(XConfig { modMask = modMask }) = M.fromList $
   , ((modMask .|. shiftMask,     xK_j     ), windows . W.shift      $ workspaces conf !! 8)
 
   -- screen lock
-  , ((mod1Mask .|. controlMask,  xK_l      ), spawn "slimlock")
-  -- , ((modMask .|. shiftMask,    xK_q      ), io $ exitWith ExitSuccess)
-  -- , ((modMask,                  xK_q      ), spawn "xmonad --recompile && xmonad --restart")
+  , ((mod1Mask .|. controlMask,  xK_l     ), spawn "slimlock")
+  , ((modMask .|. shiftMask,     xK_F12   ), spawn "~/.xmonad/scripts/screenshot.sh --logout" >> io (exitWith ExitSuccess))
+  , ((modMask,                   xK_F5    ), spawn "xmonad --recompile && xmonad --restart")
 
   -- print screen
-  , ((0,                         xK_Print  ), spawn "~/.xmonad/scripts/screenshot.sh")
-  , ((shiftMask,                 xK_Print  ), spawn "~/.xmonad/scripts/screenshot.sh -s")
+  , ((0,                         xK_Print ), spawn "~/.xmonad/scripts/screenshot.sh")
+  , ((shiftMask,                 xK_Print ), spawn "~/.xmonad/scripts/screenshot.sh -s")
 
   -- volume control
   , ((0,                        0x1008FF12), spawn "~/.xmonad/scripts/volume.sh -m")
