@@ -11,6 +11,9 @@
 !.Xresources
 !.config
 
+!.scripts
+!.scripts/**
+
 
 
 # Compton
