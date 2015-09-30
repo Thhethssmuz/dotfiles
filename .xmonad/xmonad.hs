@@ -206,9 +206,9 @@ refreshOnFullscreen _ = return $ All True
 
 myLogHook h = dynamicLogWithPP $ defaultPP
   { ppCurrent   = dzenColor foreground ""
-  , ppVisible   = dzenColor color3 ""
+  , ppVisible   = dzenColor background ""
   , ppUrgent    = dzenColor color1 "" . dzenStrip
-  , ppHidden    = dzenColor background ""
+  , ppHidden    = dzenColor color0 ""
   , ppWsSep     = sep
   , ppSep       = ""
   , ppSort      = getSortByXineramaPhysicalRule
@@ -225,15 +225,6 @@ myLogHook h = dynamicLogWithPP $ defaultPP
     pre       = wrap ("^fg(" ++ background ++ ")^bg(" ++ color4 ++ ") ") " ^fg()^bg()"
     sep       = " ^fn(Ubuntu Mono:size=10)->^fn() "
     icon      = "^i(/home/thhethssmuz/.xmonad/icons/hsep.xpm) "
-    pretty xs = let i     = (\is -> if length is >= 3 then is !! 2 else length xs - 1)
-                          . findIndices (== '·') $ xs
-                    (v,h) = splitAt i xs
-                in          concat [ dzenColor color7 "" "[ "
-                                   , v
-                                   , dzenColor color7 "" "] "
-                                   , sep
-                                   , drop 1 h
-                                   ]
 
 -------------------------------------------------------------------------------
 -- Key Bindings
