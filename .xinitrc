@@ -57,8 +57,8 @@ xautolock -locker "~/.xmonad/scripts/system.sh --lock" -time 30 &
 pulseaudio --start
 
 # Start status bars
-~/.xmonad/scripts/clock.sh
-~/.xmonad/scripts/status-bar.sh
+~/.xmonad/scripts/clock.sh &
+~/.xmonad/scripts/status-bar.sh &
 
 
 ###############################################################################
