@@ -175,6 +175,7 @@ myUrgencyConf  = urgencyConfig { suppressWhen = Focused, remindWhen = Dont }
 myManageHook = (composeAll
   [ resource =? "feh" --> doIgnore
   , resource =? "dzen2" --> doIgnore
+  , resource =? "guake" --> doFloat
   , manageDocks
   ]) <+> manageHook defaultConfig
 
@@ -284,6 +285,10 @@ myKeys conf@(XConfig { modMask = modMask }) = M.fromList $
   , ((modMask .|. shiftMask,     xK_ae    ), windows . W.shift      $ workspaces conf !! 6)
   , ((modMask .|. shiftMask,     xK_q     ), windows . W.shift      $ workspaces conf !! 7)
   , ((modMask .|. shiftMask,     xK_j     ), windows . W.shift      $ workspaces conf !! 8)
+
+
+  -- guake
+  , ((0,                         xK_bar   ), spawn "guake -t")
 
   -- screen lock
   , ((mod1Mask .|. controlMask,  xK_l     ), spawn "~/.xmonad/scripts/system.sh --lock")
