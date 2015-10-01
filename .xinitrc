@@ -24,7 +24,7 @@ setxkbmap "no(dvorak)"
 ###############################################################################
 
 # Set background image.
-hsetroot -fill /home/thhethssmuz/Pictures/wallpaper.jpg &
+hsetroot -fill ~/Pictures/wallpaper.jpg &
 
 # Enable window transparency and effects.
 compton &
