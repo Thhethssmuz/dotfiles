@@ -48,10 +48,11 @@ pacman -S
   tcpdump
   texlive-most
   traceroute
-  ttf-freefont
-  ttf-linux-libertine
+  ttf-dejavu
   ttf-droid
+  ttf-freefont
   ttf-liberation
+  ttf-linux-libertine
   ttf-ubuntu-font-family
 
   unrar
@@ -179,8 +180,8 @@ systemctl start nmbd
 wget https://github.com/driftyco/ionicons/blob/master/fonts/ionicons.ttf \
   ~/.local/share/fonts/ionicons.ttf
 
-wget https://github.com/FontAwesome/Font-Awesome/blob/master/fonts/fontawesome-webfont.ttf \
-  ~/.local/share/fonts/fontawesome-webfont.ttf
+wget https://github.com/FortAwesome/Font-Awesome/blob/master/fonts/fontawesome-webfont.ttf?raw=true \
+  ~/.local/share/fonts/fontawesome-webfont.tt
 
 
 # -- Crypton ------------------------------------------------------------------
