@@ -16,8 +16,6 @@ setxkbmap "no(dvorak)"
 # Hide mouse cursor when inactive for a short period.
 #unclutter -grab -noevents -root &
 
-# TODO: mouse acceleration and sensitivity
-
 
 ###############################################################################
 #
