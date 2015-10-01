@@ -300,8 +300,8 @@ myKeys conf@(XConfig { modMask = modMask }) = M.fromList $
   , ((0,                        0x1008FF13), spawn "~/.xmonad/scripts/volume.sh -i")
 
   -- espeak
-  , ((0,                        xK_F9     ), spawn "xsel | espeak -s 220")
-  , ((shiftMask,                xK_F9     ), spawn "xsel | espeak -v no -s 220")
+  , ((0,                        xK_F9     ), spawn "xsel | espeak -s 240")
+  , ((shiftMask,                xK_F9     ), spawn "xsel | espeak -v no -s 240")
   , ((0,                        xK_F10    ), spawn "pkill -9 espeak")
 
   ]
