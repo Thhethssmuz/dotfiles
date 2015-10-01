@@ -10,7 +10,7 @@
 ###############################################################################
 
 get_current_volume() {
-  local mixer=$(amixer get Master | grep 'Front Left:')
+  local mixer=$(amixer -D pulse get Master | grep 'Front Left:')
   local muted=$(echo $mixer | grep -o '\[on\]')
 
   if [ "$muted" == "" ]; then
@@ -86,7 +86,7 @@ volume_notification() {
 ###############################################################################
 
 increase_volume() {
-  amixer -q set Master 3277+
+  amixer -D pulse -q set Master 3277+
   volume_notification
 }
 
@@ -98,7 +98,7 @@ increase_volume() {
 ###############################################################################
 
 decrease_volume() {
-  amixer -q set Master 3277-
+  amixer -D pulse -q set Master 3277-
   volume_notification
 }
 
@@ -110,7 +110,7 @@ decrease_volume() {
 ###############################################################################
 
 toggle_mute() {
-  amixer -q set Master toggle
+  amixer -D pulse -q set Master toggle
   volume_notification
 }
 
