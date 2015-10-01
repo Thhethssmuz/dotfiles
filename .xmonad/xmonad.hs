@@ -286,8 +286,8 @@ myKeys conf@(XConfig { modMask = modMask }) = M.fromList $
   , ((modMask .|. shiftMask,     xK_j     ), windows . W.shift      $ workspaces conf !! 8)
 
   -- screen lock
-  , ((mod1Mask .|. controlMask,  xK_l     ), spawn "slimlock")
-  , ((modMask .|. shiftMask,     xK_F12   ), spawn "~/.xmonad/scripts/screenshot.sh --logout" >> io (exitWith ExitSuccess))
+  , ((mod1Mask .|. controlMask,  xK_l     ), spawn "~/.xmonad/scripts/system.sh --lock")
+  , ((modMask .|. shiftMask,     xK_F12   ), spawn "~/.xmonad/scripts/system.sh --logout" >> io (exitWith ExitSuccess))
   , ((modMask,                   xK_F5    ), spawn "xmonad --recompile && xmonad --restart")
 
   -- print screen
