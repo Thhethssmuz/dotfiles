@@ -20,7 +20,7 @@ pacapt() {
     -U)    for file in ${@:2}; do
              sudo dpkg -i $file
              sudo apt-get install -f
-           done
+           done ;;
 
     *)     echo "error: invalid option $1" ;;
   esac
