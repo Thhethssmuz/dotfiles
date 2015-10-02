@@ -72,7 +72,7 @@ volume_notification() {
   local icon=$(get_current_icon)
   local bar=$(get_current_bar)
 
-  /home/thhethssmuz/.xmonad/scripts/status-bar.sh --update volume
+  ~/.xmonad/scripts/status-bar.sh --update volume
 
   echo -e "$icon   $bar" | \
     ~/.xmonad/scripts/notify.sh \

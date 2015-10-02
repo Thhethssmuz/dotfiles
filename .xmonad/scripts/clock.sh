@@ -15,7 +15,7 @@ OUTPUT=~/.xmonad/scripts/dzen-bar-middle.sh
 ###############################################################################
 
 render_clock_indicator() {
-  # echo -n "^ca(1, /home/thhethssmuz/.xmonad/scripts/dzen_date.sh)"
+  # echo -n "^ca(1, $HOME/.xmonad/scripts/dzen_date.sh)"
   echo -n $(date '+%a %b %d, %H:%M:%S')
   # echo -n "^ca()"
 }

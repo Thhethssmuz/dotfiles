@@ -3,7 +3,7 @@
 
 LOG=/tmp/notify.log
 FIFO=/tmp/notify.fifo
-OUTPUT=/home/thhethssmuz/.xmonad/scripts/dzen-bar-middle.sh
+OUTPUT=~/.xmonad/scripts/dzen-bar-middle.sh
 
 
 ###############################################################################
