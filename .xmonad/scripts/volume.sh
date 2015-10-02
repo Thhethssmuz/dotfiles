@@ -53,7 +53,11 @@ get_current_icon() {
 
 get_current_bar() {
   local level=$(get_current_volume)
-  echo "$level" | gdbar -w 180 -h 3 -fg "$COLOR7" -bg "$COLOR8"
+  if hash gdbar 2>/dev/null; then
+    echo "$level" | gdbar -w 180 -h 3 -fg "$COLOR7" -bg "$COLOR8"
+  elif hash dzen2-gdbar 2>/dev/null; then
+    echo "$level" | dzen2-gdbar -w 180 -h 3 -fg "$COLOR7" -bg "$COLOR8"
+  fi
 }
 
 
