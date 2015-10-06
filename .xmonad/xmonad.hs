@@ -69,7 +69,7 @@ main = do
 
 myWorkspaces = clickable $ map (:[]) set
   where
-    set       = "abcdefghi"
+    set       = "123456789"
     clickable = map ca . zip ks
     ca (k,w)  = "^ca(1, xdotool key alt+" ++ k ++ ")" ++ w ++ "^ca()"
     ks        = [ "aring", "comma", "period", "a", "o", "e", "ae", "q", "j" ]
@@ -206,26 +206,21 @@ refreshOnFullscreen _ = return $ All True
 -------------------------------------------------------------------------------
 
 myLogHook h = dynamicLogWithPP $ defaultPP
-  { ppCurrent   = dzenColor foreground ""
-  , ppVisible   = dzenColor background ""
-  , ppUrgent    = dzenColor color1 "" . dzenStrip
-  , ppHidden    = dzenColor color0 ""
-  , ppWsSep     = sep
-  , ppSep       = ""
+  { ppCurrent   = fg color12 . pad
+  , ppVisible   = fg color4 . pad
+  , ppUrgent    = fg color1 . pad
+  , ppHidden    = pad
+  , ppWsSep     = ""
+  , ppSep       = "   "
   , ppSort      = getSortByXineramaPhysicalRule
-  , ppLayout    = \x -> case x of
-                    "S" ->  "^i(/home/thhethssmuz/.xmonad/icons/layout_spaced.xpm) "
-                    "T" ->  "^i(/home/thhethssmuz/.xmonad/icons/layout_tiled.xpm) "
-                    "F" ->  "^i(/home/thhethssmuz/.xmonad/icons/layout_full.xpm) "
-                    "G" ->  "^i(/home/thhethssmuz/.xmonad/icons/layout_grid.xpm) "
-                    _   ->  "?"
-  , ppOrder     = \(ws:l:t:_) -> [ pre ws, icon, l, t ]
+  , ppOrder     = \(ws:_:t:_) -> [ ' ':ws, t ]
   , ppOutput    = hPutStrLn h
   }
   where
-    pre       = wrap ("^fg(" ++ background ++ ")^bg(" ++ color4 ++ ") ") " ^fg()^bg()"
-    sep       = " ^fn(Ubuntu Mono:size=10)->^fn() "
-    icon      = "^i(/home/thhethssmuz/.xmonad/icons/hsep.xpm) "
+    fg c x = "^fg(" ++ c ++ ")" ++ x ++ "^fg()"
+    bg c x = "^bg(" ++ c ++ ")" ++ x ++ "^bg()"
+    -- format xs = let (v,h) = (map (drop 1) . take n $ xs, drop n xs)
+    --             in  intercalate " " $ [" ["] ++ v ++ ["]"] ++ h
 
 -------------------------------------------------------------------------------
 -- Key Bindings
@@ -303,6 +298,11 @@ myKeys conf@(XConfig { modMask = modMask }) = M.fromList $
   , ((0,                        0x1008FF12), spawn "~/.xmonad/scripts/volume.sh -m")
   , ((0,                        0x1008FF11), spawn "~/.xmonad/scripts/volume.sh -d")
   , ((0,                        0x1008FF13), spawn "~/.xmonad/scripts/volume.sh -i")
+
+  -- media buttons
+  , ((0,                        0x1008ff14), spawn "mpc toggle")
+  , ((0,                        0x1008ff16), spawn "mpc prev")
+  , ((0,                        0x1008ff17), spawn "mpc next")
 
   -- espeak
   , ((0,                        xK_F9     ), spawn "xsel | espeak -s 240")
