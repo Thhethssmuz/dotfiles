@@ -16,6 +16,9 @@ setxkbmap "no(dvorak)"
 # Hide mouse cursor when inactive for a short period.
 #unclutter -grab -noevents -root &
 
+# Set mouse sensitivity
+xinput set-prop 8 152 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1
+
 
 ###############################################################################
 #
@@ -55,8 +58,8 @@ xautolock -locker "~/.xmonad/scripts/system.sh --lock" -time 30 &
 pulseaudio --start
 
 # Start status bars
-~/.xmonad/scripts/clock.sh &
-~/.xmonad/scripts/status-bar.sh &
+# ~/.xmonad/scripts/clock.sh &
+# ~/.xmonad/scripts/status-bar.sh &
 
 
 ###############################################################################
