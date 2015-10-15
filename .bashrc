@@ -23,6 +23,7 @@ trap 'echo -ne "\e[0m"' DEBUG
 
 # Exports
 export PATH=$PATH:$HOME/.cabal/bin:$HOME/.thhe
+export NODE_PATH=$NODE_PATH:$(npm root -g)
 
 export CXX=clang++
 export CC=clang
