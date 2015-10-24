@@ -36,8 +36,9 @@ restart() {
 
 poweroff() {
   close
-  systemctl poweroff
-  # shutdown ?
+  # systemctl poweroff
+  # shutdown # needs sudo (or explicitly allow to be run without)
+  # poweroff
 }
 
 lock() {
