@@ -16,13 +16,19 @@ import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat)
 import XMonad.Util.WorkspaceCompare (getSortByXineramaPhysicalRule)
 
 import XMonad.Hooks.EwmhDesktops (ewmh)
-import XMonad.Util.Run (spawnPipe, safeSpawn)
+import XMonad.Util.Run (spawnPipe, safeSpawn, runProcessWithInput)
 import qualified XMonad.StackSet as W
 import qualified XMonad.Util.ExtensibleState as XS
 
 import XMonad.Hooks.UrgencyHook
 import XMonad.Util.NamedWindows
 import XMonad.Util.WindowProperties (getProp32)
+
+import DzenMenu
+import Notifd
+import Data.Time.Clock (getCurrentTime, utctDayTime)
+import Data.Time.LocalTime (getZonedTime)
+import Data.Time.Format (formatTime, defaultTimeLocale)
 
 import qualified Data.Map as M
 import Data.Bits ((.|.))
@@ -32,16 +38,23 @@ import Data.Monoid
 import Control.Monad
 import Control.Applicative ((<$>))
 
-import System.IO (hPutStrLn)
+import System.IO (hPutStr, hPutStrLn, hSetEncoding, utf8)
 import System.Exit
-
 
 -------------------------------------------------------------------------------
 -- Main
 -------------------------------------------------------------------------------
 
+home   = (++) "/home/thhethssmuz/"
+script = home . (++) ".xmonad/scripts/"
+
 main = do
-  l <- spawnPipe "/home/thhethssmuz/.xmonad/scripts/dzen-bar-left.sh"
+  left   <- spawnPipe . script $ "dzen-bar-left.sh"
+  middle <- spawnPipe . script $ "dzen-bar-middle.sh"
+  hSetEncoding middle utf8
+
+  notifd <- runNotifDaemon $ myNotifConf middle
+  runDzenMenus . myDzenMenus $ notifd
   xmonad
     . withUrgencyHookC CMDNotify myUrgencyConf
     . ewmh
@@ -54,8 +67,8 @@ main = do
     , focusedBorderColor = foreground
     , modMask            = mod1Mask
     , keys               = myKeys
-    , logHook            = myLogHook l
-    -- , startupHook        = startupHook
+    , logHook            = myLogHook left
+    -- , startupHook        = myStartupHook
     -- , mouseBindings      = mouseBindings
     , manageHook         = myManageHook
     , handleEventHook    = myHandleEventHook
@@ -108,9 +121,9 @@ myLayout = tiledSpace ||| tiled ||| fullScreen ||| grid
 
 
 -- Layout state that stores previous layout, allows to toggle fullscreen :D
-data LayoutState = LayoutState {
-  layoutMap :: M.Map String (String, String)
-} deriving (Typeable, Show)
+data LayoutState = LayoutState
+  { layoutMap :: M.Map String (String, String)
+  } deriving (Typeable, Show)
 
 instance ExtensionClass LayoutState where
   initialValue = LayoutState $ M.fromList []
@@ -147,26 +160,85 @@ resetLayoutState l = do
   setLayout l
 
 -------------------------------------------------------------------------------
--- Notifications
+-- Urgency hook
 -------------------------------------------------------------------------------
 
 data CMDNotify = CMDNotify deriving (Show, Read)
 
 instance UrgencyHook CMDNotify where
   urgencyHook _ w = do
-    let soundFile = "/usr/share/sounds/freedesktop/stereo/window-attention.oga"
-
     name <- fmap show . getName $ w
     ws   <- fmap (fromMaybe "?" . W.findTag w) . gets $ windowset
-    pipe <- spawnPipe $ "~/.xmonad/scripts/notify.sh -ts " ++ soundFile
 
-    --io . hPutStrLn pipe . dzenClickableWorkspace ws $ (name ++ " " ++ ws)
-    io . hPutStrLn pipe $ name ++ " " ++ ws
+    safeSpawn "notify-send"
+      [ name
+      , dzenStrip ws
+      , "-h"
+      , "byte:suppress-log:1"
+      , "-h"
+      , "string:sound-file:/usr/share/sounds/freedesktop/stereo/window-attention.oga"
+      ]
 
     withDisplay $ \d -> io $ fromJust <$> initColor d "red" >>= setWindowBorder d w
 
-
 myUrgencyConf  = urgencyConfig { suppressWhen = Focused, remindWhen = Dont }
+
+-------------------------------------------------------------------------------
+-- Notifications (status bar middle)
+-------------------------------------------------------------------------------
+
+myNotifConf statusBar = defaultNotifConf
+  { notifFormat     = toggleMenu . myNotifFormat
+  , notifFormatLog  = Just $ \n -> (++) (myNotifFormat n)
+                           . fg color1
+                           . (++) "^p(_RIGHT)^p(-35)"
+                           . closeNotif (notifId n) $ "x"
+  , notifPlay       = \x -> case x of
+                        Just fp -> spawn $ "paplay " ++ fp
+                        _       -> spawn "paplay /usr/share/sounds/freedesktop/stereo/bell.oga"
+
+  , notifStatusbar  = \l -> do
+                        t <- getZonedTime
+                        let c = formatTime defaultTimeLocale "%a %b %d, %H:%M" t
+                            s = if M.size l == 0
+                                then ""
+                                else dzenColor background color1 . pad . show . M.size $ l
+                        return $ c ++ " " ++ toggleMenu s
+
+  , notifOutput     = hPutStrLn statusBar
+
+  , notifPreProcess = \n -> do
+                        a <- runProcessWithInput (script "notif-icon.sh") [appIcon n] ""
+                        return $ n { appIcon = a }
+  }
+  where
+    limit _ []                     = []
+    limit l (x:xs) | length x >  l = [take l x]
+                   | otherwise     = x : limit (l - length x) xs
+
+    myNotifFormat n = intercalate " "
+                    . (\[i,s,b] -> [i, s, fg color8 b])
+                    . (++) [appIcon n]
+                    . limit ( if null . appIcon $ n then 50 else 47 )
+                    $ [summary n, takeWhile (/= '\n') $ body n]
+
+    toggleMenu      = ca 1 $ script "dbus.sh menu Toggle Notif"
+    closeNotif n    = ca 1 $ script ("dbus.sh close-notif " ++ show n)
+
+-------------------------------------------------------------------------------
+-- Dzen menus
+-------------------------------------------------------------------------------
+
+notifLogMenu notifd = DzenMenu
+  { menuName   = "Notif"
+  , menuScript = script "dzen-menu-notif-log.sh"
+  , menuTitle  = \ext -> ext ""
+  , menuSlave  = \ext -> do
+                         l <- ndGetLog notifd
+                         return . concatMap (wrap "^p(+20)- " "\n") . M.elems $ l
+  }
+
+myDzenMenus notifd = maybeToList $ fmap notifLogMenu notifd
 
 -------------------------------------------------------------------------------
 -- Manage hooks
@@ -202,7 +274,7 @@ refreshOnFullscreen (ClientMessageEvent _ _ _ dpy win typ (action:dats)) = do
 refreshOnFullscreen _ = return $ All True
 
 -------------------------------------------------------------------------------
--- Status bar
+-- Status bar (left)
 -------------------------------------------------------------------------------
 
 myLogHook h = dynamicLogWithPP $ defaultPP
@@ -216,11 +288,6 @@ myLogHook h = dynamicLogWithPP $ defaultPP
   , ppOrder     = \(ws:_:t:_) -> [ ' ':ws, t ]
   , ppOutput    = hPutStrLn h
   }
-  where
-    fg c x = "^fg(" ++ c ++ ")" ++ x ++ "^fg()"
-    bg c x = "^bg(" ++ c ++ ")" ++ x ++ "^bg()"
-    -- format xs = let (v,h) = (map (drop 1) . take n $ xs, drop n xs)
-    --             in  intercalate " " $ [" ["] ++ v ++ ["]"] ++ h
 
 -------------------------------------------------------------------------------
 -- Key Bindings
@@ -286,18 +353,18 @@ myKeys conf@(XConfig { modMask = modMask }) = M.fromList $
   , ((0,                         xK_bar   ), spawn "guake -t")
 
   -- screen lock
-  , ((mod1Mask .|. controlMask,  xK_l     ), spawn "~/.xmonad/scripts/system.sh --lock")
-  , ((modMask .|. shiftMask,     xK_F12   ), spawn "~/.xmonad/scripts/system.sh --logout" >> io (exitWith ExitSuccess))
-  , ((modMask,                   xK_F5    ), spawn "xmonad --recompile && xmonad --restart")
+  , ((mod1Mask .|. controlMask,  xK_l     ), spawn $ script "system.sh --lock")
+  , ((modMask .|. shiftMask,     xK_F12   ), spawn (script "system.sh --logout") >> io (exitWith ExitSuccess))
+  , ((modMask,                   xK_F5    ), spawn "ghc -threaded -i/home/thhethssmuz/.xmonad/lib ~/.xmonad/xmonad.hs -o ~/.xmonad/xmonad-x86_64-linux && xmonad --restart")
 
   -- print screen
-  , ((0,                         xK_Print ), spawn "~/.xmonad/scripts/screenshot.sh")
-  , ((shiftMask,                 xK_Print ), spawn "~/.xmonad/scripts/screenshot.sh -s")
+  , ((0,                         xK_Print ), spawn $ script "screenshot.sh")
+  , ((shiftMask,                 xK_Print ), spawn $ script "screenshot.sh -s")
 
   -- volume control
-  , ((0,                        0x1008FF12), spawn "~/.xmonad/scripts/volume.sh -m")
-  , ((0,                        0x1008FF11), spawn "~/.xmonad/scripts/volume.sh -d")
-  , ((0,                        0x1008FF13), spawn "~/.xmonad/scripts/volume.sh -i")
+  , ((0,                        0x1008FF12), spawn $ script "volume.sh -m")
+  , ((0,                        0x1008FF11), spawn $ script "volume.sh -d")
+  , ((0,                        0x1008FF13), spawn $ script "volume.sh -i")
 
   -- media buttons
   , ((0,                        0x1008ff14), spawn "mpc toggle")
@@ -312,7 +379,7 @@ myKeys conf@(XConfig { modMask = modMask }) = M.fromList $
   ]
 
 -------------------------------------------------------------------------------
--- Colours
+-- Colours and dzen helpers
 -------------------------------------------------------------------------------
 
 foreground = "#FFFFFF"
@@ -333,3 +400,12 @@ color12    = "#729FCF"
 color13    = "#AD7FA8"
 color14    = "#32E2E2"
 color15    = "#EEEEEC"
+
+fg :: String -> String -> String
+fg color text = "^fg(" ++ color ++ ")" ++ text ++ "^fg()"
+
+bg :: String -> String -> String
+bg color text = "^bg(" ++ color ++ ")" ++ text ++ "^bg()"
+
+ca :: Int -> String -> String -> String
+ca btn cmd text = "^ca(" ++ show btn ++ ", " ++ cmd ++ ")" ++ text ++ "^ca()"
