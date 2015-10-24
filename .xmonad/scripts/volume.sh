@@ -29,19 +29,16 @@ get_current_volume() {
 
 get_current_icon() {
   local level=$(get_current_volume)
-  local icon
 
   if [ "$level" == "0" ]; then
-    icon="\uf3b9"
-  elif (("$level" < 25)); then
-    icon="\uf3b8"
-  elif (("$level" >= 25)) && (("$level" < 50)); then
-    icon="\uf3b7"
+    echo "notification-audio-volume-off"
+  elif (("$level" < 33)); then
+    echo "notification-audio-volume-low"
+  elif (("$level" < 66)); then
+    echo "notification-audio-volume-medium"
   else
-    icon="\uf3ba"
+    echo "notification-audio-volume-high"
   fi
-
-  echo -e "^fn(Ionicons:size=$FONT_SIZE)$icon^fn()"
 }
 
 
@@ -72,11 +69,12 @@ volume_notification() {
   local icon=$(get_current_icon)
   local bar=$(get_current_bar)
 
-  ~/.xmonad/scripts/status-bar.sh --update volume
-
-  echo -e "$icon   $bar" | \
-    ~/.xmonad/scripts/notify.sh \
-      -ts /usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+  notify-send \
+    $bar \
+    -i $icon \
+    -t 1500 \
+    -h byte:suppress-log:1 \
+    -h string:sound-file:/usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
 }
 
 
@@ -137,7 +135,7 @@ OPTIONS:
   -m, --mute               toggle mute
 
       --level              print current volume as a percentage
-      --icon               print dzen formatted icon indicating current volume
+      --icon               print notif icon name indicating current volume
       --bar                print a gdbar indicating current volume level
 
   -h, --help               display this help and exit
