@@ -111,6 +111,10 @@ case $1 in
     echo -en ""
     ;;
 
+  notification-screen-capture)
+    echo -en "^fn(Ionicons:size=$FONT_SIZE)\uf118^fn()"
+    ;;
+
   *)
     echo -en ""
     ;;
