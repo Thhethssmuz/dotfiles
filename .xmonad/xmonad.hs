@@ -188,7 +188,7 @@ myUrgencyConf  = urgencyConfig { suppressWhen = Focused, remindWhen = Dont }
 -------------------------------------------------------------------------------
 
 myNotifConf statusBar = defaultNotifConf
-  { notifFormat     = toggleMenu . myNotifFormat
+  { notifFormat     = toggleMenu "Notif" . myNotifFormat
   , notifFormatLog  = Just $ \n -> (++) (myNotifFormat n)
                            . fg color1
                            . (++) "^p(_RIGHT)^p(-35)"
@@ -203,7 +203,7 @@ myNotifConf statusBar = defaultNotifConf
                             s = if M.size l == 0
                                 then ""
                                 else dzenColor background color1 . pad . show . M.size $ l
-                        return $ c ++ " " ++ toggleMenu s
+                        return $ toggleMenu "Calendar" c ++ " " ++ toggleMenu "Notif" s
 
   , notifOutput     = hPutStrLn statusBar
 
@@ -222,23 +222,27 @@ myNotifConf statusBar = defaultNotifConf
                     . limit ( if null . appIcon $ n then 50 else 47 )
                     $ [summary n, takeWhile (/= '\n') $ body n]
 
-    toggleMenu      = ca 1 $ script "dbus.sh menu Toggle Notif"
+    toggleMenu n    = ca 1 $ script ("dbus.sh menu Toggle " ++ n)
     closeNotif n    = ca 1 $ script ("dbus.sh close-notif " ++ show n)
 
 -------------------------------------------------------------------------------
 -- Dzen menus
 -------------------------------------------------------------------------------
 
-notifLogMenu notifd = DzenMenu
+notifLogMenu notifd = dzenMenu
   { menuName   = "Notif"
   , menuScript = script "dzen-menu-notif-log.sh"
-  , menuTitle  = \ext -> ext ""
   , menuSlave  = \ext -> do
                          l <- ndGetLog notifd
                          return . concatMap (wrap "^p(+20)- " "\n") . M.elems $ l
   }
 
-myDzenMenus notifd = maybeToList $ fmap notifLogMenu notifd
+myDzenMenus notifd =
+  [ dzenMenu { menuName   = "Calendar"
+             , menuScript = script "dzen-menu-calendar.sh"
+             }
+  ] ++ maybeToList (notifLogMenu <$> notifd)
+
 
 -------------------------------------------------------------------------------
 -- Manage hooks
