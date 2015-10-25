@@ -17,7 +17,11 @@ setxkbmap "no(dvorak)"
 #unclutter -grab -noevents -root &
 
 # Set mouse sensitivity
-xinput set-prop 8 152 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1
+xinput \
+  set-prop \
+  'pointer:La-VIEW Technology Mionix NAOS 8200      ' \
+  'Coordinate Transformation Matrix' \
+  1.5, 0, 0, 0, 1.5, 0, 0, 0, 1
 
 
 ###############################################################################
