@@ -1,5 +1,6 @@
 module DzenMenu
   ( DzenMenu(..)
+  , dzenMenu
   , runDzenMenus
   ) where
 
@@ -31,6 +32,12 @@ data DzenMenu = DzenMenu
   , menuScript :: String
   }
 
+dzenMenu = DzenMenu
+  { menuName   = ""
+  , menuTitle  = \ext -> ext ""
+  , menuSlave  = \ext -> ext ""
+  , menuScript = ""
+  }
 
 data MenuState = MenuState
   { script :: String
