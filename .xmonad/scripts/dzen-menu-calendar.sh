@@ -7,7 +7,7 @@ title() {
 }
 
 slave() {
-  cal -3
+  cal -3w
 }
 
 main() {
