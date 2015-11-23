@@ -44,6 +44,7 @@ pacman -S
   rsync
 
   samba gvfs-smb gnome-vfs
+  sshfs
 
   tcpdump
   texlive-most
