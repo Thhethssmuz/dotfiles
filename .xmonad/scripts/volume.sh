@@ -75,6 +75,8 @@ volume_notification() {
     -t 1500 \
     -h byte:suppress-log:1 \
     -h string:sound-file:/usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
+
+  ~/.xmonad/scripts/status-bar.sh -u volume
 }
 
 

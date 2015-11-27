@@ -34,7 +34,7 @@ render_volume_indicator() {
   echo -n "^ca(1, exec ~/.xmonad/scripts/volume.sh -m)"
   echo -n "^ca(4, exec ~/.xmonad/scripts/volume.sh -i)"
   echo -n "^ca(5, exec ~/.xmonad/scripts/volume.sh -d)"
-  echo -n "$(~/.xmonad/scripts/volume.sh --icon) "
+  echo -n "$(~/.xmonad/scripts/notif-icon.sh $(~/.xmonad/scripts/volume.sh --icon)) "
   echo -n "$(~/.xmonad/scripts/volume.sh --level)%"
   echo -n "^ca()^ca()^ca()"
 }
