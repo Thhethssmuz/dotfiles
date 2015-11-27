@@ -65,8 +65,7 @@ pulseaudio --start
 dropbox
 
 # Start status bars
-# ~/.xmonad/scripts/clock.sh &
-# ~/.xmonad/scripts/status-bar.sh &
+~/.xmonad/scripts/status-bar.sh &
 
 
 ###############################################################################
