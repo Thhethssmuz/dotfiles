@@ -61,6 +61,9 @@ xautolock -locker "~/.xmonad/scripts/system.sh --lock" -time 30 &
 # Start the pulse audio daemon.
 pulseaudio --start
 
+# dropbox
+dropbox
+
 # Start status bars
 # ~/.xmonad/scripts/clock.sh &
 # ~/.xmonad/scripts/status-bar.sh &
