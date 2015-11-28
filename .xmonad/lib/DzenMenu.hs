@@ -77,7 +77,7 @@ openMenu name menu = do
          , script menu
          , "main"
          , "-l"
-         , show . length . lines $ s
+         , show . min 45 . length . lines $ s -- TODO: add maxLength to a config
          ]
   hPutStr h t
   hPutStr h s
