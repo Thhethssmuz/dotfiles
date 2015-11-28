@@ -27,7 +27,7 @@ render_keyboard_indicator() {
 render_updates_indicator() {
   local icon="^i($HOME/.xmonad/icons/pacman.xpm)"
   local n=$(~/.xmonad/scripts/updates.sh)
-  echo -n "$icon $n"
+  echo -n "^ca(1, ~/.xmonad/scripts/dbus.sh menu Toggle Updates)$icon $n^ca()"
 }
 
 render_volume_indicator() {

@@ -241,8 +241,10 @@ myDzenMenus notifd =
   [ dzenMenu { menuName   = "Calendar"
              , menuScript = script "dzen-menu-calendar.sh"
              }
+  , dzenMenu { menuName   = "Updates"
+             , menuScript = script "dzen-menu-updates.sh"
+             }
   ] ++ maybeToList (notifLogMenu <$> notifd)
-
 
 -------------------------------------------------------------------------------
 -- Manage hooks
