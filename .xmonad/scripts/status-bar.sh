@@ -27,7 +27,7 @@ render_keyboard_indicator() {
 render_updates_indicator() {
   local icon="^i($HOME/.xmonad/icons/pacman.xpm)"
   local n=$(~/.xmonad/scripts/updates.sh)
-  echo -n "$icon $n update(s)"
+  echo -n "$icon $n"
 }
 
 render_volume_indicator() {
