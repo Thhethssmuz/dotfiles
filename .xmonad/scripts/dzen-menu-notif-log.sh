@@ -17,9 +17,9 @@ main() {
     -bg "$BACKGROUND" \
     -fn "$MAIN_FONT" \
     -xs "$SCREEN" \
-    -x  "$(($WIDTH_LEFT - 20))" \
+    -x  "$((WIDTH_LEFT - 15))" \
     -y  "$((HEIGHT + SPACE))" \
-    -w  "$(($WIDTH_MIDDLE + 20))" \
+    -w  "$((WIDTH_MIDDLE + 30))" \
     -ta l \
     -sa l \
     -e 'onstart=uncollapse;button3=exit;button4=scrollup;button5=scrolldown' \
