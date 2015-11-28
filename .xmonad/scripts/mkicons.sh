@@ -50,6 +50,15 @@ mk_pacman() {
     $DST/pacman.xpm
 }
 
+# Make dropbox icon
+mk_dropbox() {
+  convert $SRC/dropbox.png \
+    -background $BACKGROUND \
+    -alpha remove \
+    -resize x$FONT_SIZE \
+    $DST/dropbox.xpm
+}
+
 # Make redshift icon
 mk_redshift() {
   convert $SRC/redshift.png \
@@ -72,8 +81,9 @@ mk_layout() {
 }
 
 
-# mk_haskell
-# mk_simple
-# mk_pacman
-mk_redshift
-# mk_layout
+mk_haskell
+mk_simple
+mk_pacman
+mk_dropbox
+# mk_redshift
+mk_layout
