@@ -17,7 +17,7 @@ main() {
     -fn "$MAIN_FONT" \
     -xs "$SCREEN" \
     -x  "$(($WIDTH_LEFT - 140))" \
-    -y  40 \
+    -y  "$((HEIGHT + SPACE))" \
     -w  "$(($WIDTH_MIDDLE + 140))" \
     -ta c \
     -sa c \

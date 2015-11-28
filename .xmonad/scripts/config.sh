@@ -48,10 +48,16 @@ COLOR15="#EEEEEC"    # bright white
 #
 ###############################################################################
 
+# height of the status bar
 HEIGHT=22
 
+# width of the menu parts
 WIDTH_LEFT=720
 WIDTH_MIDDLE=480
 WIDTH_RIGHT=720
 
+# space between the status bar and its menus
+SPACE=20
+
+# screen where the menu shall appear
 SCREEN=1
