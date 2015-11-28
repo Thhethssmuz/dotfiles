@@ -39,6 +39,24 @@ render_volume_indicator() {
   echo -n "^ca()^ca()^ca()"
 }
 
+render_dropbox_indicator() {
+  if hash dropbox-cli 2>/dev/null; then
+
+    if [ "$(dropbox-cli status)" == "Dropbox isn't running!" ]; then
+      echo "^i($HOME/.xmonad/icons/dropbox-off.xpm)"
+    elif [ "$(dropbox-cli status)" == "Up to date" ]; then
+      echo "^i($HOME/.xmonad/icons/dropbox-ok.xpm)"
+    else
+      echo "^i($HOME/.xmonad/icons/dropbox-sync.xpm)"
+    fi
+
+  else
+
+    echo "^i($HOME/.xmonad/icons/dropbox-off.xpm)"
+
+  fi
+}
+
 render_redshift_indicator() {
   echo "lol"
 }
@@ -106,10 +124,18 @@ run() {
   local keyboard_state=$(render_keyboard_indicator)
   local updates_state=$(render_updates_indicator)
   local volume_state=$(render_volume_indicator)
+  local dropbox_state=$(render_dropbox_indicator)
   local user_state=$(render_user_indicator)
 
   render_all_indicators() {
-    echo "$keyboard_state  $updates_state  $volume_state  $user_state"
+    local all=(
+      "$keyboard_state"
+      "$updates_state"
+      "$volume_state"
+      "$dropbox_state"
+      "$user_state"
+    )
+    echo "${all[*]}"
   }
 
   trap stop EXIT
@@ -120,6 +146,9 @@ run() {
   fi
 
   set_update_interval updates 900
+  if hash dropbox-cli 2>/dev/null; then
+    set_update_interval dropbox 5
+  fi
 
   while true; do
     render_all_indicators
@@ -128,6 +157,7 @@ run() {
       keyboard)  keyboard_state=$(render_keyboard_indicator) ;;
       updates)   updates_state=$(render_updates_indicator)   ;;
       volume)    volume_state=$(render_volume_indicator)     ;;
+      dropbox)   dropbox_state=$(render_dropbox_indicator)   ;;
       user)      user_state=$(render_user_indicator)         ;;
       quit)      exit 0                                      ;;
     esac
