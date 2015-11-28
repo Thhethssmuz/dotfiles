@@ -50,13 +50,28 @@ mk_pacman() {
     $DST/pacman.xpm
 }
 
-# Make dropbox icon
+# Make dropbox icons
 mk_dropbox() {
-  convert $SRC/dropbox.png \
+  convert $SRC/dropbox-plain.png \
+    +level-colors ,$COLOR15 \
     -background $BACKGROUND \
     -alpha remove \
     -resize x$FONT_SIZE \
-    $DST/dropbox.xpm
+    $DST/dropbox-ok.xpm
+
+  convert $SRC/dropbox-sync.png \
+    +level-colors ,$COLOR15 \
+    -background $BACKGROUND \
+    -alpha remove \
+    -resize x$FONT_SIZE \
+    $DST/dropbox-sync.xpm
+
+  convert $SRC/dropbox-plain.png \
+    +level-colors ,$COLOR0 \
+    -background $BACKGROUND \
+    -alpha remove \
+    -resize x$FONT_SIZE \
+    $DST/dropbox-off.xpm
 }
 
 # Make redshift icon
