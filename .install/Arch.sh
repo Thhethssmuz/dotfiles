@@ -9,6 +9,7 @@ pacman -S
   bc                      # commandline calculator
   blender                 # 3D editor
 
+  calc
   chromium
   clang
   #clementine             # superseded by ncmpcpp
