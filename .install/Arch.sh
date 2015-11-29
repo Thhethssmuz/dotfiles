@@ -3,37 +3,59 @@
 # run as root
 
 pacman -S
+  archlinux-themes-slim   # theme for slim
+
   bash-completion
-  bc
+  bc                      # commandline calculator
+  blender                 # 3D editor
 
   chromium
-  clementine
+  clang
+  #clementine             # superseded by ncmpcpp
+  dzen2
 
   elementary-icon-theme
   espeak
 
-  flashflugin
+  #feh                    # image rendering tool (currently not using)
+  firefox
+  #flashplugin            # may not need any more?
 
-  ghc cabal-install haddock happy alex
+  # the Haskell platform
+    ghc
+    cabal-install
+    haddock
+    happy
+    alex
+
   gimp
   glfw
-  gnome-tweak-tool
-  gstreamer0.10-plugins # (all)
-    # telepathy # (all: at least -gabble(empathy) or -haze(pidgin))
-    # empathy   # (may need to be reinstalled after telepathy)
+  gmrun                   # gnome run applet
+  #gnome-tweak-tool       # not really useful with xmonad
+  gstreamer0.10-plugins   # (all)
   guake
 
   human-icon-theme
 
-  libreoffice
-  lsb-release
+  imagemagic              # image conversion tool (generally useful)
 
+  libreoffice
+  lolcat                  # fun
+  lsb-release
+  lxapperance             # GTK+ theme switcher
+
+  mpc                     # for media button bindings
+  mpd                     # music player daemon (start as user $ systemctl --user enable/start mpd)
+
+  ncmpcpp                 # terminal interface to mpd
   networkmanager
   network-manager-applet
   ngrep
   nodejs
+  npm
   ntfs-3g
   numix-themes
+  numlockx                # for activating numlock on start
 
   openssh
 
@@ -42,8 +64,16 @@ pacman -S
 
   redshift
   rsync
+  rxvt-unicode            # terminal
 
-  samba gvfs-smb gnome-vfs
+  scrot                   # A simple command-line screenshot utility for X
+  slim                    # login manager, requires some configuration in /etc/slim.conf,
+                          # themes are located in /usr/share/slim/themes/
+  slimlock                # screen locker
+  # smb
+    samba
+    gvfs-smb
+    gnome-vfs
   sshfs
 
   tcpdump
@@ -56,58 +86,54 @@ pacman -S
   ttf-linux-libertine
   ttf-ubuntu-font-family
 
+  unclutter               # hide mouse cursor when inactive
   unrar
+  unzip
 
   vlc
 
   wget
   wine
   wireshark-gtk
+  wmctrl                  # for graceful exit script
 
+  xautolock               # automatic lock screen after a period
+  xclip
+  xdotool                 # execute key commands
+  xmonad
+  xmonad-contrib
   xsel
 
   youtube-dl
 
+# -- Install from the AUR -----------------------------------------------------
 
-# xmonad test
+  compton                 # (aur) window transparency and effects
 
-pacman -S
-  xmonad
-  xmonad-contrib
+  dropbox                 # (aur)
+  dropbox-cli             # (aur)
 
-  slim         # login manager, installs slimlock.
-               # requires some configuration, go through /etc/slim.conf
-               # themes are located in /usr/share/slim/themes/
-  archlinux-themes-slim
-  xautolock
+  gcalcli                 # (aur) Google Calendar Command Line Interface
 
-  dzen2
-  conky
-  compton      # (aur) window transparency and effects
-  hsetroot     # (aur) wallpaper
-  gmrun        # gnome run applet
-
-  unclutter    # hide mouse cursor when inactive
-  numlockx     # activate numlock on start
-
-  imagemagic   # image conversion tool (generally useful)
-
-  feh          # image rendering tool (may not need?)
-  xdotool      # execute key commands
-  wmctrl       # for graceful exit script
-
-  mpd          # music player daemon (start as user $ systemctl --user enable/start mpd)
-  ncmpcpp      # terminal interface to mpd
-
-  lxapperance  # Feature-rich GTK+ theme switcher of the LXDE Desktop
-
-  gcalcli      # (AUR) Google Calendar Command Line Interface
-  scrot        # A simple command-line screenshot utility for X
+  hsetroot                # (aur) wallpaper
 
 
-cabal install glfw glfw-b random pandoc
+# -- Install Haskell packages -------------------------------------------------
 
-npm install -g jshint browserify babel stylus
+cabal install
+  dbus
+  glfw
+  glfw-b
+  pandoc
+  random
+
+# -- Install Node.js packages -------------------------------------------------
+
+npm install -g
+  babel
+  browserify
+  jshint
+  stylus
 
 
 # -- Symlinks -----------------------------------------------------------------
@@ -204,15 +230,5 @@ wget https://github.com/FortAwesome/Font-Awesome/blob/master/fonts/fontawesome-w
 
 # -- Other --------------------------------------------------------------------
 
-# bindings for espeak
-# bash -c "xsel | espeak -s 210"
-# bash -c "xsel | espeak -v no -s 210"
-# pkill -9 espeak
-
-# Install from AUR
-# - dropbox
-# - nautilus-dropbox
-
-
 # fix for awkward flash plugin glitch with pulseaudio
-sudo ln -s /usr/lib/mozilla/plugins /opt/google/chrome/plugins
+ln -s /usr/lib/mozilla/plugins /opt/google/chrome/plugins
