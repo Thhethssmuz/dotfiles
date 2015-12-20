@@ -258,9 +258,10 @@ myDzenMenus notifd =
 -------------------------------------------------------------------------------
 
 myManageHook = (composeAll
-  [ resource =? "feh"   --> doIgnore
-  , resource =? "dzen2" --> doIgnore
-  , resource =? "guake" --> doFloat
+  [ resource  =? "dzen2"       --> doIgnore
+  , resource  =? "feh"         --> doIgnore
+  , resource  =? "guake"       --> doFloat
+  , className =? "stalonetray" --> doIgnore
   , manageDocks
   ]) <+> manageHook defaultConfig
 
