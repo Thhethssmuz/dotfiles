@@ -42,17 +42,21 @@ render_volume_indicator() {
 render_dropbox_indicator() {
   if hash dropbox-cli 2>/dev/null; then
 
+    echo -n "^ca(1, ~/.xmonad/scripts/dbus.sh menu Toggle Dropbox)"
+
     if [ "$(dropbox-cli status)" == "Dropbox isn't running!" ]; then
-      echo "^i($HOME/.xmonad/icons/dropbox-off.xpm)"
+      echo -n "^i($HOME/.xmonad/icons/dropbox-off.xpm)"
     elif [ "$(dropbox-cli status)" == "Up to date" ]; then
-      echo "^i($HOME/.xmonad/icons/dropbox-ok.xpm)"
+      echo -n "^i($HOME/.xmonad/icons/dropbox-ok.xpm)"
     else
-      echo "^i($HOME/.xmonad/icons/dropbox-sync.xpm)"
+      echo -n "^i($HOME/.xmonad/icons/dropbox-sync.xpm)"
     fi
+
+    echo -n "^ca()"
 
   else
 
-    echo "^i($HOME/.xmonad/icons/dropbox-off.xpm)"
+    echo -n "^i($HOME/.xmonad/icons/dropbox-off.xpm)"
 
   fi
 }

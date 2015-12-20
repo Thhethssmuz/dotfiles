@@ -248,6 +248,9 @@ myDzenMenus notifd =
   , dzenMenu { menuName   = "Updates"
              , menuScript = script "dzen-menu-updates.sh"
              }
+  , dzenMenu { menuName   = "Dropbox"
+             , menuScript = script "dzen-menu-dropbox.sh"
+             }
   ] ++ maybeToList (notifLogMenu <$> notifd)
 
 -------------------------------------------------------------------------------
