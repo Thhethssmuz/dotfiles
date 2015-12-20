@@ -24,6 +24,9 @@ import XMonad.Hooks.UrgencyHook
 import XMonad.Util.NamedWindows
 import XMonad.Util.WindowProperties (getProp32)
 
+import Prompts
+import XMonad.Prompt
+
 import DzenMenu
 import Notifd
 import Data.Time.Clock (getCurrentTime, utctDayTime)
@@ -32,6 +35,7 @@ import Data.Time.Format (formatTime, defaultTimeLocale)
 
 import qualified Data.Map as M
 import Data.Bits ((.|.))
+import Data.Char (isSpace)
 import Data.List
 import Data.Maybe
 import Data.Monoid
@@ -251,7 +255,7 @@ myDzenMenus notifd =
 -------------------------------------------------------------------------------
 
 myManageHook = (composeAll
-  [ resource =? "feh" --> doIgnore
+  [ resource =? "feh"   --> doIgnore
   , resource =? "dzen2" --> doIgnore
   , resource =? "guake" --> doFloat
   , manageDocks
@@ -296,12 +300,37 @@ myLogHook h = dynamicLogWithPP $ defaultPP
   }
 
 -------------------------------------------------------------------------------
+-- Prompt
+-------------------------------------------------------------------------------
+
+myXPConf = defaultXPConfig
+  { font              = "xft:Ubuntu Mono:size=12:Bold"
+  , promptBorderWidth = 0
+  , fgColor           = color15
+  , fgHLight          = background
+  , bgColor           = background
+  , bgHLight          = foreground
+  , height            = 22
+  , position          = Top
+  , changeModeKey     = xK_F24 -- or any key I don't normally use
+  , promptKeymap      = defaultXPKeymap <+> M.fromList
+    [ ((controlMask,            xK_v        ), pasteString)
+    , ((mod1Mask,               xK_Right    ), moveWord' isSpace Next)
+    , ((mod1Mask,               xK_Left     ), moveWord' isSpace Prev)
+    , ((mod1Mask,               xK_Delete   ), killWord' isSpace Next)
+    , ((mod1Mask,               xK_BackSpace), killWord' isSpace Prev)
+    , ((mod1Mask,               xK_space    ), spawn "xdotool key F24")
+    ]
+  }
+
+-------------------------------------------------------------------------------
 -- Key Bindings
 -------------------------------------------------------------------------------
 
 myKeys conf@(XConfig { modMask = modMask }) = M.fromList $
   [ ((modMask .|. shiftMask,    xK_Return ), spawn $ terminal conf)
   , ((modMask,                  xK_r      ), spawn "gmrun")
+  , ((modMask .|. shiftMask,    xK_r      ), masterPrompt myXPConf)
   , ((modMask .|. shiftMask,    xK_c      ), kill)
 
   , ((modMask .|. shiftMask,    xK_space  ), resetLayoutState $ XMonad.layoutHook conf)
