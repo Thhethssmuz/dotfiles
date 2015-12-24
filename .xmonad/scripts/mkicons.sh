@@ -95,10 +95,23 @@ mk_layout() {
   done
 }
 
+# Make volume icons
+mk_volume() {
+  for i in $(ls $SRC/volume-*.png); do
+    convert $i \
+      +level-colors ,$COLOR15 \
+      -background $BACKGROUND \
+      -alpha remove \
+      -resize x$FONT_SIZE \
+      $DST/$(basename -s .png $i).xpm
+  done
+}
 
-mk_haskell
-mk_simple
-mk_pacman
-mk_dropbox
-# mk_redshift
-mk_layout
+
+# mk_haskell
+# mk_simple
+# mk_pacman
+# mk_dropbox
+# # mk_redshift
+# mk_layout
+mk_volume
