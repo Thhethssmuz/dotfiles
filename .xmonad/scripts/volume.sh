@@ -32,15 +32,27 @@ get_current_icon() {
 
   if [ "$level" == "0" ]; then
     echo "notification-audio-volume-off"
-  elif (("$level" < 33)); then
+  elif (("$level" < 25)); then
     echo "notification-audio-volume-low"
-  elif (("$level" < 66)); then
+  elif (("$level" < 50)); then
     echo "notification-audio-volume-medium"
   else
     echo "notification-audio-volume-high"
   fi
 }
+get_xpm_icon() {
+  local level=$(get_current_volume)
 
+  if [ "$level" == "0" ]; then
+    echo "$HOME/.xmonad/icons/volume-off.xpm"
+  elif (("$level" < 25)); then
+    echo "$HOME/.xmonad/icons/volume-low.xpm"
+  elif (("$level" < 50)); then
+    echo "$HOME/.xmonad/icons/volume-medium.xpm"
+  else
+    echo "$HOME/.xmonad/icons/volume-high.xpm"
+  fi
+}
 
 ###############################################################################
 #
@@ -138,6 +150,7 @@ OPTIONS:
 
       --level              print current volume as a percentage
       --icon               print notif icon name indicating current volume
+      --xpm-icon           print full path to xpm icon indicating current volume
       --bar                print a gdbar indicating current volume level
 
   -h, --help               display this help and exit
@@ -175,6 +188,10 @@ main() {
 
       --icon)
         get_current_icon
+        ;;
+
+      --xpm-icon)
+        get_xpm_icon
         ;;
 
       --bar)
