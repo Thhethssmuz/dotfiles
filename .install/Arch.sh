@@ -131,11 +131,8 @@ cabal install
 # -- Install Node.js packages -------------------------------------------------
 
 npm install -g
-  babel
   browserify
   jshint
-  stylus
-
 
 # -- Symlinks -----------------------------------------------------------------
 
