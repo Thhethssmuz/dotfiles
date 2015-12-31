@@ -12,7 +12,7 @@ import XMonad.Layout.Renamed
 
 import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks, docksEventHook)
 import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageHelpers (isFullscreen, doFullFloat)
+import XMonad.Hooks.ManageHelpers (isInProperty, isFullscreen, doFullFloat)
 import XMonad.Util.WorkspaceCompare (getSortByXineramaPhysicalRule)
 
 import XMonad.Hooks.EwmhDesktops (ewmh)
@@ -262,8 +262,11 @@ myManageHook = (composeAll
   , resource  =? "feh"         --> doIgnore
   , resource  =? "guake"       --> doFloat
   , className =? "stalonetray" --> doIgnore
+  , isSticky                   --> doIgnore
   , manageDocks
   ]) <+> manageHook defaultConfig
+  where
+    isSticky = isInProperty "_NET_WM_STATE" "_NET_WM_STATE_STICKY"
 
 -------------------------------------------------------------------------------
 -- Handle event hooks
