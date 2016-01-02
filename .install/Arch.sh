@@ -133,6 +133,7 @@ cabal install
 npm install -g
   browserify
   jshint
+  pm2
 
 # -- Symlinks -----------------------------------------------------------------
 
