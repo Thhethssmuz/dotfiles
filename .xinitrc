@@ -21,7 +21,7 @@ xinput \
   set-prop \
   'pointer:La-VIEW Technology Mionix NAOS 8200      ' \
   'Coordinate Transformation Matrix' \
-  1.5, 0, 0, 0, 1.5, 0, 0, 0, 1
+  0.25, 0, 0, 0, 0.25, 0, 0, 0, 1
 
 
 ###############################################################################
