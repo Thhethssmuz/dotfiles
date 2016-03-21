@@ -7,8 +7,12 @@
 .npmrc
 .nvidia-settings-rc
 
-!.bash_ps1
 !.Xresources
+!.aliases
+!.bash_profile
+!.exports
+!.prompt
+
 !.config
 
 !.scripts

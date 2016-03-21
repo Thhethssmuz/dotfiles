@@ -1,0 +1,117 @@
+#!/bin/bash
+
+if tput setaf 1 &> /dev/null; then
+  export TERM=xterm-256color
+  tput sgr0 # reset colors
+  # Solarized colors, taken from http://git.io/solarized-colors.
+  bold="\[$(tput bold)\]"
+  reset="\[$(tput sgr0)\]"
+  black="\[$(tput setaf 0)\]"
+  blue="\[$(tput setaf 33)\]"
+  cyan="\[$(tput setaf 37)\]"
+  green="\[$(tput setaf 64)\]"
+  orange="\[$(tput setaf 166)\]"
+  purple="\[$(tput setaf 125)\]"
+  red="\[$(tput setaf 124)\]"
+  violet="\[$(tput setaf 61)\]"
+  white="\[$(tput setaf 15)\]"
+  yellow="\[$(tput setaf 136)\]"
+  dircol="${bold}${white}"
+else
+  # non-256 color terminal - compat only
+  bold=''
+  reset='\[\e[00m\]'
+  #black="\e[1;30m"
+  black='\[\e[01;30m\]' # really bold black -> grey (01 is bold)
+  blue='\[\e[0;34m\]'
+  #cyan="\e[1;36m"
+  cyan='\[\e[0;36m\]'
+  cyan='\[\e[0;36m\]'
+  #green="\e[1;32m"
+  green='\[\e[0;32m\]'
+  orange='\[\e[0;33m\]'
+  purple='\[\e[0;35m\]'
+  red='\[\e[0;31m\]'
+  violet='\[\e[0;35m\]'
+  white='\[\e[0;37m\]'
+  yellow='\[\e[0;33m\]'
+  dircol="$black" # need to do bold inside the main color here - setaf can compose
+fi
+
+
+show_git_differences() {
+  # check if the current directory is in .git before running git checks
+  if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
+
+    # Ensure the index is up to date.
+    git update-index --really-refresh -q &>/dev/null
+
+    # Check for uncommitted changes in the index.
+    # if ! git diff --quiet --ignore-submodules --cached; then
+    #   s+='+'
+    # fi;
+
+    # Check for ahead by commits
+    # if git status | grep -q "branch is ahead"; then
+    #   s+='>'
+    # fi
+
+    # Check for unstaged changes.
+    # if ! git diff-files --quiet --ignore-submodules --; then
+    #   s+='!'
+    # fi;
+
+    # Check that identity helper is set up correctly
+    if git remote -v | grep -q Thhethssmuz/dotfiles; then
+      s+='!'
+    fi
+
+    # Check for untracked files.
+    # if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+    #   s+='?'
+    # fi;
+
+    # Check for stashed files.
+    # if git rev-parse --verify refs/stash &>/dev/null; then
+    #   s+='$'
+    # fi
+  fi
+  echo -e "$s"
+}
+
+prompt_git() {
+  local branchName=''
+  local s=''
+
+  # Check if the current directory is in a Git repository.
+  if git rev-parse --is-inside-work-tree &>/dev/null; then
+    s=$(show_git_differences)
+
+    # Get the short symbolic ref.
+    # If HEAD isn’t a symbolic ref, get the short SHA for the latest commit
+    # Otherwise, just give up.
+    branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
+      git rev-parse --short HEAD 2> /dev/null || \
+      echo '(unknown)')"
+
+    [ -n "${s}" ] && s=" [${s}]"
+    echo -e " ${white}on ${green}${branchName}${orange}${s}"
+  fi
+}
+
+set_prompt() {
+  local -r rc=$? # Must save this
+  # Return code when non-zero
+  PS1=$([ "$rc" -ne 0 ] && echo -e "${red}[$rc]${reset}")
+
+  # Show the hostname when connected via SSH
+  if [ -n "${SSH_TTY}" ]; then
+    PS1+="${bold}${green}\\h${reset}:"
+  fi
+
+  PS1+="${dircol}\\w${reset}"
+  PS1+="$(prompt_git)"
+  PS1+=" ${bold}${white}\$${reset} "
+}
+
+PROMPT_COMMAND='set_prompt'

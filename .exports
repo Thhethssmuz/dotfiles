@@ -1,0 +1,10 @@
+#!/bin/bash
+
+export PATH=$PATH:$HOME/.cabal/bin:$HOME/.thhe
+#export NODE_PATH=$NODE_PATH:$(npm root -g)
+
+export CXX=clang++
+export CC=clang
+
+export EDITOR=nano
+export VISUAL=nano
