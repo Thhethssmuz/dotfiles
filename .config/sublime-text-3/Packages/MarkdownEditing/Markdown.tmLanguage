@@ -798,7 +798,7 @@
 		<dict>
 			<key>match</key>
 			<string>\\[-`*_#+.!()"$%&amp;',/:;&gt;=&lt;?@\[\\\]^{|}~\s]</string>
-			<!-- 
+			<!--
 				<string>\\[-`*_#+.!(){}\[\]\\&gt;]</string>
 			-->
 			<key>name</key>
@@ -1890,6 +1890,22 @@
 		        </dict>
 		    </array>
 		</dict>
+		<key>fenced-haskell</key>
+		<dict>
+		    <key>begin</key>
+		    <string>^(\s*[`~]{3,})(haskell|{.*?\.(haskell)\b.*?})\s*$</string>
+		    <key>end</key>
+		    <string>^(\1)\n</string>
+		    <key>name</key>
+		    <string>markup.raw.block.markdown markup.raw.block.fenced.markdown</string>
+		    <key>patterns</key>
+		    <array>
+		        <dict>
+		            <key>include</key>
+		            <string>source.haskell</string>
+		        </dict>
+		    </array>
+		</dict>
 		<key>fenced-undefined</key>
 		<dict>
 		    <key>begin</key>
@@ -1993,6 +2009,10 @@
 				<dict>
 					<key>include</key>
 					<string>#fenced-lisp</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#fenced-haskell</string>
 				</dict>
 				<dict>
 					<key>include</key>
