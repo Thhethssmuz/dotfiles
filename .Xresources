@@ -1,3 +1,6 @@
+! -----------------------------------------------------------------------------
+! Font settings
+! -----------------------------------------------------------------------------
 Xft.dpi:                    96
 Xft.antialias:              true
 Xft.rgba:                   rgb
@@ -6,22 +9,35 @@ Xft.hinting:                true
 Xft.hintstyle:              hintfull
 Xft.lcdfilter:              lcddefault
 
+! -----------------------------------------------------------------------------
+! Xterm
+! -----------------------------------------------------------------------------
+xterm*termName:             xterm-256color
+XTerm*locale:               true
+Xterm*saveLines:            8196
 
+! -----------------------------------------------------------------------------
+! Urxvt
+! -----------------------------------------------------------------------------
 URxvt.scrollBar:            false
 URxvt.saveLines:            8192
 URxvt*cursorBlink:          true
 URxvt*urgentOnBell:         true
 
+! -- Theme
+URxvt.internalBorder:       0
 URxvt.letterSpace:          -1
 URxvt.font:                 xft:DejaVu Sans Mono:pixelsize=13:Regular
 URxvt.boldFont:             xft:DejaVu Sans Mono:pixelsize=13:Bold
 URxvt.italicFont:           xft:DejaVu Sans Mono:pixelsize=13:Italic
 URxvt.boldItalicFont:       xft:DejaVu Sans Mono:pixelsize=13:Bold:Italic
 
+! -- Transparent background
 URxvt.depth:                32
 URxvt.foreground:           #FFFFFF
-!URxvt.background:           #000000
 URxvt*background:           rgba:0000/0000/0000/dddd
+
+! -- Colours
 URxvt.color0:               #2E3436
 URxvt.color1:               #CC0000
 URxvt.color2:               #4E9A06
