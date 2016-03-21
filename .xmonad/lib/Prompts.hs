@@ -114,9 +114,13 @@ instance XPrompt Pass where
     return . filter (\x -> s `isInfixOf` x) $ passwords
 
   modeAction Pass query result =
-    let args  | query `isInfixOf` result = "show -c " ++ result
-              | otherwise = "generate -c " ++ query ++ " 32"
-    in  spawn $ "pass " ++ args
+    if query `isInfixOf` result
+      then spawn $ "pass show -c " ++ result
+      else return ()
+
+    --let args  | query `isInfixOf` result = "show -c " ++ result
+    --          | otherwise "generate -c " ++ query ++ " 32"
+    --in  spawn $ "pass " ++ args
 
 
 getPasswordDir :: IO FilePath
