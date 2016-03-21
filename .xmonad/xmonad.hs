@@ -262,11 +262,11 @@ myManageHook = (composeAll
   , resource  =? "feh"         --> doIgnore
   , resource  =? "guake"       --> doFloat
   , className =? "stalonetray" --> doIgnore
-  , isSticky                   --> doIgnore
+  --, isSticky                   --> doIgnore
   , manageDocks
   ]) <+> manageHook defaultConfig
-  where
-    isSticky = isInProperty "_NET_WM_STATE" "_NET_WM_STATE_STICKY"
+  --where
+  --  isSticky = isInProperty "_NET_WM_STATE" "_NET_WM_STATE_STICKY"
 
 -------------------------------------------------------------------------------
 -- Handle event hooks
