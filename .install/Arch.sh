@@ -187,6 +187,13 @@ echo '
   public = no
   writable = no
   printable = no
+
+[Music2]
+  path = /media/U/Music
+  valid users = thhethssmuz
+  public = no
+  writable = no
+  printable = no
 ' >> /etc/samba/smb.conf
 
 # add user to samba (user must already be a system user)
