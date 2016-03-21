@@ -1,6 +1,6 @@
 mpd_music_dir                      = "~/Music"
 
-song_columns_list_format           = "(25)[red]{aE} (05f)[blue]{yE} (30)[yellow]{bE} (03f)[blue]{nrE} (40)[green]{t|f} (07f)[blue]{lrE}"
+song_columns_list_format           = "(25)[red]{aE} (05f)[blue]{yE} (30)[yellow]{bE} (02f)[blue]{drE} (03f)[blue]{nrE} (40)[green]{t|f} (07f)[blue]{lrE}"
 now_playing_prefix                 = "$b"
 now_playing_suffix                 = "$/b"
 playlist_display_mode              = "columns" (classic/columns)
