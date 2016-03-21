@@ -14,6 +14,7 @@
 # Aliases
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
+alias pacman='pacman --color=auto'
 
 
 # Prompt
