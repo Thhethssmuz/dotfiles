@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# export TERM=xterm-256color
+
+terminal_color() {
+  case $1 in
+
+    # Special
+    reset)      tput sgr0 2>/dev/null    || echo '\e[0m'  ;;
+    bold)       tput bold 2>/dev/null    || echo '\e[1m'  ;;
+    underline)  tput smul 2>/dev/null    || echo '\e[4m'  ;;
+
+    # Foreground colours
+    black)      tput setaf 0 2>/dev/null || echo '\e[30m' ;;
+    red)        tput setaf 1 2>/dev/null || echo '\e[31m' ;;
+    green)      tput setaf 2 2>/dev/null || echo '\e[32m' ;;
+    yellow)     tput setaf 3 2>/dev/null || echo '\e[33m' ;;
+    blue)       tput setaf 4 2>/dev/null || echo '\e[34m' ;;
+    magenta)    tput setaf 5 2>/dev/null || echo '\e[35m' ;;
+    cyan)       tput setaf 6 2>/dev/null || echo '\e[36m' ;;
+    white)      tput setaf 7 2>/dev/null || echo '\e[37m' ;;
+
+    # Background colours
+    bg_black)   tput setab 0 2>/dev/null || echo '\e[40m' ;;
+    bg_red)     tput setab 1 2>/dev/null || echo '\e[41m' ;;
+    bg_green)   tput setab 2 2>/dev/null || echo '\e[42m' ;;
+    bg_yellow)  tput setab 3 2>/dev/null || echo '\e[43m' ;;
+    bg_blue)    tput setab 4 2>/dev/null || echo '\e[44m' ;;
+    bg_magenta) tput setab 5 2>/dev/null || echo '\e[45m' ;;
+    bg_cyan)    tput setab 6 2>/dev/null || echo '\e[46m' ;;
+    bg_white)   tput setab 7 2>/dev/null || echo '\e[47m' ;;
+
+  esac
+}
+
+# basic colour function
+color() {
+  for c in $@; do
+    echo -en "$(terminal_color $c)"
+  done
+}
+
+# escaped version for prompt
+_color_() {
+  for c in $@; do
+    echo -en "\[$(terminal_color $c)\]"
+  done
+}
