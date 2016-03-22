@@ -26,7 +26,7 @@ xset s off
 # Blank the screen after 25 minutes of inactivity.
 xset dpms 1500 1500 1500
 
-# Lock screen after 30, gdm may have some defaults here?
+# Lock screen after 30
 xautolock -locker "~/.xmonad/scripts/system.sh --lock" -time 30 &
 
 # Start status bars
