@@ -1,0 +1,50 @@
+#!/bin/bash
+
+xrdb ~/.Xresources
+
+# Set numlock status to on at start.
+numlockx on &
+
+# Set keyboard layout
+setxkbmap "no(dvorak)"
+
+# Set background image.
+hsetroot -fill ~/Pictures/wallpaper.jpg &
+
+# Enable window transparency and effects.
+compton &
+
+# Dim brightness and screen colours at night.
+redshift &
+
+# Turn off bell sound
+xset b off
+
+# Turn off screen saver
+xset s off
+
+# Blank the screen after 25 minutes of inactivity.
+xset dpms 1500 1500 1500
+
+# Lock screen after 30, gdm may have some defaults here?
+xautolock -locker "~/.xmonad/scripts/system.sh --lock" -time 30 &
+
+# Start status bars
+~/.xmonad/scripts/status-bar.sh &
+
+# Hardware settings
+if [ "$(hostname)" = "archbox" ]; then
+
+  # Mouse sensitivity
+  xinput \
+    set-prop \
+    'pointer:La-VIEW Technology Mionix NAOS 8200      ' \
+    'Coordinate Transformation Matrix' \
+    0.25, 0, 0, 0, 0.25, 0, 0, 0, 1
+
+  # Screen layout, resolution and frame rate
+  xrandr --output DP-1 --mode 1920x1080 --rate 119.98 --pos 1920x0 --primary
+  xrandr --output DVI-D-0 --mode 1920x1080 --rate 60.00 --pos 0x0
+  xrandr --output DVI-I-1 --mode 1920x1080 --rate 60.00 --pos 3840x0
+
+fi
