@@ -12,13 +12,11 @@ pacman -S
   calc
   chromium
   clang
-  #clementine             # superseded by ncmpcpp
   dzen2
 
   elementary-icon-theme
   espeak
 
-  #feh                    # image rendering tool (currently not using)
   firefox
   #flashplugin            # may not need any more?
 
