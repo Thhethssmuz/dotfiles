@@ -36,11 +36,10 @@ xautolock -locker "~/.xmonad/scripts/system.sh --lock" -time 30 &
 if [ "$(hostname)" = "archbox" ]; then
 
   # Mouse sensitivity
-  xinput \
-    set-prop \
-    'pointer:La-VIEW Technology Mionix NAOS 8200      ' \
+  xinput set-prop \
+    'pointer:La-VIEW CO. QPAD Gaming Mouse' \
     'Coordinate Transformation Matrix' \
-    0.25, 0, 0, 0, 0.25, 0, 0, 0, 1
+    0.65, 0, 0, 0, 0.65, 0, 0, 0, 1
 
   # Screen layout, resolution and frame rate
   xrandr --output DP-1 --mode 1920x1080 --rate 119.98 --pos 1920x0 --primary
