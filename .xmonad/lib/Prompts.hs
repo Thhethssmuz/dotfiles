@@ -11,8 +11,12 @@ import System.FilePath.Posix
 
 import XMonad.Core
 import XMonad.Prompt
---import XMonad.Prompt.Shell
 import XMonad.Util.Run
+
+
+trim :: String -> String
+trim = f . f
+  where f = reverse . dropWhile isSpace
 
 -------------------------------------------------------------------------------
 -- Calc
@@ -26,8 +30,7 @@ instance XPrompt Calc where
   completionFunction Calc = \s ->
     if   length s == 0
     then return []
-    else fmap (map (f . f) . lines) $ runProcessWithInput "calc" [s] ""
-    where f = reverse . dropWhile isSpace
+    else fmap ((:[]) . trim) $ runProcessWithInput "calc" [s] ""
 
   modeAction Calc _ result =
     spawn $ "echo -n '" ++ result ++ "' | xclip -selection c"
