@@ -62,7 +62,7 @@ main = do
   xmonad
     . withUrgencyHookC CMDNotify myUrgencyConf
     . ewmh
-    $ defaultConfig
+    $ def
     { borderWidth        = 1
     , workspaces         = myWorkspaces
     , layoutHook         = myLayout
@@ -264,7 +264,7 @@ myManageHook = (composeAll
   , className =? "stalonetray" --> doIgnore
   --, isSticky                   --> doIgnore
   , manageDocks
-  ]) <+> manageHook defaultConfig
+  ]) <+> manageHook def
   --where
   --  isSticky = isInProperty "_NET_WM_STATE" "_NET_WM_STATE_STICKY"
 
@@ -294,7 +294,7 @@ refreshOnFullscreen _ = return $ All True
 -- Status bar (left)
 -------------------------------------------------------------------------------
 
-myLogHook h = dynamicLogWithPP $ defaultPP
+myLogHook h = dynamicLogWithPP $ def
   { ppCurrent   = fg color12 . pad
   , ppVisible   = fg color4 . pad
   , ppUrgent    = fg color1 . pad
@@ -310,7 +310,7 @@ myLogHook h = dynamicLogWithPP $ defaultPP
 -- Prompt
 -------------------------------------------------------------------------------
 
-myXPConf = defaultXPConfig
+myXPConf ref = def
   { font              = "xft:Ubuntu Mono:size=12:Bold"
   , promptBorderWidth = 0
   , fgColor           = color15
@@ -319,14 +319,35 @@ myXPConf = defaultXPConfig
   , bgHLight          = foreground
   , height            = 22
   , position          = Top
-  , changeModeKey     = xK_F24 -- or any key I don't normally use
-  , promptKeymap      = defaultXPKeymap <+> M.fromList
+  , historySize       = 2048
+  , historyFilter     = deleteAllDuplicates
+  , completionKey     = xK_Tab
+  , changeModeKey     = xK_F24
+  , promptKeymap      = M.fromList
     [ ((controlMask,            xK_v        ), pasteString)
-    , ((mod1Mask,               xK_Right    ), moveWord' isSpace Next)
-    , ((mod1Mask,               xK_Left     ), moveWord' isSpace Prev)
-    , ((mod1Mask,               xK_Delete   ), killWord' isSpace Next)
+
+    , ((0,                      xK_BackSpace), deleteString Prev)
     , ((mod1Mask,               xK_BackSpace), killWord' isSpace Prev)
+    , ((0,                      xK_Delete   ), deleteString Next)
+    , ((mod1Mask,               xK_Delete   ), killWord' isSpace Next)
+
+    , ((0,                      xK_Left     ), moveCursor Prev)
+    , ((mod1Mask,               xK_Left     ), moveWord' isSpace Prev)
+    , ((0,                      xK_Right    ), moveCursor Next)
+    , ((mod1Mask,               xK_Right    ), moveWord' isSpace Next)
+
+    , ((0,                      xK_Home     ), startOfLine)
+    , ((controlMask,            xK_a        ), startOfLine)
+    , ((0,                      xK_End      ), endOfLine)
+    , ((controlMask,            xK_e        ), endOfLine)
+
+    , ((0,                      xK_Escape   ), quit)
+
+    , ((0,                      xK_Up       ), historyUpMatching ref)
+    , ((0,                      xK_Down     ), historyDownMatching ref)
+
     , ((mod1Mask,               xK_space    ), spawn "xdotool key F24")
+    , ((0,                      xK_Return   ), setSuccess True >> setDone True)
     ]
   }
 
@@ -336,8 +357,10 @@ myXPConf = defaultXPConfig
 
 myKeys conf@(XConfig { modMask = modMask }) = M.fromList $
   [ ((modMask .|. shiftMask,    xK_Return ), spawn $ terminal conf)
-  , ((modMask,                  xK_r      ), spawn "gmrun")
-  , ((modMask .|. shiftMask,    xK_r      ), masterPrompt myXPConf)
+  --, ((modMask,                  xK_r      ), spawn "gmrun")
+  , ((modMask,                  xK_r      ), prompt [bash, pass] . myXPConf =<< initMatches)
+  , ((modMask .|. shiftMask,    xK_r      ), prompt [calc] . myXPConf =<< initMatches)
+
   , ((modMask .|. shiftMask,    xK_c      ), kill)
 
   , ((modMask .|. shiftMask,    xK_space  ), resetLayoutState $ XMonad.layoutHook conf)
