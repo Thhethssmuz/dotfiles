@@ -1,4 +1,4 @@
-module Prompts (masterPrompt) where
+module Prompts (prompt, calc, bash, pass) where
 
 import Control.Monad
 import Data.Char (isSpace)
@@ -11,7 +11,7 @@ import System.FilePath.Posix
 
 import XMonad.Core
 import XMonad.Prompt
-import XMonad.Prompt.Shell
+--import XMonad.Prompt.Shell
 import XMonad.Util.Run
 
 -------------------------------------------------------------------------------
@@ -40,7 +40,7 @@ data Bash = Bash
 
 instance XPrompt Bash where
   showXPrompt        Bash = "Run: "
-  commandToComplete  Bash = reverse . takeWhile (`notElem` "\n;|<>") . reverse
+  commandToComplete  Bash = id
   completionFunction Bash = bashCompletion
   modeAction Bash query result =
     let cmd = case words query of
@@ -49,37 +49,23 @@ instance XPrompt Bash where
                 xs  -> if null . last $ xs then query else intercalate " " $ init xs ++ [result]
     in  spawn cmd
 
-completeFile :: String -> IO [String]
-completeFile x = do
-  fmap lines . runProcessWithInput "bash" ["-c", script] $ ""
-  where script = "compgen -A file " ++ x
-
-completeCMD :: String -> IO [String]
-completeCMD x = do
-  fmap lines . runProcessWithInput "bash" ["-c", script] $ ""
-  where script = "compgen -A command " ++ x
-
 completeSingle :: String -> IO [String]
-completeSingle x = if or . map (`elem` "./") $ x
-                   then completeFile x
-                   else completeCMD x
+completeSingle "" = return []
+completeSingle x  =
+  let cmdType = if '/' `elem` x then "file" else "command"
+  in  fmap lines . runProcessWithInput "bash" ["-c", "compgen -A " ++ cmdType ++ " " ++ x ++ "|sort -u"] $ ""
 
 completeMultiple :: String -> [String] -> IO [String]
 completeMultiple x xs = do
   exists <- doesFileExist $ "/usr/share/bash-completion/completions/" ++ x
   if   exists
   then fmap lines . runProcessWithInput "bash" ["-c", script] $ ""
-  else case xs of
-         []     -> error "this should not happen?"
-         [""]   -> completeFile ""
-         [y]    -> completeSingle y
-         (y:ys) -> completeMultiple y ys
+  else completeSingle . last $ xs
 
   where line   = intercalate " " (x:xs)
-        script = intercalate "\n"
-               [ "DIR=/usr/share/bash-completion"
-               , ". \"$DIR/bash_completion\""
-               , "[ -e \"$DIR/completions/" ++ x ++ "\" ] && . \"$DIR/completions/" ++ x ++ "\""
+        script = intercalate ";"
+               [ "source \"/usr/share/bash-completion/bash_completion\""
+               , "source \"/usr/share/bash-completion/completions/" ++ x ++ "\""
                , "a=($(complete -p " ++ x ++ "))"
                , "_completion_loader \"${a[-1]}\""
                , "COMP_WORDS=(" ++ line ++ ")"
@@ -87,18 +73,22 @@ completeMultiple x xs = do
                , "COMP_POINT=" ++ show (length line)
                , "COMP_CWORD=" ++ show (length xs)
                , "${a[-2]} 2>/dev/null"
-               , "(IFS=$'\\n'; echo \"${COMPREPLY[*]}\")"
+               , "(IFS=$'\\n'; echo \"${COMPREPLY[*]}\")|sort -u"
                ]
 
 bashCompletion ""   = return []
-bashCompletion line =
-  let ws  = words line
-      ws' = if isSpace (last line) then ws ++ [""] else ws
-  in  case ws' of
-    []     -> return []
-    [""]   -> completeFile ""
-    [x]    -> completeSingle x
-    (x:xs) -> completeMultiple x xs
+bashCompletion line = case words' line of
+  []     -> return []
+  [x]    -> completeSingle x
+  (x:xs) -> completeMultiple x xs
+
+-- escape aware variant of words
+words' :: String -> [String]
+words' = foldr f [""]
+  where f x (y:ys) = case (x,y,ys) of
+                       ('\\', "", y:ys) -> ("\\ "++y):ys
+                       (' ',  _ , _   ) -> []:y:ys
+                       _                -> (x:y):ys
 
 -------------------------------------------------------------------------------
 -- Pass
@@ -151,12 +141,8 @@ getPasswords = do
 -- Main
 -------------------------------------------------------------------------------
 
-modes :: [XPMode]
-modes =
-  [ XPT Calc
-  , XPT Pass
-  , XPT Bash
-  ]
+calc = XPT Calc
+bash = XPT Bash
+pass = XPT Pass
 
-masterPrompt config = do
-  mkXPromptWithModes modes config
+prompt = mkXPromptWithModes
