@@ -45,12 +45,7 @@ instance XPrompt Bash where
   showXPrompt        Bash = "Run: "
   commandToComplete  Bash = id
   completionFunction Bash = bashCompletion
-  modeAction Bash query result =
-    let cmd = case words query of
-                []  -> ""
-                [x] -> if null result then query else result
-                xs  -> if null . last $ xs then query else intercalate " " $ init xs ++ [result]
-    in  spawn cmd
+  modeAction Bash query _ = spawn query
 
 completeSingle :: String -> IO [String]
 completeSingle "" = return []
