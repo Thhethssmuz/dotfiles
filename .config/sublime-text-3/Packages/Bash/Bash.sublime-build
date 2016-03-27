@@ -1,0 +1,11 @@
+{
+	"cmd"		: ["bash", "$file"],
+	"selector"	: "source.shell",
+
+  "variants": [
+    {
+      "name": "Run",
+      "cmd": ["shellcheck", "$file"]
+    }
+  ]
+}

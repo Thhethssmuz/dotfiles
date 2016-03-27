@@ -66,6 +66,7 @@ pacman -S
   rxvt-unicode            # terminal
 
   scrot                   # A simple command-line screenshot utility for X
+  shellcheck
   slim                    # login manager, requires some configuration in /etc/slim.conf,
                           # themes are located in /usr/share/slim/themes/
   slimlock                # screen locker
