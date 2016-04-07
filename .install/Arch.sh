@@ -35,6 +35,8 @@ pacman -S
   guake
 
   human-icon-theme
+  hunspell
+  hunspell-en
 
   imagemagic              # image conversion tool (generally useful)
 
