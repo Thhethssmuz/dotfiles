@@ -20,6 +20,8 @@
 !.scripts
 !.scripts/**
 
+!.templates
+!.templates/**
 
 # git
 !.gitignore

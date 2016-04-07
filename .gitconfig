@@ -28,3 +28,6 @@
   added = green
   changed = yellow
   untracked = red
+
+[init]
+  templatedir = ~/.templates/git
