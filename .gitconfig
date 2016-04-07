@@ -1,0 +1,22 @@
+[alias]
+  lg = log --graph --pretty=format:'%C(bold black)%ar%Creset %C(bold blue)%an%C(reset)%C(yellow)%d%Creset %s'
+  st = status -s
+  ci = commit
+
+[user]
+	name = Thhethssmuz
+	email = thhethssmuz@gmail.com
+
+[push]
+	default = simple
+
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold # line info
+  old = red # deletions
+  new = green # additions
+
+[color "status"]
+  added = green
+  changed = yellow
+  untracked = red

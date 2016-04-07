@@ -21,6 +21,9 @@
 !.scripts/**
 
 
+# git
+!.gitignore
+!.gitconfig
 
 # Compton
 !.compton.conf
