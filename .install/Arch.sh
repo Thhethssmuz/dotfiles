@@ -78,6 +78,7 @@ pacman -S
 
   tcpdump
   texlive-most
+  tig
   traceroute
   ttf-dejavu
   ttf-droid
