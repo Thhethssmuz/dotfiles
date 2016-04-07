@@ -3,6 +3,14 @@
   st = status -s
   ci = commit
 
+  # Show verbose output about tags, branches or remotes
+  tags = tag -l
+  branches = branch -a
+  remotes = remote -v
+
+  # List contributors with number of commits
+  contributors = shortlog --summary --numbered
+
 [user]
 	name = Thhethssmuz
 	email = thhethssmuz@gmail.com
