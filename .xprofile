@@ -27,7 +27,7 @@ xset s off
 xset dpms 1500 1500 1500
 
 # Lock screen after 30
-xautolock -locker "~/.xmonad/scripts/system.sh --lock" -time 30 &
+xautolock -locker "$HOME/.xmonad/scripts/system.sh --lock" -time 30 &
 
 # Start status bars
 ~/.xmonad/scripts/status-bar.sh &
