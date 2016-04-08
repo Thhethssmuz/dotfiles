@@ -5,7 +5,7 @@
 title() {
   echo -n "^p(+20)Notifications"
   echo -n "^p(_RIGHT)^p(-35)"
-  echo -n "^ca(1, /home/thhethssmuz/.xmonad/scripts/dbus.sh close-notif 0)"
+  echo -n "^ca(1, $HOME/.xmonad/scripts/dbus.sh close-notif 0)"
   echo -n "^fg($COLOR1)x^fg()"
   echo -n "^ca()"
   echo
@@ -23,7 +23,7 @@ main() {
     -ta l \
     -sa l \
     -e 'onstart=uncollapse;button3=exit;button4=scrollup;button5=scrolldown' \
-    $@
+    "$@"
 }
 
-$@
+"$@"
