@@ -424,7 +424,7 @@ myKeys conf@(XConfig { modMask = modMask }) = M.fromList $
 
   -- print screen
   , ((0,                         xK_Print ), spawn $ script "screenshot.sh")
-  , ((shiftMask,                 xK_Print ), spawn $ script "screenshot.sh -s")
+  , ((shiftMask,                 xK_Print ), spawn $ script "screenshot.sh -u")
 
   -- volume control
   , ((0,                        0x1008FF12), spawn $ script "volume.sh -m")
