@@ -15,7 +15,7 @@ hsetroot -fill ~/Pictures/wallpaper.jpg &
 compton &
 
 # Dim brightness and screen colours at night.
-redshift &
+hash redshift && 2>/dev/null && redshift &
 
 # Turn off bell sound
 xset b off
