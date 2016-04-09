@@ -1,6 +1,6 @@
 {
-	"cmd"		: ["bash", "$file"],
-	"selector"	: "source.shell",
+  "cmd": ["bash", "$file"],
+  "selector": "source.shell",
 
   "variants": [
     {

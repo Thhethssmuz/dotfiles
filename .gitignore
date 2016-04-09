@@ -53,10 +53,12 @@
 !.config/sublime-text-3/Packages
 !.config/sublime-text-3/Packages/**
 
-## useless sublime package folders I can't delete
+## Sublime packages with configuration I don't want to track
 .config/sublime-text-3/Packages/backrefs
 .config/sublime-text-3/Packages/bz2
+.config/sublime-text-3/Packages/Default
 .config/sublime-text-3/Packages/HTML
+.config/sublime-text-3/Packages/JSHint
 .config/sublime-text-3/Packages/Rails
 .config/sublime-text-3/Packages/ssl-linux
 

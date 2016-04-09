@@ -1,8 +1,0 @@
-<snippet>
-	<description>Vector For Loop</description>
-    <content><![CDATA[for (const auto& $1: $2) {
-	$0
-}]]></content>
-    <tabTrigger>forv</tabTrigger>
-    <scope>source.c, source.objc, source.c++, source.objc++</scope>
-</snippet>
