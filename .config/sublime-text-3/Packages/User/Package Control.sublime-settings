@@ -5,6 +5,7 @@
 	],
 	"installed_packages":
 	[
+		"All Autocomplete",
 		"Bash Build System",
 		"BracketHighlighter",
 		"DocBlockr",
