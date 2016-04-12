@@ -1,17 +1,15 @@
 {
 	"added_words":
 	[
-		"Shaders",
 		"commandline",
-		"Synthclipse",
-		"plugin",
-		"parsemonious"
+		"plugin"
 	],
 	"auto_complete_commit_on_tab": true,
 	"auto_indent": true,
 	"color_scheme": "Packages/User/MorrowindDark.tmTheme",
 	"dictionary": "Packages/Language - English/en_GB.dic",
 	"draw_indent_guides": false,
+	"enable_tab_scrolling": false,
 	"ensure_newline_at_eof_on_save": true,
 	"fade_fold_buttons": true,
 	"fold_buttons": true,
@@ -24,11 +22,8 @@
 	],
 	"ignored_words":
 	[
-		"Cyclomatic",
-		"cyclomatic",
-		"shader",
-		"shaders"
 	],
+	"mouse_wheel_switches_tabs": false,
 	"overlay_scroll_bars": "enabled",
 	"rulers":
 	[
@@ -37,6 +32,7 @@
 	"shift_tab_unindent": true,
 	"spell_check": true,
 	"tab_size": 2,
+	"theme": "Cyanide.sublime-theme",
 	"translate_tabs_to_spaces": true,
 	"trim_trailing_white_space_on_save": true,
 	"use_tab_stops": false,
