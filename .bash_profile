@@ -3,7 +3,7 @@
 source ~/.prompt
 source ~/.exports
 source ~/.aliases
-source ~/.scripts/*
+source ~/.functions
 
 # history
 export HISTCONTROL=ignoreboth:erasedupes
