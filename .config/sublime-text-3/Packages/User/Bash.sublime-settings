@@ -1,6 +1,15 @@
 {
 	"extensions":
 	[
-		".functions"
+		".aliases",
+		".bash_profile",
+		".bashrc",
+		".exports",
+		".functions",
+		".prompt",
+		".xinitrc",
+		".xprofile",
+		".colors",
+		"sh"
 	]
 }
