@@ -23,7 +23,7 @@
   <key>keyEquivalent</key>
   <string>^~S</string>
   <key>name</key>
-  <string>Shell Script (Bash)</string>
+  <string>Bash</string>
   <key>patterns</key>
   <array>
     <dict>
