@@ -1,1 +1,25 @@
+
+# Use auto-indentation.
+set autoindent
+
+# Don't wrap text at all.
+unset nowrap
+
+# Do extended regular expression searches by default.
+unset regexp
+
+# Use smooth scrolling by default.
+set smooth
+
+# Use spelling checker "hunspell" instead of the built-in one.
+set speller "hunspell"
+
+# Use a tab size of "2" columns.
+set tabsize "2"
+
+# Convert typed tabs to spaces
+set tabstospaces
+
+
+# Syntax Highlighting
 include /usr/share/nano/*
