@@ -72,7 +72,7 @@ openMenu name menu = do
   t <- title menu $ runProcessWithInput (script menu) ["title"]
   s <- slave menu $ runProcessWithInput (script menu) ["slave"]
   h <- spawnPipe . intercalate " " $
-         [ "/home/thhethssmuz/.xmonad/lib/DzenMenu.sh"
+         [ "$HOME/.xmonad/lib/DzenMenu.sh"
          , name
          , script menu
          , "main"

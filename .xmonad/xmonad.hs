@@ -42,6 +42,7 @@ import Data.Monoid
 import Control.Monad
 import Control.Applicative ((<$>))
 
+import System.Directory (getHomeDirectory)
 import System.IO (hPutStr, hPutStrLn, hSetEncoding, utf8)
 import System.Exit
 
@@ -49,16 +50,14 @@ import System.Exit
 -- Main
 -------------------------------------------------------------------------------
 
-home   = (++) "/home/thhethssmuz/"
-script = home . (++) ".xmonad/scripts/"
-
 main = do
-  left   <- spawnPipe . script $ "dzen-bar-left.sh"
-  middle <- spawnPipe . script $ "dzen-bar-middle.sh"
+  home   <- fmap (flip (++) "/") getHomeDirectory
+  left   <- spawnPipe $ home ++ ".xmonad/scripts/dzen-bar-left.sh"
+  middle <- spawnPipe $ home ++ ".xmonad/scripts/dzen-bar-middle.sh"
   hSetEncoding middle utf8
 
-  notifd <- runNotifDaemon $ myNotifConf middle
-  runDzenMenus . myDzenMenus $ notifd
+  notifd <- runNotifDaemon $ myNotifConf home middle
+  runDzenMenus . myDzenMenus home $ notifd
   xmonad
     . withUrgencyHookC CMDNotify myUrgencyConf
     . ewmh
@@ -70,7 +69,7 @@ main = do
     , normalBorderColor  = background
     , focusedBorderColor = foreground
     , modMask            = mod1Mask
-    , keys               = myKeys
+    , keys               = myKeys home
     , logHook            = myLogHook left
     -- , startupHook        = myStartupHook
     -- , mouseBindings      = mouseBindings
@@ -191,7 +190,7 @@ myUrgencyConf  = urgencyConfig { suppressWhen = Focused, remindWhen = Dont }
 -- Notifications (status bar middle)
 -------------------------------------------------------------------------------
 
-myNotifConf statusBar = defaultNotifConf
+myNotifConf home statusBar = defaultNotifConf
   { notifFormat     = toggleMenu "Notif" . myNotifFormat
   , notifFormatLog  = Just $ \n -> (++) (myNotifFormat n)
                            . fg color1
@@ -212,7 +211,7 @@ myNotifConf statusBar = defaultNotifConf
   , notifOutput     = hPutStrLn statusBar
 
   , notifPreProcess = \n -> do
-                        a <- runProcessWithInput (script "notif-icon.sh") [appIcon n] ""
+                        a <- runProcessWithInput (home ++ ".xmonad/scripts/notif-icon.sh") [appIcon n] ""
                         return $ n { appIcon = a }
   }
   where
@@ -226,32 +225,32 @@ myNotifConf statusBar = defaultNotifConf
                     . limit ( if null . appIcon $ n then 50 else 47 )
                     $ [summary n, takeWhile (/= '\n') $ body n]
 
-    toggleMenu n    = ca 1 $ script ("dbus.sh menu Toggle " ++ n)
-    closeNotif n    = ca 1 $ script ("dbus.sh close-notif " ++ show n)
+    toggleMenu n    = ca 1 $ home ++ ".xmonad/scripts/dbus.sh menu Toggle " ++ n
+    closeNotif n    = ca 1 $ home ++ ".xmonad/scripts/dbus.sh close-notif " ++ show n
 
 -------------------------------------------------------------------------------
 -- Dzen menus
 -------------------------------------------------------------------------------
 
-notifLogMenu notifd = dzenMenu
+notifLogMenu home notifd = dzenMenu
   { menuName   = "Notif"
-  , menuScript = script "dzen-menu-notif-log.sh"
+  , menuScript = home ++ ".xmonad/scripts/dzen-menu-notif-log.sh"
   , menuSlave  = \ext -> do
                          l <- ndGetLog notifd
                          return . concatMap (wrap "^p(+20)- " "\n") . M.elems $ l
   }
 
-myDzenMenus notifd =
+myDzenMenus home notifd =
   [ dzenMenu { menuName   = "Calendar"
-             , menuScript = script "dzen-menu-calendar.sh"
+             , menuScript = home ++ ".xmonad/scripts/dzen-menu-calendar.sh"
              }
   , dzenMenu { menuName   = "Updates"
-             , menuScript = script "dzen-menu-updates.sh"
+             , menuScript = home ++ ".xmonad/scripts/dzen-menu-updates.sh"
              }
   , dzenMenu { menuName   = "Dropbox"
-             , menuScript = script "dzen-menu-dropbox.sh"
+             , menuScript = home ++ ".xmonad/scripts/dzen-menu-dropbox.sh"
              }
-  ] ++ maybeToList (notifLogMenu <$> notifd)
+  ] ++ maybeToList (notifLogMenu home <$> notifd)
 
 -------------------------------------------------------------------------------
 -- Manage hooks
@@ -355,7 +354,7 @@ myXPConf ref = def
 -- Key Bindings
 -------------------------------------------------------------------------------
 
-myKeys conf@(XConfig { modMask = modMask }) = M.fromList $
+myKeys home conf@(XConfig { modMask = modMask }) = M.fromList $
   [ ((modMask .|. shiftMask,    xK_Return ), spawn $ terminal conf)
   , ((modMask,                  xK_F2     ), spawn "gmrun")
   , ((modMask,                  xK_r      ), prompt [bash, pass] . myXPConf =<< initMatches)
@@ -418,18 +417,18 @@ myKeys conf@(XConfig { modMask = modMask }) = M.fromList $
   , ((0,                         xK_bar   ), spawn "guake -t")
 
   -- screen lock
-  , ((mod1Mask .|. controlMask,  xK_l     ), spawn $ script "system.sh --lock")
-  , ((modMask .|. shiftMask,     xK_F12   ), spawn (script "system.sh --logout") >> io (exitWith ExitSuccess))
-  , ((modMask,                   xK_F5    ), spawn "ghc -threaded -i/home/thhethssmuz/.xmonad/lib ~/.xmonad/xmonad.hs -o ~/.xmonad/xmonad-x86_64-linux && xmonad --restart")
+  , ((mod1Mask .|. controlMask,  xK_l     ), spawn $ home ++ ".xmonad/scripts/system.sh --lock")
+  , ((modMask .|. shiftMask,     xK_F12   ), spawn (home ++ ".xmonad/scripts/system.sh --logout") >> io (exitWith ExitSuccess))
+  , ((modMask,                   xK_F5    ), spawn $ "ghc -threaded -i" ++ home ++ ".xmonad/lib ~/.xmonad/xmonad.hs -o ~/.xmonad/xmonad-x86_64-linux && xmonad --restart")
 
   -- print screen
-  , ((0,                         xK_Print ), spawn $ script "screenshot.sh")
-  , ((shiftMask,                 xK_Print ), spawn $ script "screenshot.sh -u")
+  , ((0,                         xK_Print ), spawn $ home ++ ".xmonad/scripts/screenshot.sh")
+  , ((shiftMask,                 xK_Print ), spawn $ home ++ ".xmonad/scripts/screenshot.sh -u")
 
   -- volume control
-  , ((0,                        0x1008FF12), spawn $ script "volume.sh -m")
-  , ((0,                        0x1008FF11), spawn $ script "volume.sh -d")
-  , ((0,                        0x1008FF13), spawn $ script "volume.sh -i")
+  , ((0,                        0x1008FF12), spawn $ home ++ ".xmonad/scripts/volume.sh -m")
+  , ((0,                        0x1008FF11), spawn $ home ++ ".xmonad/scripts/volume.sh -d")
+  , ((0,                        0x1008FF13), spawn $ home ++ ".xmonad/scripts/volume.sh -i")
 
   -- media buttons
   , ((0,                        0x1008ff14), spawn "mpc toggle")
