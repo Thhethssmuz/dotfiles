@@ -309,20 +309,19 @@ myLogHook h = dynamicLogWithPP $ def
 -- Prompt
 -------------------------------------------------------------------------------
 
-myXPConf ref = def
-  { font              = "xft:Ubuntu Mono:size=12:Bold"
-  , promptBorderWidth = 0
-  , fgColor           = color15
-  , fgHLight          = background
-  , bgColor           = background
-  , bgHLight          = foreground
-  , height            = 22
-  , position          = Top
-  , historySize       = 2048
-  , historyFilter     = deleteAllDuplicates
-  , completionKey     = xK_Tab
-  , changeModeKey     = xK_F24
-  , promptKeymap      = M.fromList
+myXPConf = def
+  { font                = "xft:Ubuntu Mono:size=12:Bold"
+  , promptBorderWidth   = 0
+  , fgColor             = color15
+  , bgColor             = background
+  , fgHLight            = color15
+  , bgHLight            = background
+  , height              = 22
+  , position            = Top
+  , historySize         = 2048
+  , changeModeKey       = xK_F24
+  , showCompletionOnTab = True
+  , promptKeymap        = M.fromList
     [ ((controlMask,            xK_v        ), pasteString)
 
     , ((0,                      xK_BackSpace), deleteString Prev)
@@ -342,9 +341,6 @@ myXPConf ref = def
 
     , ((0,                      xK_Escape   ), quit)
 
-    , ((0,                      xK_Up       ), historyUpMatching ref)
-    , ((0,                      xK_Down     ), historyDownMatching ref)
-
     , ((mod1Mask,               xK_space    ), spawn "xdotool key F24")
     , ((0,                      xK_Return   ), setSuccess True >> setDone True)
     ]
@@ -357,8 +353,9 @@ myXPConf ref = def
 myKeys home conf@(XConfig { modMask = modMask }) = M.fromList $
   [ ((modMask .|. shiftMask,    xK_Return ), spawn $ terminal conf)
   , ((modMask,                  xK_F2     ), spawn "gmrun")
-  , ((modMask,                  xK_r      ), prompt [bash, pass] . myXPConf =<< initMatches)
-  , ((modMask .|. shiftMask,    xK_r      ), prompt [calc] . myXPConf =<< initMatches)
+
+  , ((modMask,                  xK_r      ), prompt myXPConf [bash, pass])
+  , ((modMask .|. shiftMask,    xK_r      ), prompt myXPConf [calc])
 
   , ((modMask .|. shiftMask,    xK_c      ), kill)
 
