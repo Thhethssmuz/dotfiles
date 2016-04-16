@@ -9,7 +9,11 @@ numlockx on &
 setxkbmap "no(dvorak)"
 
 # Set background image.
-hsetroot -fill ~/Pictures/wallpaper.jpg &
+if [ -e "$HOME/Pictures/wallpaper.jpg" ]; then
+  hsetroot -fill ~/Pictures/wallpaper.jpg &
+else
+  hsetroot -solid '#101010' &
+fi
 
 # Enable window transparency and effects.
 compton &
