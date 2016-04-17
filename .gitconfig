@@ -3,6 +3,9 @@
   st = status -s
   ci = commit
 
+  # Identity
+  whoami = !bash -c 'echo \"$(git config --get user.name) <$(git config --get user.email)>\"'
+
   # Show verbose output about tags, branches or remotes
   tags = tag -l
   branches = branch -a
