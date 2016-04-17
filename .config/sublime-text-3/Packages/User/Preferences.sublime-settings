@@ -14,6 +14,11 @@
 	"fade_fold_buttons": true,
 	"fold_buttons": true,
 	"font_face": "Ubuntu Mono",
+	"font_options":
+	[
+		"gray_antialias",
+		"subpixel_antialias"
+	],
 	"font_size": 14,
 	"ignored_packages":
 	[
