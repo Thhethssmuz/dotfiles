@@ -74,6 +74,8 @@
 !.xmonad/xmonad.hs
 !.xmonad/lib
 !.xmonad/lib/*.hs
+!.xmonad/lib/*.sh
+!.xmonad/lib/*.js
 !.xmonad/scripts
 !.xmonad/scripts/**
 !.xmonad/icons
