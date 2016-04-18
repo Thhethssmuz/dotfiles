@@ -25,19 +25,11 @@ data Calc = Calc State
 instance XPrompt Calc where
   showXPrompt        (Calc state) = "calc> "
   commandToComplete  (Calc state) = id
-  completionFunction (Calc state) = calcCompletion state
+  completionFunction (Calc state) = mkCompelFunc state calcTabCompletion calcCompletion
   modeAction (Calc state) _ result =
     spawn $ "echo -n '" ++ result ++ "' | xclip -selection c"
 
-calcCompletion state ""   = do
-  io . writeIORef (tabCompletionFunction state) $ calcTabCompletion
-  io . writeIORef (currentCompletions state) $ []
-  return []
-calcCompletion state line = do
-  completions <- fmap ((:[]) . trim) $ runProcessWithInput "calc" [line] ""
-  io . writeIORef (tabCompletionFunction state) $ calcTabCompletion
-  io . writeIORef (currentCompletions state) $ completions
-  return $ completions ++ [""] -- somehow does not work without the dummy element
+calcCompletion line = fmap ((:[""]) . trim) $ runProcessWithInput "calc" [line] ""
 
 calcTabCompletion :: [String] -> XP ()
 calcTabCompletion xs = case xs of
@@ -58,7 +50,7 @@ data Bash = Bash State
 instance XPrompt Bash where
   showXPrompt        (Bash state) = "Run: "
   commandToComplete  (Bash state) = id
-  completionFunction (Bash state) = bashCompletion state
+  completionFunction (Bash state) = mkCompelFunc state bashTabCompletion bashCompletion
   modeAction (Bash state) query _ = spawn query
 
 exec :: String -> IO [String]
@@ -94,18 +86,10 @@ completeMultiple x xs = do
                , "(IFS=$'\\n'; echo \"${COMPREPLY[*]}\") | sort -u"
                ]
 
-bashCompletion state ""   = do
-  io . writeIORef (tabCompletionFunction state) $ bashTabCompletion
-  io . writeIORef (currentCompletions state) $ []
-  return []
-bashCompletion state line = do
-  completions <- case words' line of
-    []     -> return []
-    [x]    -> completeSingle x
-    (x:xs) -> completeMultiple x xs
-  io . writeIORef (tabCompletionFunction state) $ bashTabCompletion
-  io . writeIORef (currentCompletions state) $ completions
-  return completions
+bashCompletion line = case words' line of
+  []     -> return []
+  [x]    -> completeSingle x
+  (x:xs) -> completeMultiple x xs
 
 unescape :: String -> String
 unescape []          = []
@@ -143,21 +127,13 @@ data Pass = Pass State
 instance XPrompt Pass where
   showXPrompt        (Pass state) = "Pass: "
   commandToComplete  (Pass state) = id
-  completionFunction (Pass state) = passCompletion state
+  completionFunction (Pass state) = mkCompelFunc state passTabCompletion passCompletion
   modeAction (Pass state) query _ = spawn $ "pass show -c " ++ query
     --let args  | query `isInfixOf` result = "show -c " ++ result
     --          | otherwise "generate -c " ++ query ++ " 32"
     --in  spawn $ "pass " ++ args
 
-passCompletion state ""   = do
-  io . writeIORef (tabCompletionFunction state) $ passTabCompletion
-  io . writeIORef (currentCompletions state) $ []
-  return []
-passCompletion state line = do
-  completions <- fmap (filter (isInfixOf line)) $ getPasswords
-  io . writeIORef (tabCompletionFunction state) $ passTabCompletion
-  io . writeIORef (currentCompletions state) $ completions
-  return completions
+passCompletion line = fmap (filter (isInfixOf line)) getPasswords
 
 getPasswordDir :: IO FilePath
 getPasswordDir = do
@@ -201,13 +177,26 @@ passTabCompletion xs = case xs of
 data State = State
   { currentCompletions    :: IORef [String]
   , tabCompletionFunction :: IORef ([String] -> XP ())
+  , getTabCompletions     :: IORef (String -> IO [String])
   }
 
 initState :: IO State
 initState = do
-  xs <- io $ newIORef []
-  f  <- io $ newIORef (\_ -> return ())
-  return $ State { currentCompletions = xs, tabCompletionFunction = f }
+  xs <- newIORef []
+  ot <- newIORef (\_ -> return ())
+  gc <- newIORef (\_ -> return [])
+  return $ State
+         { currentCompletions    = xs
+         , tabCompletionFunction = ot
+         , getTabCompletions     = gc
+         }
+
+mkCompelFunc :: State -> ([String] -> XP ()) -> (String -> IO [String]) -> String -> IO [String]
+mkCompelFunc state onTab getCompletions line = do
+  xs <- if null line then return [] else getCompletions line
+  writeIORef (tabCompletionFunction state) onTab
+  writeIORef (currentCompletions state) xs
+  return xs
 
 tabComplete :: State -> XP ()
 tabComplete state = do
@@ -218,7 +207,6 @@ tabComplete state = do
 extConf conf state history = conf
   { historyFilter       = deleteAllDuplicates
   , completionKey       = xK_F23
-  , showCompletionOnTab = True
   , promptKeymap        = M.fromList
     [ ((0,                      xK_Tab      ), tabComplete state)
     , ((0,                      xK_Up       ), historyUpMatching history)
