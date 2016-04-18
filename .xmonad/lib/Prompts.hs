@@ -1,4 +1,4 @@
-module Prompts (prompt, prompt', calc, bash, pass) where
+module Prompts (prompt, prompt', calc, bash, pass, defi) where
 
 import Control.Monad
 import Data.Char (isSpace)
@@ -7,7 +7,7 @@ import Data.IORef
 import Data.Maybe (fromMaybe, catMaybes)
 import qualified Data.Map as M
 
-import System.Directory (doesFileExist, doesDirectoryExist, getDirectoryContents)
+import System.Directory (doesFileExist, doesDirectoryExist, getDirectoryContents, getHomeDirectory)
 import System.Environment
 import System.FilePath.Posix
 
@@ -171,6 +171,25 @@ passTabCompletion xs = case xs of
          endOfLine
 
 -------------------------------------------------------------------------------
+-- Defi
+-------------------------------------------------------------------------------
+
+data Defi = Defi State
+
+instance XPrompt Defi where
+  showXPrompt        (Defi state) = "Def: "
+  commandToComplete  (Defi state) = id
+  completionFunction (Defi state) = mkCompelFunc' state (\_ -> return ()) defiCompletion
+  modeAction (Defi state) query _ = return ()
+
+defiCompletion line = do
+  h <- getHomeDirectory
+  d <- runProcessWithInput "node" [h++"/.xmonad/lib/lang.js", "78", "dictionaryapi", line] $ ""
+  return . f . lines $ d
+  where f xs | length xs == 0 = ["no definitions found"]
+             | otherwise      = xs ++ replicate 10 ""
+
+-------------------------------------------------------------------------------
 -- Tab completion
 -------------------------------------------------------------------------------
 
@@ -246,6 +265,7 @@ extConf' conf state history = conf
 calc = XPT . Calc
 bash = XPT . Bash
 pass = XPT . Pass
+defi = XPT . Defi
 
 prompt :: XPConfig -> [State -> XPType] -> X ()
 prompt conf xs = do

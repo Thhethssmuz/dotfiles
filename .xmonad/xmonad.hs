@@ -353,8 +353,9 @@ myKeys home conf@(XConfig { modMask = modMask }) = M.fromList $
   [ ((modMask .|. shiftMask,    xK_Return ), spawn $ terminal conf)
   , ((modMask,                  xK_F2     ), spawn "gmrun")
 
-  , ((modMask,                  xK_r      ), prompt myXPConf [bash, pass])
-  , ((modMask .|. shiftMask,    xK_r      ), prompt myXPConf [calc])
+  , ((modMask,                  xK_r      ), prompt  myXPConf [bash, pass])
+  , ((modMask .|. shiftMask,    xK_r      ), prompt  myXPConf [calc])
+  , ((modMask .|. shiftMask,    xK_t      ), prompt' myXPConf [defi])
 
   , ((modMask .|. shiftMask,    xK_c      ), kill)
 
