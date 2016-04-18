@@ -1,4 +1,4 @@
-module Prompts (prompt, calc, bash, pass) where
+module Prompts (prompt, prompt', calc, bash, pass) where
 
 import Control.Monad
 import Data.Char (isSpace)
@@ -204,11 +204,36 @@ tabComplete state = do
   f  <- io . readIORef $ tabCompletionFunction state
   f xs
 
+mkCompelFunc' :: State -> ([String] -> XP ()) -> (String -> IO [String]) -> String -> IO [String]
+mkCompelFunc' state onTab getCompletions line = do
+  xs <- readIORef (currentCompletions state)
+  writeIORef (tabCompletionFunction state) onTab
+  writeIORef (getTabCompletions state) getCompletions
+  return xs
+
+tabComplete' :: State -> XP ()
+tabComplete' state = do
+  gc <- io . readIORef $ getTabCompletions state
+  xs <- io . gc =<< getInput
+  io . writeIORef (currentCompletions state) $ xs
+  ot <- io . readIORef $ tabCompletionFunction state
+  ot xs
+
 extConf conf state history = conf
   { historyFilter       = deleteAllDuplicates
   , completionKey       = xK_F23
   , promptKeymap        = M.fromList
     [ ((0,                      xK_Tab      ), tabComplete state)
+    , ((0,                      xK_Up       ), historyUpMatching history)
+    , ((0,                      xK_Down     ), historyDownMatching history)
+    ] <+> promptKeymap conf
+  }
+
+extConf' conf state history = conf
+  { historyFilter       = deleteAllDuplicates
+  , completionKey       = xK_F23
+  , promptKeymap        = M.fromList
+    [ ((0,                      xK_Tab      ), tabComplete' state)
     , ((0,                      xK_Up       ), historyUpMatching history)
     , ((0,                      xK_Down     ), historyDownMatching history)
     ] <+> promptKeymap conf
@@ -226,3 +251,8 @@ prompt :: XPConfig -> [State -> XPType] -> X ()
 prompt conf xs = do
   s <- io initState
   mkXPromptWithModes (map (\x -> x s) xs) . (extConf conf s) =<< initMatches
+
+prompt' :: XPConfig -> [State -> XPType] -> X ()
+prompt' conf xs = do
+  s <- io initState
+  mkXPromptWithModes (map (\x -> x s) xs) . (extConf' conf s) =<< initMatches

@@ -320,7 +320,6 @@ myXPConf = def
   , position            = Top
   , historySize         = 2048
   , changeModeKey       = xK_F24
-  , showCompletionOnTab = True
   , promptKeymap        = M.fromList
     [ ((controlMask,            xK_v        ), pasteString)
 
