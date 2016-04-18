@@ -6,9 +6,9 @@ close() {
     --dest=org.DzenMenu.Server \
     /org/DzenMenu/Server \
     org.DzenMenu.Server.Close \
-    string:$1
+    string:"$1"
 }
 
-trap "close $1" EXIT
+trap 'close $1' EXIT
 
-${@:2}
+"${@:2}"
