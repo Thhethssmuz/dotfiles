@@ -10,6 +10,7 @@ import qualified Data.Map as M
 import System.Directory (doesFileExist, doesDirectoryExist, getDirectoryContents, getHomeDirectory)
 import System.Environment
 import System.FilePath.Posix
+import System.IO (appendFile)
 
 import XMonad
 import XMonad.Prompt
@@ -179,10 +180,16 @@ data Defi = Defi State
 instance XPrompt Defi where
   showXPrompt        (Defi state) = "Def: "
   commandToComplete  (Defi state) = id
-  completionFunction (Defi state) = mkCompelFunc' state (\_ -> return ()) defiCompletion
+  completionFunction (Defi state) = mkCompelFunc' state (\_ -> return ()) defiReturnComplete defiCompletion
   modeAction (Defi state) query _ = return ()
 
-defiCompletion line = do
+defiCompletion ""   = return []
+defiCompletion line = fmap words
+  . runProcessWithInput "bash" ["-c", "hunspell -d en_GB | grep '&' | sed 's/&.*: //' | sed 's/, /\\n/g'"]
+  . last . words $ line
+
+defiReturnComplete :: String -> IO [String]
+defiReturnComplete line = do
   h <- getHomeDirectory
   d <- runProcessWithInput "node" [h++"/.xmonad/lib/lang.js", "78", "dictionaryapi", line] $ ""
   return . f . lines $ d
@@ -197,6 +204,7 @@ data State = State
   { currentCompletions    :: IORef [String]
   , tabCompletionFunction :: IORef ([String] -> XP ())
   , getTabCompletions     :: IORef (String -> IO [String])
+  , returnComplete        :: IORef (String -> IO [String])
   }
 
 initState :: IO State
@@ -204,10 +212,12 @@ initState = do
   xs <- newIORef []
   ot <- newIORef (\_ -> return ())
   gc <- newIORef (\_ -> return [])
+  rc <- newIORef (\_ -> return [])
   return $ State
          { currentCompletions    = xs
          , tabCompletionFunction = ot
          , getTabCompletions     = gc
+         , returnComplete        = rc
          }
 
 mkCompelFunc :: State -> ([String] -> XP ()) -> (String -> IO [String]) -> String -> IO [String]
@@ -223,10 +233,11 @@ tabComplete state = do
   f  <- io . readIORef $ tabCompletionFunction state
   f xs
 
-mkCompelFunc' :: State -> ([String] -> XP ()) -> (String -> IO [String]) -> String -> IO [String]
-mkCompelFunc' state onTab getCompletions line = do
+mkCompelFunc' :: State -> ([String] -> XP ()) -> (String -> IO [String]) -> (String -> IO [String]) -> String -> IO [String]
+mkCompelFunc' state onTab onReturn getCompletions line = do
   xs <- readIORef (currentCompletions state)
   writeIORef (tabCompletionFunction state) onTab
+  writeIORef (returnComplete state) onReturn
   writeIORef (getTabCompletions state) getCompletions
   return xs
 
@@ -237,6 +248,12 @@ tabComplete' state = do
   io . writeIORef (currentCompletions state) $ xs
   ot <- io . readIORef $ tabCompletionFunction state
   ot xs
+
+returnComplete' :: State -> XP ()
+returnComplete' state = do
+  rc <- io . readIORef $ returnComplete state
+  xs <- io . rc =<< getInput
+  io . writeIORef (currentCompletions state) $ xs
 
 extConf conf state history = conf
   { historyFilter       = deleteAllDuplicates
@@ -255,6 +272,7 @@ extConf' conf state history = conf
     [ ((0,                      xK_Tab      ), tabComplete' state)
     , ((0,                      xK_Up       ), historyUpMatching history)
     , ((0,                      xK_Down     ), historyDownMatching history)
+    , ((0,                      xK_Return   ), returnComplete' state)
     ] <+> promptKeymap conf
   }
 
