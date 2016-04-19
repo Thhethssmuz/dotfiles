@@ -7,6 +7,12 @@ mkdir $TMPDIR
 cd $TMPDIR || exit
 
 wget "https://alioth.debian.org/frs/download.php/file/4168/no_NO-pack2-2.2.zip"
+
+if [ "$(shasum no_NO-pack2-2.2.zip | awk '{print $1}')" != "cb39be9c866884e9c7130628c6d487edeb87548b" ]; then
+  echo "unable to verify shasum" 1>&2
+  exit 1
+fi
+
 unzip "no_NO-pack2-2.2.zip"
 
 unzip "nb_NO.zip"
