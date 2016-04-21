@@ -2,7 +2,10 @@
 	"added_words":
 	[
 		"commandline",
-		"plugin"
+		"plugin",
+		"virtualization",
+		"setup",
+		"webpage"
 	],
 	"auto_complete_commit_on_tab": true,
 	"auto_indent": true,
