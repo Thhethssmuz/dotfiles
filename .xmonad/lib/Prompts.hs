@@ -183,10 +183,17 @@ instance XPrompt Defi where
   completionFunction (Defi state) = mkCompelFunc' state (\_ -> return ()) defiReturnComplete defiCompletion
   modeAction (Defi state) query _ = return ()
 
+defiCompletion :: String -> IO [String]
 defiCompletion ""   = return []
-defiCompletion line = fmap words
-  . runProcessWithInput "bash" ["-c", "hunspell -d en_GB | grep '&' | sed 's/&.*: //' | sed 's/, /\\n/g'"]
-  . last . words $ line
+defiCompletion line = do
+  let w = last . words $ line
+  xs <- fmap words
+      . runProcessWithInput "bash" ["-c", "hunspell -d en_GB | egrep '&|#' | sed 's/#.*$/-/g' | sed 's/&.*: //g' | sed 's/, /\\n/g'"]
+      $ w
+  return $ case xs of
+    []    -> [w]
+    ["-"] -> []
+    xs    -> xs
 
 defiReturnComplete :: String -> IO [String]
 defiReturnComplete line = do
