@@ -54,6 +54,9 @@ exports.glosbe = function (from, dest, phrase) {
         };
       });
 
+      if (!rs.length)
+        return;
+
       console.log();
       console.log(wrap(2, rs.map(x => x.text).join(', ')));
 

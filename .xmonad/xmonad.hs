@@ -355,7 +355,7 @@ myKeys home conf@(XConfig { modMask = modMask }) = M.fromList $
 
   , ((modMask,                  xK_r      ), prompt  myXPConf [bash, pass])
   , ((modMask .|. shiftMask,    xK_r      ), prompt  myXPConf [calc])
-  , ((modMask .|. shiftMask,    xK_t      ), prompt' myXPConf [defi])
+  , ((modMask .|. shiftMask,    xK_t      ), prompt' myXPConf [defi, enno, noen])
 
   , ((modMask .|. shiftMask,    xK_c      ), kill)
 
