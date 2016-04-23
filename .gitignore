@@ -19,9 +19,8 @@
 !.xinitrc
 !.xprofile
 !.Xresources
-!.xinputrc
 
-# Bash
+# Shell
 !.bashrc
 !.bash_profile
 !.prompt
@@ -29,6 +28,7 @@
 !.exports
 !.aliases
 !.functions
+!.inputrc
 
 # Templates
 !.templates
