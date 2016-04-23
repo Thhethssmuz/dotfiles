@@ -1,0 +1,27 @@
+$include /etc/inputrc
+
+set bell-style none
+set colored-stats on
+set mark-symlinked-directories on
+
+# Bindings for consistency across various terminals
+
+# alt+up
+"\e\e[A": history-search-backward
+"\e[1;3A": history-search-backward
+
+# alt+down
+"\e\e[B": history-search-forward
+"\e[1;3B": history-search-forward
+
+# alt+right
+"\e\e[C": forward-word
+"\e[1;3C": forward-word
+
+# alt+left
+"\e\e[D": backward-word
+"\e[1;3D": backward-word
+
+# alt+del
+"\e\e[3~": kill-word
+"\e[3;3~": kill-word
