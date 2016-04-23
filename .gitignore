@@ -1,6 +1,8 @@
 # Ignore by default
 *
 
+!README.md
+
 # `rc` files are generally interesting, would rather ignore specific once later
 !*rc
 
@@ -22,6 +24,7 @@
 
 !.templates
 !.templates/**
+
 
 # git
 !.gitignore
@@ -81,7 +84,6 @@
 !.xmonad/icons
 !.xmonad/icons/src
 !.xmonad/icons/src/*
-
 
 
 # Install scripts
