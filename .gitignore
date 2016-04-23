@@ -42,10 +42,6 @@
 # user configuration directory (only directory, not all its contents)
 !.config
 
-# git
-!.gitignore
-!.gitconfig
-
 # Compton
 !.compton.conf
 
@@ -59,13 +55,26 @@
 # GHCI
 !.ghci
 
+# git
+!.gitignore
+!.gitconfig
+
+# jshint
+!.jshintrc
+
 # mpd
 !.config/mpd
 !.config/mpd/mpd.conf
 
+# nano
+!.nanorc
+
 # ncmpcpp
 !.ncmpcpp
 !.ncmpcpp/config
+
+# RedShift
+!.config/redshift.conf
 
 # Sublime Text
 !.config/sublime-text-3
@@ -85,8 +94,8 @@
 **.*-ca-bundle
 **.last-run
 
-# RedShift
-!.config/redshift.conf
+# top
+!.toprc
 
 # XMonad
 !.xmonad
