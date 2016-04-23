@@ -1,31 +1,46 @@
-# Ignore by default
+# Ignore everything by default
 *
 
+# Readme and screenshot
 !README.md
 !screenshot.png
 
+
 # `rc` files are generally interesting, would rather ignore specific once later
+## mostly in order for git to inform me of untracked rc files
 !*rc
 
+## and thus we re-ignore rc files that we don't want to track
 .npmrc
 .nvidia-settings-rc
 
+
+# X
+!.xinitrc
+!.xprofile
 !.Xresources
-!.aliases
+!.xinputrc
+
+# Bash
+!.bashrc
 !.bash_profile
+!.prompt
 !.colors
 !.exports
-!.prompt
-!.xprofile
+!.aliases
+!.functions
 
-!.config
-
-!.scripts
-!.scripts/**
-
+# Templates
 !.templates
 !.templates/**
 
+# Install scripts
+!.install
+!.install/*
+
+
+# user configuration directory (only directory, not all its contents)
+!.config
 
 # git
 !.gitignore
@@ -85,8 +100,3 @@
 !.xmonad/icons
 !.xmonad/icons/src
 !.xmonad/icons/src/*
-
-
-# Install scripts
-!.install
-!.install/*
