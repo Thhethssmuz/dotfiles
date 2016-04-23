@@ -10,6 +10,7 @@
 		".xinitrc",
 		".xprofile",
 		".colors",
-		"sh"
+		"sh",
+		".inputrc"
 	]
 }
