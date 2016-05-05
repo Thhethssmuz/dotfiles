@@ -125,6 +125,8 @@ pacman -S
 
 cabal install
   dbus
+  stm
+  async
   glfw
   glfw-b
   pandoc
