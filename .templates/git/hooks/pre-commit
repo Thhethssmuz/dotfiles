@@ -42,7 +42,7 @@ check "*.js" jshint
 check "*.json" json -qnf
 
 # run all staged .sh files through shellcheck
-check "*.sh" shellcheck
+check "*.sh" shellcheck -x
 
 if $FAIL; then
   echo "fix errors and try again or commit with --no-verify to ignore errors"
