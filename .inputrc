@@ -6,6 +6,9 @@ set mark-symlinked-directories on
 
 # Bindings for consistency across various terminals
 
+# to find key code for the current environment:
+# `showkey -sa` and replace the escape code `^[` with `\e`
+
 # alt+up
 "\e\e[A": history-search-backward
 "\e[1;3A": history-search-backward
