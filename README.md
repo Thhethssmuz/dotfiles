@@ -26,3 +26,11 @@ git pull
 ```
 
 From this point on you should be able to proceed as normal.
+
+## XMonad
+
+Build status-bar icons:
+
+```sh
+.xmonad/scripts/mkicons.sh
+```
