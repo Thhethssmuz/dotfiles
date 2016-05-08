@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-. ~/.xmonad/scripts/config.sh
+# shellcheck source=/home/thhethssmuz/.xmonad/scripts/config.sh
+source ~/.xmonad/scripts/config.sh
 
 
 ###############################################################################
@@ -10,13 +11,16 @@
 ###############################################################################
 
 get_current_volume() {
-  local mixer=$(amixer -D pulse get Master | grep 'Front Left:')
-  local muted=$(echo $mixer | grep -o '\[on\]')
+  local mixer
+  local muted
+
+  mixer=$(amixer -D pulse get Master | grep 'Front Left:')
+  muted=$(echo "$mixer" | grep -o '\[on\]')
 
   if [ "$muted" == "" ]; then
     echo "0"
   else
-    echo $mixer | sed 's/.*\[\([0-9\+\)\(\.[0-9]\+\)\?%.*/\1/'
+    echo "$mixer" | sed 's/.*\[\([0-9\+\)\(\.[0-9]\+\)\?%.*/\1/'
   fi
 }
 
@@ -28,7 +32,8 @@ get_current_volume() {
 ###############################################################################
 
 get_current_icon() {
-  local level=$(get_current_volume)
+  local level
+  level=$(get_current_volume)
 
   if [ "$level" == "0" ]; then
     echo "notification-audio-volume-off"
@@ -41,7 +46,8 @@ get_current_icon() {
   fi
 }
 get_xpm_icon() {
-  local level=$(get_current_volume)
+  local level
+  level=$(get_current_volume)
 
   if [ "$level" == "0" ]; then
     echo "$HOME/.xmonad/icons/volume-off.xpm"
@@ -61,7 +67,8 @@ get_xpm_icon() {
 ###############################################################################
 
 get_current_bar() {
-  local level=$(get_current_volume)
+  local level
+  level=$(get_current_volume)
   if hash gdbar 2>/dev/null; then
     echo "$level" | gdbar -w 180 -h 3 -fg "$COLOR7" -bg "$COLOR8"
   elif hash dzen2-gdbar 2>/dev/null; then
@@ -78,12 +85,15 @@ get_current_bar() {
 ###############################################################################
 
 volume_notification() {
-  local icon=$(get_current_icon)
-  local bar=$(get_current_bar)
+  local icon
+  local bar
+
+  icon=$(get_current_icon)
+  bar=$(get_current_bar)
 
   notify-send \
-    $bar \
-    -i $icon \
+    "$bar" \
+    -i "$icon" \
     -t 1500 \
     -h byte:suppress-log:1 \
     -h string:sound-file:/usr/share/sounds/freedesktop/stereo/audio-volume-change.oga
@@ -139,7 +149,7 @@ toggle_mute() {
 
 usage() {
   cat <<EOF
-Usage: $(basename $0) OPTION
+Usage: $(basename "$0") OPTION
 
 Volume control.
 
@@ -166,7 +176,7 @@ EOF
 ###############################################################################
 
 main() {
-  while [[ $# > 0 ]]; do
+  while [[ $# -gt 0 ]]; do
 
     case $1 in
 
@@ -204,22 +214,21 @@ main() {
         ;;
 
       --*)
-        echo "$(basename $0): invalid option $1"
-        echo "Try $(basename $0) --help for more info"
+        echo "$(basename "$0"): invalid option $1"
+        echo "Try $(basename "$0") --help for more info"
         exit 1
         ;;
 
+
       -??*)
-        local tmp1=$(echo "$1" | sed 's/-\(.\).*/-\1/')
-        local tmp2=$(echo "$1" | sed 's/-./-/')
-        set -- "$tmp2" "${@:2}"
-        set -- "$tmp1" "$@"
+        set -- "-${1:1:1}" "-${1:2}" "${@:2}"
         continue
         ;;
 
+
       *)
-        echo "$(basename $0): invalid option $1"
-        echo "Try $(basename $0) --help for more info"
+        echo "$(basename "$0"): invalid option $1"
+        echo "Try $(basename "$0") --help for more info"
         exit 1
         ;;
 
@@ -230,4 +239,4 @@ main() {
   done
 }
 
-main $@
+main "$@"
