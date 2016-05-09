@@ -64,10 +64,6 @@ render_dropbox_indicator() {
   fi
 }
 
-render_redshift_indicator() {
-  echo "lol"
-}
-
 render_user_indicator() {
   echo -n "$(whoami)"
   echo -n " "
