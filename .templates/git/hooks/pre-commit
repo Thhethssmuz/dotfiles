@@ -24,6 +24,26 @@ check() {
   done < <(echo "$FILES")
 }
 
+get_remote() {
+  git remote -v | grep origin | grep push | awk '{print $2}'
+}
+
+# verify git identities
+if [[ -z $(get_remote) ]]; then
+  echo -e "You have not set remote origin: use git remote add origin <url>"
+  FAIL=true
+elif [[ $(get_remote) == git@github.com:Thhethssmuz* ]]; then
+  if [[ $(git whoami) != Thhethssmuz* ]]; then
+    echo -e "You have not set your identity: use 'git thhethssmuz'"
+    FAIL=true
+  fi
+elif [[ $(get_remote) == gogs* ]]; then
+  if [[ $(git whoami) != Svein* ]]; then
+    echo -e "You have not set your identity: use 'git sia'"
+    FAIL=true
+  fi
+fi
+
 # Check if this is the initial commit
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
   against=HEAD
