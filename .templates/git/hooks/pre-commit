@@ -56,13 +56,13 @@ fi
 check "*" git diff --check --cached $against --
 
 # run all staged .js files through jshint
-check "*.js" jshint
+check "*\.js" jshint
 
 # run all staged .json files through json --validate
-check "*.json" json -qnf
+check "*\.json" json -qnf
 
 # run all staged .sh files through shellcheck
-check "*.sh" shellcheck -x
+check "*\.sh" shellcheck -x
 
 if $FAIL; then
   echo "fix errors and try again or commit with --no-verify to ignore errors"
