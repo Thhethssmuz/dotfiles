@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-. ~/.xmonad/scripts/config.sh
+# shellcheck source=/dev/null
+source ~/.xmonad/scripts/config.sh
 
 
 FIFO=/tmp/status-bar.fifo
@@ -19,14 +20,16 @@ render_keyboard_indicator() {
   echo -n  "^ca(4, exec ~/.xmonad/scripts/keyboard.sh --prev)"
   echo -n  "^ca(5, exec ~/.xmonad/scripts/keyboard.sh --next)"
   echo -ne "^fn(Font Awesome:size=$FONT_SIZE)\uf11c^fn() "
-  echo -n  $(~/.xmonad/scripts/keyboard.sh --code)
+  echo -n  "$(~/.xmonad/scripts/keyboard.sh --code)"
   echo -n  "^ca()"
   echo -n  "^ca()"
 }
 
 render_updates_indicator() {
-  local icon="^i($HOME/.xmonad/icons/pacman.xpm)"
-  local n=$(~/.xmonad/scripts/updates.sh)
+  local icon
+  local n
+  icon="^i($HOME/.xmonad/icons/pacman.xpm)"
+  n=$(~/.xmonad/scripts/updates.sh)
   echo -n "^ca(1, ~/.xmonad/scripts/dbus.sh menu Toggle Updates)$icon $n^ca()"
 }
 
@@ -34,7 +37,7 @@ render_volume_indicator() {
   echo -n "^ca(1, exec ~/.xmonad/scripts/volume.sh -m)"
   echo -n "^ca(4, exec ~/.xmonad/scripts/volume.sh -i)"
   echo -n "^ca(5, exec ~/.xmonad/scripts/volume.sh -d)"
-  echo -n "$(~/.xmonad/scripts/notif-icon.sh $(~/.xmonad/scripts/volume.sh --icon)) "
+  echo -n "$(~/.xmonad/scripts/notif-icon.sh "$(~/.xmonad/scripts/volume.sh --icon)") "
   echo -n "$(~/.xmonad/scripts/volume.sh --level)%"
   echo -n "^ca()^ca()^ca()"
 }
@@ -83,8 +86,8 @@ render_user_indicator() {
 
 set_update_interval() {
   while true; do
-    sleep $2
-    echo $1 >> $FIFO
+    sleep "$2"
+    echo "$1" >> $FIFO
   done &
   echo $! >> $PID_FILE
   disown
@@ -101,7 +104,7 @@ set_update_interval() {
 ###############################################################################
 
 update() {
-  echo $1 >> $FIFO
+  echo "$1" >> $FIFO
 }
 
 
@@ -111,7 +114,7 @@ update() {
 #
 ###############################################################################
 
-stop() {
+kill_statusbar() {
   xargs kill < $PID_FILE
   rm -f $FIFO $PID_FILE
 }
@@ -125,11 +128,17 @@ stop() {
 
 run() {
 
-  local keyboard_state=$(render_keyboard_indicator)
-  local updates_state=$(render_updates_indicator)
-  local volume_state=$(render_volume_indicator)
-  local dropbox_state=$(render_dropbox_indicator)
-  local user_state=$(render_user_indicator)
+  local keyboard_state
+  local updates_state
+  local volume_state
+  local dropbox_state
+  local user_state
+
+  keyboard_state=$(render_keyboard_indicator)
+  updates_state=$(render_updates_indicator)
+  volume_state=$(render_volume_indicator)
+  dropbox_state=$(render_dropbox_indicator)
+  user_state=$(render_user_indicator)
 
   render_all_indicators() {
     local all=(
@@ -142,7 +151,7 @@ run() {
     echo "${all[*]}"
   }
 
-  trap stop EXIT
+  trap kill_statusbar EXIT
 
   echo > $PID_FILE
   if [ ! -e $FIFO ]; then
@@ -156,7 +165,7 @@ run() {
 
   while true; do
     render_all_indicators
-    read line <$FIFO
+    read -r line <$FIFO
     case $line in
       keyboard)  keyboard_state=$(render_keyboard_indicator) ;;
       updates)   updates_state=$(render_updates_indicator)   ;;
@@ -177,7 +186,7 @@ run() {
 
 usage() {
   cat <<EOF
-Usage: $(basename $0) [OPTION]
+Usage: $(basename "$0") [OPTION]
 
 Basic conky replacement that only updates on demand.
 
@@ -208,13 +217,13 @@ main() {
     run
   fi
 
-  while [[ $# > 0 ]]; do
+  while [[ $# -gt 0 ]]; do
 
     case $1 in
 
       -u|--update)
-        if [[ $2 != "" ]]; then
-          update $2
+        if [[ "$2" != "" ]]; then
+          update "$2"
           shift
         else
           echo "expected argument after option $1"
@@ -232,22 +241,19 @@ main() {
         ;;
 
       --*)
-        echo "$(basename $0): invalid option $1"
-        echo "Try $(basename $0) --help for more info"
+        echo "$(basename "$0"): invalid option $1"
+        echo "Try $(basename "$0") --help for more info"
         exit 1
         ;;
 
       -??*)
-        local tmp1=$(echo "$1" | sed 's/-\(.\).*/-\1/')
-        local tmp2=$(echo "$1" | sed 's/-./-/')
-        set -- "$tmp2" "${@:2}"
-        set -- "$tmp1" "$@"
+        set -- "-${1:1:1}" "-${1:2}" "${@:2}"
         continue
         ;;
 
       *)
-        echo "$(basename $0): invalid option $1"
-        echo "Try $(basename $0) --help for more info"
+        echo "$(basename "$0"): invalid option $1"
+        echo "Try $(basename "$0") --help for more info"
         exit 1
         ;;
 
@@ -258,4 +264,4 @@ main() {
   done
 }
 
-main $@
+main "$@"
