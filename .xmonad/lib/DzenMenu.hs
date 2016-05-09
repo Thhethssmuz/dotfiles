@@ -79,6 +79,7 @@ openMenu name menu = do
          , "-l"
          , show . min 45 . length . lines $ s -- TODO: add maxLength to a config
          ]
+  hSetEncoding h utf8
   hPutStr h t
   hPutStr h s
   atomically . writeTVar (handle menu) . Just $ h
