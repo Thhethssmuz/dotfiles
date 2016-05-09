@@ -9,6 +9,16 @@ jsf() { ff "*.js" "$@" | egrep -v "node_modules|bower_components|lib-cov|coverag
 jst() { ft "*.js" -I "node_modules|bower_components|lib-cov|coverage|*.min*" "$@"; }
 jss() { jsf "${@:2}" | xargs egrep "$1" -n --color=auto 2>/dev/null; }
 
+# -- Init ---------------------------------------------------------------------
+
+git-init() {
+  # remove and refetch hooks from templates in order to get updates
+  rm .git/hooks/** 2>/dev/null || true
+  git init "$@"
+}
+
+# -- Misc ---------------------------------------------------------------------
+
 compile_xmonad() {
   ghc -threaded -i"$HOME/.xmonad/lib" ~/.xmonad/xmonad.hs -o ~/.xmonad/xmonad-x86_64-linux
 }
