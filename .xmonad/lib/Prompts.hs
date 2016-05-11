@@ -48,14 +48,19 @@ trim = f . f
 
 data Bash = Bash State
 
+inContext :: String -> String
+inContext script = prefix ++ script
+  where prefix  = concatMap (\x -> "source " ++ x ++ ";") sources
+        sources = ["~/.aliases", "~/.functions"]
+
 instance XPrompt Bash where
   showXPrompt        (Bash state) = "Run: "
   commandToComplete  (Bash state) = id
   completionFunction (Bash state) = mkCompelFunc state bashTabCompletion bashCompletion
-  modeAction (Bash state) query _ = spawn query
+  modeAction (Bash state) query _ = spawn $ inContext query
 
 exec :: String -> IO [String]
-exec script = fmap lines . runProcessWithInput "bash" ["-c", script] $ ""
+exec script = fmap lines . runProcessWithInput "bash" ["-c", inContext script] $ ""
 
 completeSingle :: String -> IO [String]
 completeSingle "" = return []
