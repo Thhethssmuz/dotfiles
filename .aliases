@@ -21,3 +21,4 @@ alias pacman='pacman --color=auto'
 
 # misc
 alias ydl='youtube-dl --extract-audio --audio-format mp3'
+alias nautilus='nautilus --no-desktop'
