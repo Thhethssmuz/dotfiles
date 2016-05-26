@@ -1749,7 +1749,7 @@
 		<key>fenced-shell</key>
 		<dict>
 		    <key>begin</key>
-		    <string>^(\s*[`~]{3,})(sh|shell|{.*?\.(sh|shell)\b.*?})\s*$</string>
+		    <string>^(\s*[`~]{3,})(sh|shell|bash|{.*?\.(sh|shell|bash)\b.*?})\s*$</string>
 		    <key>end</key>
 		    <string>^(\1)\n</string>
 		    <key>name</key>
