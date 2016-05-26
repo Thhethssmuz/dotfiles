@@ -15,10 +15,12 @@
 		"MarkdownEditing",
 		"Package Control",
 		"PEG.js",
+		"Rust",
 		"SSH Config",
 		"Stylus",
 		"Stylus-Snippets",
 		"Theme - Cyanide",
+		"TOML",
 		"WordCount"
 	]
 }
