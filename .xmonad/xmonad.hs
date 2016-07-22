@@ -10,7 +10,7 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Renamed
 
-import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks, docksEventHook)
+import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks, docksEventHook, ToggleStruts(..))
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageHelpers (isInProperty, isFullscreen, doFullFloat)
 import XMonad.Util.WorkspaceCompare (getSortByXineramaPhysicalRule)
@@ -417,6 +417,7 @@ myKeys home conf@(XConfig { modMask = modMask }) = M.fromList $
   , ((mod1Mask .|. controlMask,  xK_l     ), spawn $ home ++ ".xmonad/scripts/system.sh --lock")
   , ((modMask .|. shiftMask,     xK_F12   ), spawn (home ++ ".xmonad/scripts/system.sh --logout") >> io (exitWith ExitSuccess))
   , ((modMask,                   xK_F5    ), spawn $ "ghc -threaded -i" ++ home ++ ".xmonad/lib ~/.xmonad/xmonad.hs -o ~/.xmonad/xmonad-x86_64-linux && xmonad --restart")
+  , ((modMask,                   xK_F6    ), sendMessage ToggleStruts)
 
   -- print screen
   , ((0,                         xK_Print ), spawn $ home ++ ".xmonad/scripts/screenshot.sh")
