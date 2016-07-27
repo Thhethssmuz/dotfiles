@@ -8,6 +8,10 @@
   thhethssmuz = !git config --local user.name 'Thhethssmuz' && git config --local user.email 'thhethssmuz@gmail.com'
   sia = !git config --local user.name 'Svein Inge Albrigtsen' && git config --local user.email 'sia@tsoc.telenor.net'
 
+  # Misc
+  amend = commit --amend
+  check = diff --check --cached
+
   # Show verbose output about tags, branches or remotes
   tags = tag -l
   branches = branch -a
