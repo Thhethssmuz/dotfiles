@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PATH=$PATH:$HOME/.cabal/bin:$HOME/.thhe
+export PATH=$PATH:$HOME/.cabal/bin:$HOME/.cargo/bin
 
 if [ "$(hostname)" = "sia-10" ]; then
   export PATH=/opt/ghc/7.10.3/bin:$PATH
