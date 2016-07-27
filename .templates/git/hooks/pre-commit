@@ -49,16 +49,9 @@ elif [[ $(get_remote) == gogs.tnst.no* ]]; then
   fi
 fi
 
-# Check if this is the initial commit
-if git rev-parse --verify HEAD >/dev/null 2>&1; then
-  against=HEAD
-else
-  against=4b825dc642cb6eb9a060e54bf8d69288fbee4904
-fi
-
 # run all staged files through git diff --check
 # catches whitespace errors and leftover conflict markers
-check "*" git diff --check --cached $against --
+check "*" git check
 
 # run all staged .js files through jshint
 check "*\.js" jshint
