@@ -37,7 +37,12 @@ elif [[ $(get_remote) == git@github.com:Thhethssmuz* ]]; then
     echo -e "You have not set your identity: use 'git thhethssmuz'"
     FAIL=true
   fi
-elif [[ $(get_remote) == gogs* ]]; then
+elif [[ $(get_remote) == git@brogs* ]]; then
+  if [[ $(git whoami) != Thhethssmuz* ]]; then
+    echo -e "You have not set your identity: use 'git thhethssmuz'"
+    FAIL=true
+  fi
+elif [[ $(get_remote) == gogs.tnst.no* ]]; then
   if [[ $(git whoami) != Svein* ]]; then
     echo -e "You have not set your identity: use 'git sia'"
     FAIL=true
