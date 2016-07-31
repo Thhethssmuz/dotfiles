@@ -6,6 +6,9 @@ set -exuo pipefail
 echo "this is a pseudo script..." 1>&2
 exit 1
 
+# For further reading, most of this script is taken from:
+# https://wiki.archlinux.org/index.php/USB_flash_installation_media#Using_manual_formatting
+
 DISC=/dev/sde
 ISO=
 
@@ -68,8 +71,8 @@ install_live_image() {
   cp -r /usr/lib/syslinux/bios/*.c32 /mnt/usb/arch/boot/syslinux
   extlinux --install /mnt/usb/arch/boot/syslinux
 
-  # inject install scripts to device
-  # TODO: https://wiki.archlinux.org/index.php/Remastering_the_Install_ISO#Customization
+  # TODO: inject install scripts to device
+  # https://wiki.archlinux.org/index.php/Remastering_the_Install_ISO#Customization
 
   # mark the partition as bootable
   umount /mnt/usb
