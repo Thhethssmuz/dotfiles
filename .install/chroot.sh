@@ -45,3 +45,5 @@ cat <<EOF > /boot/loader/loader.conf
 timeout 5
 default lvmluks
 EOF
+
+exit
