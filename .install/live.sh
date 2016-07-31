@@ -56,4 +56,5 @@ cp firstboot.sh /mnt/root
 arch-chroot /mnt ./chroot.sh "$DISK" "$HOSTNAME"
 
 umount -R /mnt
+swapoff /dev/mapper/vgroup-swap
 echo "chroot created, reboot and run firstboot.sh"
