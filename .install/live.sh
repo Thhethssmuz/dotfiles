@@ -24,7 +24,7 @@ sgdisk -Z \
 
 # encrypt main partition
 cryptsetup -v --cipher aes-xts-plain64 --key-size 512 --hash sha512 \
-  --use-random luksFormat "${DISC}2"
+  --use-random luksFormat "${DISK}2"
 cryptsetup luksOpen "${DISK}2" lvm
 
 # create physical volume on top of luks
