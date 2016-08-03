@@ -50,18 +50,4 @@ if [ "$(hostname)" = "archbox" ]; then
   xrandr --output DVI-D-0 --mode 1920x1080 --rate 60.00 --pos 0x0
   xrandr --output DVI-I-1 --mode 1920x1080 --rate 60.00 --pos 3840x0
 
-elif [ "$(hostname)" = "sia-10" ]; then
-
-  # Mouse acceleration
-  xinput set-prop \
-    'pointer:Func Func MS-3 Gaming Mouse' \
-    'Device Accel Velocity Scaling' \
-    1
-
-  # Mouse sensitivity
-  xinput set-prop \
-    'pointer:Func Func MS-3 Gaming Mouse' \
-    'Device Accel Constant Deceleration' \
-    3
-
 fi
