@@ -37,6 +37,7 @@
 # Install scripts
 !.install
 !.install/*
+!.install/usb/*
 
 
 # user configuration directory (only directory, not all its contents)
