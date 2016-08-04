@@ -46,4 +46,5 @@ timeout 5
 default lvmluks
 EOF
 
+# leave chroot
 exit
