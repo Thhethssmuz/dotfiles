@@ -1,16 +1,15 @@
 #!/bin/bash
-set -exuo pipefail
-
-# should turn this into a proper script at some point... but for now just go
-# through each section in order.
-echo "this is a pseudo script..." 1>&2
-exit 1
+set -eo pipefail
 
 # for future reference, most of this script is taken from:
 # https://wiki.archlinux.org/index.php/USB_flash_installation_media#Using_manual_formatting
 
-DISK=/dev/sde
+
+TMP="$HOME/.install/tmp"
+USB="$HOME/.install/usb"
+DISK=
 ISO=
+
 
 #
 # Create partition table for the usb device
@@ -19,24 +18,28 @@ partition() {
 
   # check dependencies
   if ! hash sgdisk 2>/dev/null; then
-    echo "sgdisk does not appear to be installed, run \`pacman -S gdisk' to install"
+    echo "sgdisk does not appear to be installed, run 'pacman -S gdisk' to install"
     exit 1
   fi
 
   echo "WARNING: this will overwrite the disk $DISK"
   echo "This is a $(lsblk "$DISK" -ldn | awk '{print $4}') disk"
-  read -rp "Press enter to continue or ctrl+c to cancel: "
+  read -rp "Press enter to continue"
+
+  set -x
 
   # create partition table
   #   1. 4G   - bootable arch live image
   #   2. 24G  - encrypted data storage
   #   3. rest - unencrypted data storage
-  sgdisk -Z \
+  sudo sgdisk -Z "$DISK"
+  sudo sgdisk \
     -n 1:0:+4G -t 1:ef00 -c 1:"arch linux" \
     -n 2:0:+24G -t 2:8300 -c 2:"crypton" \
     -n 3:0:0 -t 3:0700 -c 3:"dump" \
     -p "$DISK"
 }
+
 
 #
 # Install the arch live image to the first partition on the usb device
@@ -53,85 +56,230 @@ install_live_image() {
     exit 1
   fi
 
+  set -x
+
   # format file-systems
-  mkfs.fat -F32 "${DISK}1"
+  sudo mkfs.fat -F32 "${DISK}1"
 
   # mount boot drive and arch iso image and copy over iso contents to the live
   # partition
-  mkdir -p /mnt/{iso,usb}
-  mount -o loop "$ISO" /mnt/iso
-  mount "${DISK}1" /mnt/usb
-  cp -a /mnt/iso/* /mnt/usb
+  mkdir -p "$TMP"/{iso,usb}
+  sudo mount -o loop "$ISO" "$TMP"/iso
+  sudo mount "${DISK}1" "$TMP"/usb
+  sudo cp -a "$TMP"/iso/* "$TMP"/usb
   sync
-  umount /mnt/iso
+  sudo umount "$TMP"/iso
 
-  # get the live partitions UUID
-  UUID=$(blkid -o value -s UUID "${DISK}1")
+  # get the partitions UUIDs
+  ARCH_UUID=$(blkid -o value -s UUID "${DISK}1")
+  CRYPTON_UUID=$(blkid -o value -s UUID "${DISK}2")
+  DUMP_UUID=$(blkid -o value -s UUID "${DISK}3")
 
   # set the boot UUID in the live arch boot configs by replacing the setting
   # `archisolabel=<...>` with `archisodevice=/dev/disk/by-uuid/<UUID>`
-  for file in /mnt/usb/{arch/boot/syslinux/archiso_sys{32,64}.cfg,loader/entries/archiso-x86_64.conf}; do
-    sed -i "s/archisolabel=.*$/archisodevice=\/dev\/disk\/by-uuid\/$UUID/" "$file"
+  for file in "$TMP"/usb/{arch/boot/syslinux/archiso_sys{32,64}.cfg,loader/entries/archiso-x86_64.conf}; do
+    sudo sed -i "s/archisolabel=.*$/archisodevice=\/dev\/disk\/by-uuid\/$ARCH_UUID/" "$file"
   done
 
   # install syslinux to the live partition
-  cp -r /usr/lib/syslinux/bios/*.c32 /mnt/usb/arch/boot/syslinux
-  extlinux --install /mnt/usb/arch/boot/syslinux
+  sudo cp -r /usr/lib/syslinux/bios/*.c32 "$TMP"/usb/arch/boot/syslinux
+  sudo extlinux --install "$TMP"/usb/arch/boot/syslinux
 
   # inject install scripts to device
   # for future reference: https://wiki.archlinux.org/index.php/Remastering_the_Install_ISO#Customization
-  for DIR in /mnt/usb/arch/i686 /mnt/usb/arch/x86_64; do
-    unsquashfs "$DIR/airootfs.sfs" -dest ./squashfs-root
-    cp ~/.install/{live,chroot,firstboot}.sh ./squashfs-root/root
-    rm "$DIR/airootfs.sfs"
-    mksquashfs ./squashfs-root "$DIR/airootfs.sfs"
-    rm -rf ./squashfs-root
-    ( cd "$DIR" && md5sum airootfs.sfs > airootfs.md5 )
+  for arch in "$TMP"/usb/arch/{i686,x86_64}; do
+    sudo unsquashfs -dest "$TMP"/squashfs-root "$arch/airootfs.sfs"
+
+    sudo cp "$USB"/*.sh "$TMP"/squashfs-root/root
+    sudo bash -c "echo '$ARCH_UUID' > $TMP/squashfs-root/root/arch.uuid"
+    sudo bash -c "echo '$CRYPTON_UUID' > $TMP/squashfs-root/root/crypton.uuid"
+    sudo bash -c "echo '$DUMP_UUID' > $TMP/squashfs-root/root/dump.uuid"
+
+    sudo rm "$arch/airootfs.sfs"
+    sudo mksquashfs "$TMP"/squashfs-root "$arch/airootfs.sfs"
+    sudo rm -rf "$TMP"/squashfs-root
+    ( cd "$arch" && sudo bash -c "md5sum airootfs.sfs > airootfs.md5" )
   done
 
   # mark the partition as bootable
   sync
-  umount /mnt/usb
-  sgdisk "$DISK" --attributes=1:set:2
-  dd bs=440 conv=notrunc count=1 if=/usr/lib/syslinux/bios/gptmbr.bin of="$DISK"
+  sudo umount "$TMP"/usb
+  sudo sgdisk "$DISK" --attributes=1:set:2
+  sudo dd bs=440 conv=notrunc count=1 if=/usr/lib/syslinux/bios/gptmbr.bin of="$DISK"
 
   sync
-  rm -rf /mnt/{iso,usb}
+  sudo rm -rf "$TMP"/{iso,usb}
 }
+
 
 #
 # Make encrypted partition
 #
 make_encrypted_partition() {
 
+  set -x
+
   # encrypt partition
-  cryptsetup -v --cipher aes-xts-plain64 --key-size 512 --hash sha512 \
+  sudo cryptsetup -v --cipher aes-xts-plain64 --key-size 512 --hash sha512 \
     --use-random luksFormat "${DISK}2"
 
   # make file system
-  cryptsetup luksOpen "${DISK}2" crypton
-  mkfs.ext4 /dev/mapper/crypton
+  sudo cryptsetup luksOpen "${DISK}2" crypton
+  sudo mkfs.ext4 /dev/mapper/crypton
 
   # mount device
-  mkdir -p ~/crypton
-  mount /dev/mapper/crypton ~/crypton
-  chown thhethssmuz:users ~/crypton
+  mkdir -p "$TMP"/crypton
+  sudo mount /dev/mapper/crypton "$TMP"/crypton
+  sudo chown thhethssmuz:users "$TMP"/crypton
 
   # add private repos and any other private data to the device
-  cd ~/crypton
-  git clone git@brogs:Thhethssmuz/gpg.git .gnupg
-  git clone git@brogs:Thhethssmuz/ssh.git .ssh
-  git clone git@brogs:Thhethssmuz/pass.git .password-store
+  git clone git@brogs:Thhethssmuz/gpg.git "$TMP"/crypton/.gnupg
+  git clone git@brogs:Thhethssmuz/ssh.git "$TMP"/crypton/.ssh
+  git clone git@brogs:Thhethssmuz/pass.git "$TMP"/crypton/.password-store
+  sudo chmod 700 "$TMP"/crypton/{.gnupg,.ssh,.password-store}
 
   sync
-  umount ~/crypton
-  cryptsetup close crypton
+  sudo umount "$TMP"/crypton
+  sudo cryptsetup close crypton
 }
+
 
 #
 # Make unencrypted general purpose partition
 #
 make_unencrypted_partition() {
-  mkfs.ntfs --quick "${DISK}3"
+  set -x
+  sudo mkfs.ntfs --quick "${DISK}3"
   sync
 }
+
+
+#
+# Print usage
+#
+usage() {
+  cat <<EOF
+Usage: $(basename "$0") [-h | --help] (-d | --disk <disk>) [-i | --iso <path>] <command>
+
+OPTIONS:
+  -d, --disk <disk>     the disk to operate on
+  -i, --iso <path>      specify the path to the arch iso
+  -h, --help            show this help message and exit
+
+COMMANDS:
+  partition             partition the device
+  dump                  install the unencrypted partition
+  crypton               install the encrypted partition
+  arch                  install live image to the first partition, this asumes
+                        that the device has been partitioned and that the two
+                        other expected partitions have already been made
+  all                   all of the above
+
+EOF
+}
+
+
+#
+# Main
+#
+DO_PARTITION=false
+DO_DUMP=false
+DO_CRYPTON=false
+DO_ARCH=false
+
+while [[ $# -gt 0 ]]; do
+
+  case $1 in
+
+    -h|--help)
+      usage
+      exit 0
+      ;;
+
+    -d|--disk|--drive)
+      if [ -z "$2" ]; then
+        echo "missing argument \`$1'" 1>&2
+        exit 1
+      elif ! [[ $2 =~ ^/dev/sd[a-z]$ ]]; then
+        echo "invalid argument \`$2'" 1>&2
+        exit 1
+      fi
+      DISK="$2"
+      shift
+      ;;
+
+    -i|--iso)
+      if [ -z "$2" ]; then
+        echo "missing argument \`$1'" 1>&2
+        exit 1
+      fi
+      ISO="$2"
+      shift
+      ;;
+
+    --*)
+      echo "$(basename "$0"): invalid option \`$1'" 1>&2
+      echo "Try $(basename "$0") --help for more info" 1>&2
+      exit 1
+      ;;
+
+
+    -??*)
+      set -- "-${1:1:1}" "-${1:2}" "${@:2}"
+      continue
+      ;;
+
+    partition)
+      DO_PARTITION=true
+      ;;
+
+    arch)
+      DO_ARCH=true
+      ;;
+
+    crypton)
+      DO_CRYPTON=true
+      ;;
+
+    dump)
+      DO_DUMP=true
+      ;;
+
+    all)
+      DO_PARTITION=true
+      DO_ARCH=true
+      DO_CRYPTON=true
+      DO_DUMP=true
+      ;;
+
+    *)
+      echo "$(basename "$0"): invalid command \`$1'" 1>&2
+      echo "Try $(basename "$0") --help for more info" 1>&2
+      exit 1
+      ;;
+
+  esac
+
+  shift
+
+done
+
+if [ -z "$DISK" ]; then
+  echo "missing option \`--disk'" 1>&2
+  exit 1
+fi
+
+if $DO_ARCH && [ -z "$ISO" ]; then
+  echo "missing option \`--iso'" 1>&2
+  exit 1
+fi
+
+if [ "$EUID" -eq 0 ]; then
+  echo "This script should not be run as root" 1>&2
+  exit 1
+fi
+
+$DO_PARTITION && partition
+$DO_DUMP && make_unencrypted_partition
+$DO_CRYPTON && make_encrypted_partition
+$DO_ARCH && install_live_image
