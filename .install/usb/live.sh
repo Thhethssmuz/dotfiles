@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eo pipefail
+set -euo pipefail
 
 if [[ $EUID -ne 0 ]]; then
   echo "You must be root inside live environment" 1>&2
@@ -23,7 +23,7 @@ set -x
 # partition disk
 sgdisk -Z "$DISK"
 sgdisk \
-  -n 1:0:+512M -t 1:ef00 -c 1: bootefi \
+  -n 1:0:+512M -t 1:ef00 -c 1:bootefi \
   -n 2:0:0 -t 2:8300 -c 2:cryptlvm \
   -p "$DISK"
 
@@ -52,23 +52,40 @@ if [ -n "$SWAP" ]; then
 fi
 
 # mount filesystems
-mount /dev/mapper/vgroup-root /mnt
-mkdir -p /mnt/boot
-mount "${DISK}1" /mnt/boot
+mkdir -p /mnt/arch
+mount /dev/mapper/vgroup-root /mnt/arch
+mkdir -p /mnt/arch/boot
+mount "${DISK}1" /mnt/arch/boot
 if [ -n "$SWAP" ]; then
   swapon /dev/mapper/vgroup-swap
 fi
 
-# base install
-pacstrap /mnt base base-devel
-genfstab -U -p /mnt >> /mnt/etc/fstab
-cp chroot.sh /mnt
-cp firstboot.sh /mnt/root
-arch-chroot /mnt ./chroot.sh "$DISK" "$HOSTNAME"
+# mount encrypted partition on usb
+cryptsetup luksOpen "$(blkid -U "$(cat crypton.uuid)")" crypton
+mkdir -p /mnt/crypton
+mount /dev/mapper/crypton /mnt/crypton
 
-umount -R /mnt
+# botstrap
+pacstrap /mnt/arch base base-devel git
+genfstab -U -p /mnt/arch >> /mnt/arch/etc/fstab
+
+# copy
+mkdir -p /mnt/arch/root/crypton
+cp -r /mnt/crypton/{.gnupg,.ssh,.password-store} /mnt/arch/root/crypton
+cp ./*.sh /mnt/arch/root
+
+# chroot
+arch-chroot /mnt/arch /root/chroot.sh "$DISK" "$HOSTNAME"
+
+# clean up
+umount -R /mnt/arch
+umount /mnt/crypton
 if [ -n "$SWAP" ]; then
   swapoff /dev/mapper/vgroup-swap
 fi
+cryptsetup close vgroup
+cryptsetup close crypton
 
-echo "chroot created successfully, reboot and run firstboot.sh"
+# the freshly installed arch should now have priority booting with efi so it
+# should be safe to just reboot even if the usb is still plugged in
+reboot
