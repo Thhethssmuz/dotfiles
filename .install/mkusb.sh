@@ -5,7 +5,7 @@ set -eo pipefail
 # https://wiki.archlinux.org/index.php/USB_flash_installation_media#Using_manual_formatting
 
 
-TMP="$HOME/.install/tmp"
+TMP="$HOME/.install/.tmp"
 USB="$HOME/.install/usb"
 DISK=
 ISO=
@@ -283,3 +283,5 @@ $DO_PARTITION && partition
 $DO_DUMP && make_unencrypted_partition
 $DO_CRYPTON && make_encrypted_partition
 $DO_ARCH && install_live_image
+
+rm -r "$TMP"
