@@ -23,6 +23,16 @@ compile_xmonad() {
   ghc -threaded -i"$HOME/.xmonad/lib" ~/.xmonad/xmonad.hs -o ~/.xmonad/xmonad-x86_64-linux
 }
 
+# keyload
+key() {
+  local keys
+  for k in "$@"; do
+    keys="$keys $HOME/.ssh/${k}_id"
+  done
+  keychain --timeout $((8*60)) --quiet --host agent $keys
+  source ~/.keychain/agent-sh
+}
+
 # extraction
 extract () {
   if [ -f "$1" ]; then
