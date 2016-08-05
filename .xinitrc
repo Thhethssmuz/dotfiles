@@ -6,7 +6,7 @@
 pulseaudio --start
 
 # dropbox
-dropbox
+hash dropbox 2>/dev/null && dropbox
 
 # Start the window manager
 exec xmonad
