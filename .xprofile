@@ -19,7 +19,7 @@ fi
 compton &
 
 # Dim brightness and screen colours at night.
-hash redshift && 2>/dev/null && redshift &
+hash redshift 2>/dev/null && redshift &
 
 # Turn off bell sound
 xset b off
