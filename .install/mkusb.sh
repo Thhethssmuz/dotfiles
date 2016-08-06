@@ -284,4 +284,4 @@ $DO_DUMP && make_unencrypted_partition
 $DO_CRYPTON && make_encrypted_partition
 $DO_ARCH && install_live_image
 
-rm -r "$TMP"
+rm -rf "$TMP"
