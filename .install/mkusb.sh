@@ -130,7 +130,7 @@ make_encrypted_partition() {
   # mount device
   mkdir -p "$TMP"/crypton
   sudo mount /dev/mapper/crypton "$TMP"/crypton
-  sudo chown thhethssmuz:users "$TMP"/crypton
+  sudo chown -R thhethssmuz:users "$TMP"/crypton
 
   # add private repos and any other private data to the device
   git clone git@brogs:Thhethssmuz/gpg.git "$TMP"/crypton/.gnupg
