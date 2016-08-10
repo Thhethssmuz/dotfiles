@@ -83,7 +83,8 @@ umount /mnt/crypton
 if [ -n "$SWAP" ]; then
   swapoff /dev/mapper/vgroup-swap
 fi
-cryptsetup close vgroup
+vgchange -a n vgroup
+cryptsetup close lvm
 cryptsetup close crypton
 
 # the freshly installed arch should now have priority booting with efi so it
