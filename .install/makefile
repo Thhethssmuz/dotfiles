@@ -199,7 +199,7 @@ status-icons:
 		status)
 			echo -e "   \e[33mStatus icons status is unknown...\e[0m" ;;
 		install)
-			sudo -u $(USERNAME) "/home/$(USERNAME)/.xmonad/script/mkicons.sh" ;;
+			sudo -u "$(USERNAME)" "/home/$(USERNAME)/.xmonad/scripts/mkicons.sh" ;;
 	esac
 
 environment: \
