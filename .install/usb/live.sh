@@ -65,8 +65,8 @@ cryptsetup luksOpen "$(blkid -U "$(cat crypton.uuid)")" crypton
 mkdir -p /mnt/crypton
 mount /dev/mapper/crypton /mnt/crypton
 
-# botstrap
-pacstrap /mnt/arch base base-devel git
+# bootstrap
+pacstrap /mnt/arch base base-devel
 genfstab -U -p /mnt/arch >> /mnt/arch/etc/fstab
 
 # copy
