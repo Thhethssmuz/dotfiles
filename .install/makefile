@@ -350,7 +350,7 @@ apacman.aur: wget.pac curl.pac jshon.pac
 				  cd apacman
 				  makepkg
 				EOF
-				pacman -U --noconfirm apacman-*.pkg.tar.xz
+				pacman -U --noconfirm apacman/apacman-*.pkg.tar.xz
 				rm -rf apacman apacman.tar.gz
 			fi ;;
 		aurlist)
