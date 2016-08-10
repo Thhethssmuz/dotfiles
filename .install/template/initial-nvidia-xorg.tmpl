@@ -1,0 +1,12 @@
+# /etc/X11/xorg.conf
+
+Section "Module"
+  Load "modesetting"
+EndSection
+
+Section "Device"
+  Identifier "nvidia"
+  Driver "nvidia"
+  BusID "$(lspci | grep VGA | grep NVIDIA | sed 's/^0*\([0-9]\+\):0*\([0-9]\+\)\.0*\([0-9]\+\).*/\1:\2:\3/')"
+  Option "AllowEmptyInitialConfiguration"
+EndSection
