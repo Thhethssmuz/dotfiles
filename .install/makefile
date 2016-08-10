@@ -6,10 +6,10 @@ TARGET    ?= status
 
 .PHONY: all install status paclist aurlist npmlist
 .PHONY: archbox archtop
+.ONESHELL:
 
 # default target
 all: status
-
 
 #
 # main targets
@@ -155,11 +155,11 @@ xorg: \
 	xorg-xwininfo.pac
 
 home: xdg-user-dirs.pac
-	@case "$(TARGET)" in \
-		status) \
-			echo -e "   \e[33mHome directories status is unknown...\e[0m" ;; \
-		install) \
-			xdg-user-dirs-update ;; \
+	@case "$(TARGET)" in
+		status)
+			echo -e "   \e[33mHome directories status is unknown...\e[0m" ;;
+		install)
+			xdg-user-dirs-update ;;
 	esac
 
 fonts: \
@@ -180,26 +180,26 @@ xmonad: \
 	xmonad-contrib.pac
 
 hunspell: hunspell.pac hunspell-en.pac
-	@case "$(TARGET)" in \
-		status) \
-			echo | hunspell -D 2> >(grep hunspell) >/dev/null | grep nb_NO 1>/dev/null && \
-				echo -e "   hunspell-no \e[1;32minstalled\e[0m (custom)" || \
-				echo -e "   hunspell-no \e[1;31mnot installed\e[0m (custom)" ;; \
-		install) \
-			if echo | hunspell -D 2> >(grep hunspell) >/dev/null | grep nb_NO 1>/dev/null; then \
-				echo -e "   hunspell-no \e[1;32minstalled\e[0m (custom)"; \
-			else \
-				echo -e "=> installing hunspell-no..."; \
-				/home/$(USERNAME)/.install/custom/hunspell-no.sh; \
-			fi ;; \
+	@case "$(TARGET)" in
+		status)
+			echo | hunspell -D 2> >(grep hunspell) >/dev/null | grep nb_NO 1>/dev/null &&
+				echo -e "   hunspell-no \e[1;32minstalled\e[0m (custom)" ||
+				echo -e "   hunspell-no \e[1;31mnot installed\e[0m (custom)" ;;
+		install)
+			if echo | hunspell -D 2> >(grep hunspell) >/dev/null | grep nb_NO 1>/dev/null; then
+				echo -e "   hunspell-no \e[1;32minstalled\e[0m (custom)"
+			else
+				echo -e "=> installing hunspell-no..."
+				/home/$(USERNAME)/.install/custom/hunspell-no.sh
+			fi ;;
 	esac
 
 status-icons:
-	@case "$(TARGET)" in \
-		status) \
-			echo -e "   \e[33mStatus icons status is unknown...\e[0m" ;; \
-		install) \
-			sudo -u $(USERNAME) "/home/$(USERNAME)/.xmonad/script/mkicons.sh" ;; \
+	@case "$(TARGET)" in
+		status)
+			echo -e "   \e[33mStatus icons status is unknown...\e[0m" ;;
+		install)
+			sudo -u $(USERNAME) "/home/$(USERNAME)/.xmonad/script/mkicons.sh" ;;
 	esac
 
 environment: \
@@ -289,41 +289,41 @@ fun-tools: lolcat.pac zalgolize.npm
 #
 
 %.pac:
-	@case "$(TARGET)" in \
-		status) \
-			pacman -Qn $* 1>/dev/null 2>/dev/null && \
-				echo -e "   $* \e[1;32minstalled\e[0m (pacman)" || \
-				echo -e "   $* \e[1;31mnot installed\e[0m (pacman)" ;; \
-		install) \
-			if pacman -Qn $* 1>/dev/null 2>/dev/null; then \
-				echo -e "   $* \e[1;32minstalled\e[0m (pacman)"; \
-			else \
-				echo -e "=> installing $*..."; \
-				pacman -S --noconfirm $*; \
-			fi ;; \
-		paclist) \
-			echo "$*" ;; \
+	@case "$(TARGET)" in
+		status)
+			pacman -Qn $* 1>/dev/null 2>/dev/null &&
+				echo -e "   $* \e[1;32minstalled\e[0m (pacman)" ||
+				echo -e "   $* \e[1;31mnot installed\e[0m (pacman)" ;;
+		install)
+			if pacman -Qn $* 1>/dev/null 2>/dev/null; then
+				echo -e "   $* \e[1;32minstalled\e[0m (pacman)"
+			else
+				echo -e "=> installing $*..."
+				pacman -S --noconfirm $*
+			fi ;;
+		paclist)
+			echo "$*" ;;
 	esac
 
 %.pac.list:
-	@case "$(TARGET)" in \
-		status) \
-			pacman -Qn $* 1>/dev/null 2>/dev/null && \
-				for x in $*; do echo -e "   $$x \e[1;32minstalled\e[0m (pacman)"; done || \
-				for x in $*; do \
-					pacman -Qn "$$x" 1>/dev/null 2>/dev/null && \
-						echo -e "   $$x \e[1;32minstalled\e[0m (pacman)" || \
-						echo -e "   $$x \e[1;31mnot installed\e[0m (pacman)"; \
-				done ;; \
-		install) \
-			if pacman -Qn $* 1>/dev/null 2>/dev/null; then \
-				for x in $*; do echo -e "   $$x \e[1;32minstalled\e[0m (pacman)"; done; \
-			else \
-				echo -e "=> installing $*..."; \
-				pacman -S --noconfirm $*; \
-			fi ;; \
-		paclist) \
-			for x in $*; do echo "$$x"; done ;; \
+	@case "$(TARGET)" in
+		status)
+			pacman -Qn $* 1>/dev/null 2>/dev/null &&
+				for x in $*; do echo -e "   $$x \e[1;32minstalled\e[0m (pacman)"; done ||
+				for x in $*; do
+					pacman -Qn "$$x" 1>/dev/null 2>/dev/null &&
+						echo -e "   $$x \e[1;32minstalled\e[0m (pacman)" ||
+						echo -e "   $$x \e[1;31mnot installed\e[0m (pacman)"
+				done ;;
+		install)
+			if pacman -Qn $* 1>/dev/null 2>/dev/null; then
+				for x in $*; do echo -e "   $$x \e[1;32minstalled\e[0m (pacman)"; done
+			else
+				echo -e "=> installing $*..."
+				pacman -S --noconfirm $*
+			fi ;;
+		paclist)
+			for x in $*; do echo "$$x"; done ;;
 	esac
 
 
@@ -332,46 +332,46 @@ fun-tools: lolcat.pac zalgolize.npm
 #
 
 apacman.aur: wget.pac curl.pac jshon.pac
-	@case "$(TARGET)" in \
-		status) \
-			pacman -Qm apacman 1>/dev/null 2>/dev/null && \
-				echo -e "   apacman \e[1;32minstalled\e[0m (aur)" || \
-				echo -e "   apacman \e[1;31mnot installed\e[0m (aur)" ;; \
-		install) \
-			if pacman -Qm $* 1>/dev/null 2>/dev/null; then \
-				echo -e "   apacman \e[1;32minstalled\e[0m (aur)"; \
-			else \
-				echo -e "=> installing apacman..."; \
-				cd /home/$(USERNAME); \
-				su $(USERNAME) -l " \
-				  cd ~; \
-				  curl -L -O https://aur.archlinux.org/cgit/aur.git/snapshot/apacman.tar.gz; \
-				  tar xvzf apacman.tar.gz; \
-				  cd apacman; \
-				  makepkg; \
-				"; \
-				pacman -U --noconfirm apacman-*.pkg.tar.xz; \
-				rm -rf apacman apacman.tar.gz; \
-			fi ;; \
-		aurlist) \
-			echo "apacman" ;; \
+	@case "$(TARGET)" in
+		status)
+			pacman -Qm apacman 1>/dev/null 2>/dev/null &&
+				echo -e "   apacman \e[1;32minstalled\e[0m (aur)" ||
+				echo -e "   apacman \e[1;31mnot installed\e[0m (aur)" ;;
+		install)
+			if pacman -Qm $* 1>/dev/null 2>/dev/null; then
+				echo -e "   apacman \e[1;32minstalled\e[0m (aur)"
+			else
+				echo -e "=> installing apacman..."
+				cd /home/$(USERNAME)
+				su $(USERNAME) -l << EOF
+				  cd ~
+				  curl -L -O https://aur.archlinux.org/cgit/aur.git/snapshot/apacman.tar.gz
+				  tar xvzf apacman.tar.gz
+				  cd apacman
+				  makepkg
+				EOF
+				pacman -U --noconfirm apacman-*.pkg.tar.xz
+				rm -rf apacman apacman.tar.gz
+			fi ;;
+		aurlist)
+			echo "apacman" ;;
 	esac
 
 %.aur: apacman.aur
-	@case "$(TARGET)" in \
-		status) \
-			pacman -Qm $* 1>/dev/null 2>/dev/null && \
-				echo -e "   $* \e[1;32minstalled\e[0m (aur)" || \
-				echo -e "   $* \e[1;31mnot installed\e[0m (aur)" ;; \
-		install) \
-			if pacman -Qm $* 1>/dev/null 2>/dev/null; then \
-				echo -e "   $* \e[1;32minstalled\e[0m (aur)";  \
-			else \
-				echo -e "=> installing $*..."; \
-				apacman -S --noconfirm $*; \
-			fi ;; \
-		aurlist) \
-			echo "$*" ;; \
+	@case "$(TARGET)" in
+		status)
+			pacman -Qm $* 1>/dev/null 2>/dev/null &&
+				echo -e "   $* \e[1;32minstalled\e[0m (aur)" ||
+				echo -e "   $* \e[1;31mnot installed\e[0m (aur)" ;;
+		install)
+			if pacman -Qm $* 1>/dev/null 2>/dev/null; then
+				echo -e "   $* \e[1;32minstalled\e[0m (aur)"
+			else
+				echo -e "=> installing $*..."
+				apacman -S --noconfirm $*
+			fi ;;
+		aurlist)
+			echo "$*" ;;
 	esac
 
 
@@ -382,20 +382,20 @@ apacman.aur: wget.pac curl.pac jshon.pac
 # using 'npm ls' is slow as fuck! so we'll just hack it by checking if the
 # directory exist in the global node_modules folder.
 %.npm: nodejs.pac npm.pac
-	@case "$(TARGET)" in \
-		status) \
-			ls /usr/lib/node_modules | egrep '^$*$$' 1>/dev/null 2>/dev/null && \
-				echo -e "   $* \e[1;32minstalled\e[0m (npm)" || \
-				echo -e "   $* \e[1;31mnot installed\e[0m (npm)" ;; \
-		install) \
-			if ls /usr/lib/node_modules | egrep '^$*$$' 1>/dev/null 2>/dev/null; then \
-				echo -e "   $* \e[1;32minstalled\e[0m (npm)"; \
-			else \
-				echo -e "=> installing $*..."; \
-				npm install -g $*; \
-			fi ;; \
-		npmlist) \
-			echo "$*" ;; \
+	@case "$(TARGET)" in
+		status)
+			ls /usr/lib/node_modules | egrep '^$*$$' 1>/dev/null 2>/dev/null &&
+				echo -e "   $* \e[1;32minstalled\e[0m (npm)" ||
+				echo -e "   $* \e[1;31mnot installed\e[0m (npm)" ;;
+		install)
+			if ls /usr/lib/node_modules | egrep '^$*$$' 1>/dev/null 2>/dev/null; then
+				echo -e "   $* \e[1;32minstalled\e[0m (npm)"
+			else
+				echo -e "=> installing $*..."
+				npm install -g $*
+			fi ;;
+		npmlist)
+			echo "$*" ;;
 	esac
 
 
@@ -404,20 +404,20 @@ apacman.aur: wget.pac curl.pac jshon.pac
 #
 
 %.srv: systemd.pac
-	@case "$(TARGET)" in \
-		status) \
-			systemctl is-enabled $*.service 1>/dev/null 2>/dev/null && \
-				echo -e "   $* \e[1;32menabled\e[0m (service)" || \
-				echo -e "   $* \e[1;31mnot enabled\e[0m (service)" ;; \
+	@case "$(TARGET)" in
+		status)
+			systemctl is-enabled $*.service 1>/dev/null 2>/dev/null &&
+				echo -e "   $* \e[1;32menabled\e[0m (service)" ||
+				echo -e "   $* \e[1;31mnot enabled\e[0m (service)" ;;
 		install) \
-			if systemct is-enabled $*.service 1>/dev/null 2>/dev/null; then \
-				echo -e "   $* \e[1;32menabled\e[0m (service)"; \
-			else \
-				echo -e "=> enabling $*..."; \
-				systemctl enable $*.service; \
-			fi ;; \
-		srvlist) \
-			echo "$*" ;; \
+			if systemct is-enabled $*.service 1>/dev/null 2>/dev/null; then
+				echo -e "   $* \e[1;32menabled\e[0m (service)"
+			else
+				echo -e "=> enabling $*..."
+				systemctl enable $*.service
+			fi ;;
+		srvlist)
+			echo "$*" ;;
 	esac
 
 
@@ -426,20 +426,20 @@ apacman.aur: wget.pac curl.pac jshon.pac
 #
 
 %.usr: systemd.pac
-	@case "$(TARGET)" in \
-		status) \
-			sudo -u "$(USERNAME)" systemctl --user is-enabled $*.service 1>/dev/null 2>/dev/null && \
-				echo -e "   $* \e[1;32menabled\e[0m (user service)" || \
-				echo -e "   $* \e[1;31mnot enabled\e[0m (user service)" ;; \
+	@case "$(TARGET)" in
+		status)
+			sudo -u "$(USERNAME)" systemctl --user is-enabled $*.service 1>/dev/null 2>/dev/null &&
+				echo -e "   $* \e[1;32menabled\e[0m (user service)" ||
+				echo -e "   $* \e[1;31mnot enabled\e[0m (user service)" ;;
 		install) \
-			if sudo -u "$(USERNAME)" systemct --user is-enabled $*.service 1>/dev/null 2>/dev/null; then \
-				echo -e "   $* \e[1;32menabled\e[0m (user service)"; \
-			else \
-				echo -e "=> enabling $*..."; \
-				sudo -u "$(USERNAME)" systemctl --user enable $*.service; \
-			fi ;; \
-		usrlist) \
-			echo "$*" ;; \
+			if sudo -u "$(USERNAME)" systemct --user is-enabled $*.service 1>/dev/null 2>/dev/null; then
+				echo -e "   $* \e[1;32menabled\e[0m (user service)"
+			else
+				echo -e "=> enabling $*..."
+				sudo -u "$(USERNAME)" systemctl --user enable $*.service
+			fi ;;
+		usrlist)
+			echo "$*" ;;
 	esac
 
 
@@ -449,48 +449,48 @@ apacman.aur: wget.pac curl.pac jshon.pac
 
 # configuration that is only expected to be initialized, but overwritten later
 %.ini:
-	@render() { eval "$$(echo -e "cat <<EOF\n$$(tail -n+2 "template/$*.tmpl")\nEOF")"; }; \
-	CONFIG="$$(head -n1 "template/$*.tmpl" | sed 's/^#\s*//')"; \
-	case "$(TARGET)" in \
-		status) \
-			[ -e "$$CONFIG" ] && \
-				echo -e "   $$CONFIG \e[1;32mok\e[0m (config)" || \
-				echo -e "   $$CONFIG \e[1;31mdoes not exist\e[0m (config)" ;; \
-		install) \
-			if [ -e "$$CONFIG" ]; then \
-				echo -e "   $$CONFIG \e[1;32mok\e[0m (config)"; \
-			else \
-				echo -e "=> creating $$CONFIG..."; \
-				render > "$$CONFIG"; \
-			fi ;; \
-		cfglist) \
-			echo "$$CONFIG" ;; \
+	@render() { eval "$$(echo -e "cat <<EOF\n$$(tail -n+2 "template/$*.tmpl")\nEOF")"; }
+	CONFIG="$$(head -n1 "template/$*.tmpl" | sed 's/^#\s*//')"
+	case "$(TARGET)" in
+		status)
+			[ -e "$$CONFIG" ] &&
+				echo -e "   $$CONFIG \e[1;32mok\e[0m (config)" ||
+				echo -e "   $$CONFIG \e[1;31mdoes not exist\e[0m (config)" ;;
+		install)
+			if [ -e "$$CONFIG" ]; then
+				echo -e "   $$CONFIG \e[1;32mok\e[0m (config)"
+			else
+				echo -e "=> creating $$CONFIG..."
+				render > "$$CONFIG"
+			fi ;;
+		cfglist)
+			echo "$$CONFIG" ;;
 	esac
 
 # configuration that should be synced with the one under version control
 %.cfg:
-	@render() { eval "$$(echo -e "cat <<EOF\n$$(tail -n+2 "template/$*.tmpl")\nEOF")"; }; \
-	CONFIG="$$(head -n1 "template/$*.tmpl" | sed 's/^#\s*//')"; \
-	case "$(TARGET)" in \
-		status) \
-			if [ ! -e "$$CONFIG" ]; then \
-				echo -e "   $$CONFIG \e[1;31mdoes not exist\e[0m (config)"; \
-			else \
-				render | diff "$$CONFIG" - 1>/dev/null 2>/dev/null && \
-					echo -e "   $$CONFIG \e[1;32mok\e[0m (config)" || \
-					echo -e "   $$CONFIG \e[1;31mdiffers\e[0m (config)"; \
-			fi ;; \
-		install) \
-			if [ ! -e "$$CONFIG" ]; then \
-				echo -e "=> creating $$CONFIG..." ; \
-			else \
-				if render | diff "$$CONFIG" - 1>/dev/null 2>/dev/null; then \
-					echo -e "   $$CONFIG \e[1;32mok\e[0m (config)"; \
-				else \
-					echo -e "=> updating $$CONFIG..."; \
-					render > "$$CONFIG"; \
-				fi \
-			fi ;; \
-		cfglist) \
-			echo "$$CONFIG" ;; \
+	@render() { eval "$$(echo -e "cat <<EOF\n$$(tail -n+2 "template/$*.tmpl")\nEOF")"; }
+	CONFIG="$$(head -n1 "template/$*.tmpl" | sed 's/^#\s*//')"
+	case "$(TARGET)" in
+		status)
+			if [ ! -e "$$CONFIG" ]; then
+				echo -e "   $$CONFIG \e[1;31mdoes not exist\e[0m (config)"
+			else
+				render | diff "$$CONFIG" - 1>/dev/null 2>/dev/null &&
+					echo -e "   $$CONFIG \e[1;32mok\e[0m (config)" ||
+					echo -e "   $$CONFIG \e[1;31mdiffers\e[0m (config)"
+			fi ;;
+		install)
+			if [ ! -e "$$CONFIG" ]; then
+				echo -e "=> creating $$CONFIG..."
+			else
+				if render | diff "$$CONFIG" - 1>/dev/null 2>/dev/null; then
+					echo -e "   $$CONFIG \e[1;32mok\e[0m (config)"
+				else
+					echo -e "=> updating $$CONFIG..."
+					render > "$$CONFIG"
+				fi
+			fi ;;
+		cfglist)
+			echo "$$CONFIG" ;;
 	esac
