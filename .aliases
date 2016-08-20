@@ -20,6 +20,7 @@ alias egrep='egrep --color=auto'
 alias pacman='pacman --color=auto'
 
 # misc
+alias nc='ncmpcpp'
 alias ydl='youtube-dl --extract-audio --audio-format mp3'
 alias sudo='sudo '
 alias nautilus='nautilus --no-desktop'
