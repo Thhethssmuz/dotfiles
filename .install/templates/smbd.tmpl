@@ -1,0 +1,66 @@
+# /etc/samba/smb.conf
+
+[global]
+
+  workgroup = BRO
+  server string = Samba Server
+  hosts allow = 192.168.1.0/24 127.0.0.1/8
+
+  printcap name = /etc/printcap
+  load printers = no
+  # printing = bsd
+
+  log file = /var/log/samba/%m.log
+  max log size = 50
+
+  security = user
+  encrypt passwords = yes
+  # smb passwd file = /etc/samba/smbpasswd
+
+  dns proxy = no
+
+#
+# Shares
+#
+
+[Series]
+  path = /media/X/Series
+  valid users = bro
+  public = no
+  writable = no
+  printable = no
+
+[Movies]
+  path = /media/X/Movies
+  valid users = bro
+  public = no
+  writable = no
+  printable = no
+
+[Music]
+  path = /media/X/Music
+  valid users = bro
+  public = no
+  writable = no
+  printable = no
+
+[Series2]
+  path = /media/U/Series2
+  valid users = bro
+  public = no
+  writable = no
+  printable = no
+
+[Movies2]
+  path = /media/U/Movies2
+  valid users = bro
+  public = no
+  writable = no
+  printable = no
+
+[Music2]
+  path = /media/U/Music
+  valid users = bro
+  public = no
+  writable = no
+  printable = no

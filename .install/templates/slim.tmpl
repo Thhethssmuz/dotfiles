@@ -1,0 +1,29 @@
+# /etc/slim.conf
+
+default_path        /bin:/usr/bin:/usr/local/bin
+default_xserver     /usr/bin/X
+xserver_arguments   -nolisten tcp vt07
+
+halt_cmd            /sbin/shutdown -h now
+reboot_cmd          /sbin/shutdown -r now
+console_cmd         /usr/bin/xterm -C -fg white -bg black +sb -T "Console login" -e /bin/sh -c "/bin/cat /etc/issue; exec /bin/login"
+#suspend_cmd        /usr/sbin/suspend
+
+xauth_path          /usr/bin/xauth
+authfile            /var/run/slim.auth
+numlock             on
+login_cmd           exec /bin/bash -login ~/.xinitrc %session
+sessiondir          /usr/share/xsessions/
+screenshot_cmd      import -window root /slim.png
+
+welcome_msg         Welcome to %host
+shutdown_msg        The system is halting...
+reboot_msg          The system is rebooting...
+
+default_user        $USERNAME
+focus_password      yes
+auto_login          no
+
+current_theme       archlinux-simplyblack
+lockfile            /var/lock/slim.lock
+logfile             /var/log/slim.log
