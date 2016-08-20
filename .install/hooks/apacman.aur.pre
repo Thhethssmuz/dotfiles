@@ -1,0 +1,13 @@
+#!/bin/bash
+set -euo pipefail
+
+cd /home/$(USERNAME)
+su $(USERNAME) -l <<EOF
+  cd ~
+  curl -L -O https://aur.archlinux.org/cgit/aur.git/snapshot/apacman.tar.gz
+  tar xvzf apacman.tar.gz
+  cd apacman
+  makepkg
+EOF
+pacman -U --noconfirm apacman/apacman-*.pkg.tar.xz
+rm -rf apacman apacman.tar.gz

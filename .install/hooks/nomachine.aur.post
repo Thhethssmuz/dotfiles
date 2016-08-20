@@ -1,0 +1,10 @@
+#!/bin/bash
+set -euo pipefail
+
+# the nxserver appears to be enabled by default with the nomachine.aur package,
+# so for machines that only want to use the nxclient we turn of this service.
+# machines that use the server the nxserver.srv target will re-enable it later.
+systemctl disable --now nxserver.service
+
+# replace the default desktop command with a xmonad session
+sed -i '/^DefaultDesktopCommand / s/.*$/\/usr\/bin\/dbus-launch --exit-with-session \/usr\/bin\/xmonad/' /usr/NX/etc/node.cfg

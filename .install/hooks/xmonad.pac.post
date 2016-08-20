@@ -1,0 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+
+# recompile xmonad with threaded flag
+source ~/.functions
+compile_xmonad

@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+
+# install sublime-text package-control
+curl https://packagecontrol.io/Package%20Control.sublime-package /home/"$USERNAME"/.config/sublime_text-3/Installed\ Packages

@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+
+# make user directories in home, if not present
+xdg-user-dirs-update
