@@ -38,7 +38,8 @@
 !.install
 !.install/*
 !.install/usb/*
-!.install/template/*
+!.install/hooks/*
+!.install/templates/*
 
 
 # user configuration directory (only directory, not all its contents)
