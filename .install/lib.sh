@@ -85,6 +85,50 @@ EOF
 
 
 #
+# Check-update rules
+#
+
+check-updates-pac() {
+  checkupdates
+}
+check-updates-aur() {
+  pacman -Qm | while read -r line; do
+    PKG="$(echo "$line" | awk '{print $1}')"
+    VER="$(echo "$line" | awk '{print $2}')"
+    UP="$(apacman -Si "$PKG" 2>/dev/null | grep Version | awk '{print $3}')"
+
+    if [ "$VER" != "$UP" ]; then
+      echo "$PKG $VER -> $UP"
+    fi
+  done
+}
+check-updates-npm() {
+  npm outdated -g --depth=0 2>/dev/null | tail -n+2 | while read -r line; do
+    PKG="$(echo "$line" | awk '{print $1}')"
+    VER="$(echo "$line" | awk '{print $2}')"
+    UP="$(echo "$line" | awk '{print $4}')"
+    echo "$PKG $VER -> $UP"
+  done
+}
+
+
+#
+# Update rules
+#
+
+update-pac() {
+  pacman -Syu
+}
+update-aur() {
+  apacman -Syu --auronly
+}
+update-npm() {
+  PKGS=($(npm outdated -g --depth=0 --parseable 2>/dev/null | cut -d: -f4))
+  npm install -g "${PKGS[*]}"
+}
+
+
+#
 # Main rules
 #
 
@@ -123,5 +167,17 @@ install() {
 
       fi
     fi
+  done
+}
+
+check-updates() {
+  for TYPE in pac aur npm; do
+    "check-updates-$TYPE" | sed "s/^/$TYPE /"
+  done
+}
+
+update() {
+  for TYPE in pac aur npm; do
+    "updates-$TYPE"
   done
 }

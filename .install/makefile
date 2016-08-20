@@ -30,6 +30,14 @@ install:
 	source lib.sh
 	$(MAKE) --no-print-directory | install
 
+check-updates:
+	source lib.sh
+	check-updates
+
+update:
+	source lib.sh
+	update
+
 
 #
 # Hosts
