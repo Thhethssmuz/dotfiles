@@ -13,7 +13,6 @@ alias ll='ls -Ahl --group-directories-first'
 
 # colours
 alias ls='ls --color=auto'
-alias sudo='sudo '
 alias tree='tree -C'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -22,4 +21,5 @@ alias pacman='pacman --color=auto'
 
 # misc
 alias ydl='youtube-dl --extract-audio --audio-format mp3'
+alias sudo='sudo '
 alias nautilus='nautilus --no-desktop'
