@@ -88,10 +88,10 @@ EOF
 # Check-update rules
 #
 
-check-updates-pac() {
+pac-check-updates() {
   checkupdates
 }
-check-updates-aur() {
+aur-check-updates() {
   pacman -Qm | while read -r line; do
     PKG="$(echo "$line" | awk '{print $1}')"
     VER="$(echo "$line" | awk '{print $2}')"
@@ -102,7 +102,7 @@ check-updates-aur() {
     fi
   done
 }
-check-updates-npm() {
+npm-check-updates() {
   npm outdated -g --depth=0 2>/dev/null | tail -n+2 | while read -r line; do
     PKG="$(echo "$line" | awk '{print $1}')"
     VER="$(echo "$line" | awk '{print $2}')"
@@ -116,13 +116,13 @@ check-updates-npm() {
 # Update rules
 #
 
-update-pac() {
+pac-update() {
   pacman -Syu
 }
-update-aur() {
+aur-update() {
   apacman -Syu --auronly
 }
-update-npm() {
+npm-update() {
   PKGS=($(npm outdated -g --depth=0 --parseable 2>/dev/null | cut -d: -f4))
   npm install -g "${PKGS[*]}"
 }
@@ -172,12 +172,12 @@ install() {
 
 check-updates() {
   for TYPE in pac aur npm; do
-    "check-updates-$TYPE" | sed "s/^/$TYPE /"
+    "$TYPE-check-updates" | sed "s/^/$TYPE /"
   done
 }
 
 update() {
   for TYPE in pac aur npm; do
-    "updates-$TYPE"
+    "$TYPE-updates"
   done
 }
