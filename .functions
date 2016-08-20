@@ -32,6 +32,15 @@ key() {
   keychain --timeout $((8*60)) --quiet --host agent $keys
   source ~/.keychain/agent-sh
 }
+_key() {
+  local cur prev opts
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD-1]}"
+  opts="$(find ~/.ssh -name "*_id" | sed 's/^.*\.ssh\/\(.*\)_id/\1/')"
+  COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+  return 0
+}
+complete -F _key key
 
 # extraction
 extract () {
