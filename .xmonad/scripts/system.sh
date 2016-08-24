@@ -42,7 +42,9 @@ poweroff() {
 }
 
 lock() {
-  if hash slimlock 2>/dev/null; then
+  if hash slock 2>/dev/null; then
+    slock
+  elif hash slimlock 2>/dev/null; then
     slimlock
   elif hash gnome-screensaver-command 2>/dev/null; then
     gnome-screensaver-command --lock
