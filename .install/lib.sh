@@ -33,7 +33,7 @@ aur-check() {
   pacman -Qm "$1" >/dev/null 2>&1
 }
 npm-check() {
-  echo /usr/lib/node_modules/* | egrep "^$1\$" >/dev/null 2>&1
+  [ -d "/usr/lib/node_modules/$1" ]
 }
 ini-check() {
   [ -e "$(cfg-path "$1")" ]
