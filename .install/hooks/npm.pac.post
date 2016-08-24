@@ -1,0 +1,7 @@
+#!/bin/bash
+set -euo pipefail
+
+# add bash completions for npm
+npm completion 2>/dev/null | \
+  tee /usr/share/bash-completion/completions/npm \
+  >/dev/null
