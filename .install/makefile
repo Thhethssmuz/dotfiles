@@ -168,7 +168,7 @@ opera: opera.pac
 blender: blender.pac
 evince: evince.pac
 gimp: gimp.pac
-libreoffice: libreoffice.pac
+libreoffice: libreoffice-fresh.pac
 redshift: redshift.pac redshift.usr
 steam: steam.pac steam-fonts.aur
 sublime-text: sublime-text-dev.aur
