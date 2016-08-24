@@ -187,7 +187,7 @@ bash: bash-completion.pac shellcheck.pac
 cpp: clang.pac make.pac
 git: git.pac tig.pac
 haskell: ghc.pac stack.pac
-js: nodejs.pac npm.pac jshint.npm browserify.npm
+js: nodejs.pac npm.pac jshint.npm
 latex: $(shell pacman -Ssq texlive-most | sed 's/$$/.pac/')
 pdf: latex pandoc.pac evince # ppp
 pm2: pm2.npm pm2.srv
