@@ -1,0 +1,27 @@
+# /etc/ssh/sshd_config
+
+# Security - public key only
+PasswordAuthentication no
+ChallengeResponseAuthentication no
+AuthenticationMethods publickey
+AuthorizedKeysFile .ssh/authorized_keys .ssh/authorized_keys2
+X11Forwarding yes
+AllowTcpForwarding yes
+
+# Misc
+Port 22
+PrintMotd no
+LoginGraceTime 30
+
+# Privileges
+PermitRootLogin no
+UsePrivilegeSeparation no
+Subsystem sftp /usr/lib/ssh/sftp-server
+
+# permit password connection from localhost
+Match Address 127.0.0.1
+  PasswordAuthentication yes
+  RSAAuthentication yes
+  PubkeyAuthentication yes
+  PermitEmptyPasswords no
+  AuthenticationMethods password publickey
