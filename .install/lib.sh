@@ -178,6 +178,6 @@ check-updates() {
 
 update() {
   for TYPE in pac aur npm; do
-    "$TYPE-updates"
+    "$TYPE-update"
   done
 }
