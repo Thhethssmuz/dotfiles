@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+
+sed -i 's/^\[Service\]/[Service]\nEnvironment=DISPLAY=:0\nRestartSec=3/' \
+  /usr/lib/systemd/user/redshift.service
