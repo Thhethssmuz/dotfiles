@@ -1,83 +1,250 @@
 #!/bin/bash
 
-source ~/.colors
+#
+# Helpers
+#
 
-git_flags() {
-  local flags=''
-
-  # check if the current directory is in .git before running git checks
-  if [ "$(git rev-parse --is-inside-git-dir 2> /dev/null)" == 'false' ]; then
-
-    # Ensure the index is up to date.
-    git update-index --really-refresh -q &>/dev/null
-
-    # Check for uncommitted changes in the index.
-    if ! git diff --quiet --ignore-submodules --cached; then
-      flags+='+'
-    fi;
-
-    # Check for unstaged changes.
-    if ! git diff-files --quiet --ignore-submodules --; then
-      flags+='!'
-    fi;
-
-    # Check for untracked files.
-    if [ -n "$(git ls-files --others --exclude-standard)" ]; then
-      flags+='?'
-    fi;
-
-    # Check for ahead by commits
-    if git status | grep -q "branch is ahead"; then
-      flags+='>'
-    fi
-
-  fi
-
-  echo -e "$flags"
+function __promptline_wrap {
+  [[ -n "$1" ]] || return 1
+  printf "%s" "${2}${1}${3}"
 }
-
-git_prompt() {
-  local repo=''
-  local branch=''
-  local flags=''
-
-  # Check if the current directory is in a Git repository.
-  if git rev-parse --is-inside-work-tree &>/dev/null; then
-    flags="$(git_flags)"
-
-    repo="$(git rev-parse --show-toplevel)"
-    if [ "$repo" == "$HOME" ]; then
-      repo="dotfiles"
-    else
-      repo="$(basename $repo)"
-    fi
-    repo="$(_color_ bold magenta)${repo}$(_color_ reset)"
-
-    branch="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
-      git rev-parse --short HEAD 2> /dev/null || \
-      echo 'unknown')"
-
-    if [ -n "${flags}" ]; then
-      branch="$(_color_ bold red)${branch}$(_color_ reset)"
-      flags="$(_color_ bold yellow)${flags}$(_color_ reset)"
-    else
-      branch="$(_color_ bold green)${branch}$(_color_ reset)"
-      flags=" "
-    fi
-
-    echo -e "${repo}${flags}${branch}"
+function __promptline_ps1_print {
+  if [ "$is_empty" -eq 1 ]; then
+    prefix="$empty_prefix"
+  fi
+  if __promptline_wrap "$1" "$prefix" "$suffix"; then
+    is_empty=0
   fi
 }
 
-set_prompt() {
-  local prev=$([ $? -eq 0 ] && echo -e "$(_color_ green)\u2714$(_color_ reset)" || echo -e "$(_color_ red)\u2718$(_color_ reset)")
 
-  PS1=""
-  PS1+="$(_color_ bold black)$(date '+%H:%M:%S')$(_color_ reset) "
-  PS1+="${prev} "
-  PS1+="$(_color_ bold black)\\u@\\h$(_color_ reset) "
-  PS1+="$(git_prompt)"
-  PS1+="\n$(_color_ bold blue)\\w$(_color_ reset) $(_color_ bold blue)\$$(_color_ reset) "
+#
+# Segments
+#
+
+function __promptline_last_exit_code {
+  [[ $last_exit_code -gt 0 ]] || return
+  printf "%s" "$last_exit_code"
 }
 
-PROMPT_COMMAND='set_prompt'
+function __promptline_host {
+  if [ -n "${SSH_CLIENT}" ]; then
+    printf "%s" \\h;
+  fi
+}
+
+function __promptline_cwd {
+  local dir_limit="3"
+  local truncation="⋯"
+  local first_char
+  local part_count=0
+  local formatted_cwd=""
+  local dir_sep="  "
+  local tilde="~"
+
+  local cwd="${PWD/#$HOME/$tilde}"
+
+  # get first char of the path, i.e. tilde or slash
+  first_char=${cwd::1}
+
+  # remove leading tilde
+  cwd="${cwd#\~}"
+
+  local git_root_dir
+  local git_match=1
+  local git_matched=0
+  if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
+    git_root_dir=$(git rev-parse --show-toplevel)
+    git_match=0
+    if [ "$git_root_dir" == "$HOME" ]; then
+      git_root_dir="$tilde"
+      first_char=$(__promptline_wrap "$first_char" "$git_fg" "${reset_bold}${cwd_fg}")
+    else
+      git_root_dir=$(basename "$git_root_dir")
+    fi
+  fi
+
+  while [[ "$cwd" == */* && "$cwd" != "/" ]]; do
+    local part="${cwd##*/}"
+    cwd="${cwd%/*}"
+
+    if [ $git_match ] && [ "$part" == "$git_root_dir" ]; then
+      part=$(__promptline_wrap "$part" "${bold}${git_fg}" "${reset_bold}${cwd_fg}")
+      git_match=1
+      git_matched=1
+    fi
+
+    case "$git_match$git_matched$((part_count >= dir_limit))$((part_count == dir_limit))" in
+      ??00) formatted_cwd="$dir_sep$part$formatted_cwd" ;;
+      0011) formatted_cwd="$dir_sep$truncation$formatted_cwd" ;;
+      ?010) ;;
+      1011) first_char="$truncation"; break ;;
+      111?) formatted_cwd="$dir_sep$part$formatted_cwd"; first_char="$truncation"; break ;;
+    esac
+
+    part_count=$((part_count+1))
+    git_matched=0
+  done
+
+  printf "%s" "$first_char$formatted_cwd"
+}
+
+function __promptline_git {
+  [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]] || return
+
+  local branch
+  branch=$( { git symbolic-ref --quiet HEAD || git rev-parse --short HEAD; } 2>/dev/null )
+  branch=${branch##*/}
+
+  local branch_symbol=" "
+  local added_symbol="●"
+  local unmerged_symbol="✗"
+  local modified_symbol="+"
+  local clean_symbol="✔"
+  local has_untracked_files_symbol="…"
+  local ahead_symbol="↑"
+  local behind_symbol="↓"
+
+  local unmerged_count=0
+  local modified_count=0
+  local has_untracked_files=0
+  local added_count=0
+  local is_clean=0
+
+  # shellcheck disable=SC2046
+  set -- $(git rev-list --left-right --count "@{upstream}...HEAD" 2>/dev/null)
+  local behind_count=$1
+  local ahead_count=$2
+
+  # Added (A), Copied (C), Deleted (D), Modified (M), Renamed (R), changed (T), Unmerged (U), Unknown (X), Broken (B)
+  while read -r line; do
+    case "$line" in
+      M*) modified_count=$(( modified_count + 1 )) ;;
+      U*) unmerged_count=$(( unmerged_count + 1 )) ;;
+    esac
+  done < <(git diff --name-status)
+
+  while read -r line; do
+    case "$line" in
+      *) added_count=$(( added_count + 1 )) ;;
+    esac
+  done < <(git diff --name-status --cached)
+
+  if [ -n "$(git ls-files --others --exclude-standard)" ]; then
+    has_untracked_files=1
+  fi
+
+  if [ $(( unmerged_count + modified_count + has_untracked_files + added_count )) -eq 0 ]; then
+    is_clean=1
+  fi
+
+  printf "%s" "${branch_symbol}${bold}${branch:-unknown}${reset_bold}${space}"
+
+  local leading_whitespace=""
+  [[ $ahead_count -gt 0 ]]         && { printf "%s" "${leading_whitespace}${ahead_symbol}${ahead_count}"; leading_whitespace=" "; }
+  [[ $behind_count -gt 0 ]]        && { printf "%s" "${leading_whitespace}${behind_symbol}${behind_count}"; leading_whitespace=" "; }
+  [[ $modified_count -gt 0 ]]      && { printf "%s" "${leading_whitespace}${modified_symbol}${modified_count}"; leading_whitespace=" "; }
+  [[ $unmerged_count -gt 0 ]]      && { printf "%s" "${leading_whitespace}${unmerged_symbol}${unmerged_count}"; leading_whitespace=" "; }
+  [[ $added_count -gt 0 ]]         && { printf "%s" "${leading_whitespace}${added_symbol}${added_count}"; leading_whitespace=" "; }
+  [[ $has_untracked_files -gt 0 ]] && { printf "%s" "${leading_whitespace}${has_untracked_files_symbol}"; leading_whitespace=" "; }
+  [[ $is_clean -gt 0 ]]            && { printf "%s" "${leading_whitespace}${clean_symbol}"; leading_whitespace=" "; }
+
+  return $is_clean
+}
+
+
+#
+# Main
+#
+
+function __promptline_ps1 {
+  local prefix
+  local empty_prefix
+  local suffix
+  local is_empty=1
+
+  local warn_content host_content cwd_content git_content
+
+  if git_content="$(__promptline_git)"; then
+    git_fg="$git_dirty_fg"
+  else
+    git_fg="$git_clean_fg"
+  fi
+  cwd_content="$(__promptline_cwd)"
+  host_content="$(__promptline_host)"
+  warn_content="$(__promptline_last_exit_code)"
+
+
+  # warn section
+  empty_prefix="${warn_fg}${warn_bg}${space}"
+  prefix="${warn_bg}${sep}${warn_fg}${warn_bg}${space}"
+  suffix="${space}${warn_sep_fg}"
+  __promptline_ps1_print "$warn_content"
+
+  # host section
+  empty_prefix="${host_fg}${host_bg}${space}"
+  prefix="${host_bg}${sep}${host_fg}${host_bg}${space}"
+  suffix="${space}${host_sep_fg}"
+  __promptline_ps1_print "$host_content"
+
+  # cwd section
+  empty_prefix="${cwd_fg}${space}"
+  prefix="${reset_bg}${sep}${cwd_fg}${space}"
+  suffix=""
+  __promptline_ps1_print "$cwd_content"
+
+  # git section
+  empty_prefix="${git_fg}${space}"
+  prefix="${git_fg}${space}"
+  suffix=""
+  __promptline_ps1_print "$git_content"
+
+  # close sections
+  printf "%s" "${reset}\n${alt_sep}${space}"
+}
+
+function __promptline {
+
+  # needs to be done first other wise the exit code will be masked by other operations
+  local last_exit_code="$?"
+
+  # ansi colour code wrappers
+  local esc=$'[' end_esc=m
+  local noprint='\[' end_noprint='\]'
+  local wrap="$noprint$esc" end_wrap="$end_esc$end_noprint"
+
+  # characters
+  local space=" "
+  local sep=""
+  local alt_sep=""
+
+  # basic colours
+  local reset="${wrap}0${end_wrap}"
+  local reset_bg="${wrap}49${end_wrap}"
+  local bold="${wrap}1${end_wrap}"
+  local reset_bold="${wrap}22${end_wrap}"
+
+  # warn segment colours
+  local warn_fg="${wrap}30${end_wrap}"
+  local warn_bg="${wrap}41${end_wrap}"
+  local warn_sep_fg="${wrap}31${end_wrap}"
+
+  # host segment colours
+  local host_fg="${wrap}30${end_wrap}"
+  local host_bg="${wrap}45${end_wrap}"
+  local host_sep_fg="${wrap}35${end_wrap}"
+
+  # cwd segment colours
+  local cwd_fg="${wrap}37${end_wrap}"
+
+  # git segment colours
+  local git_fg=""
+  local git_clean_fg="${wrap}32${end_wrap}"
+  local git_dirty_fg="${wrap}31${end_wrap}"
+
+  PS1="$(__promptline_ps1)"
+}
+
+if [[ ! "$PROMPT_COMMAND" == *__promptline* ]]; then
+  PROMPT_COMMAND='__promptline;'$'\n'"$PROMPT_COMMAND"
+fi
