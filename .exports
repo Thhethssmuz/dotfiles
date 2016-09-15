@@ -12,10 +12,10 @@ export EDITOR=nano
 export VISUAL=nano
 
 # colours in less
-export LESS_TERMCAP_mb=$(color bold red)
-export LESS_TERMCAP_md=$(color bold blue)
-export LESS_TERMCAP_me=$(color reset)
-export LESS_TERMCAP_se=$(color reset)
-export LESS_TERMCAP_so=$(color bold black)
-export LESS_TERMCAP_ue=$(color reset)
-export LESS_TERMCAP_us=$(color magenta)
+export LESS_TERMCAP_mb=$'[1;31m'
+export LESS_TERMCAP_md=$'[1;34m'
+export LESS_TERMCAP_me=$'[0m'
+export LESS_TERMCAP_se=$'[0m'
+export LESS_TERMCAP_so=$'[1;30m'
+export LESS_TERMCAP_ue=$'[0m'
+export LESS_TERMCAP_us=$'[35m'
