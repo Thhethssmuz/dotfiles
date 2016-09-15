@@ -1,0 +1,7 @@
+#!/bin/bash
+set -euo pipefail
+
+# disable auto update hack since auto update messes with systemd when dropbox
+# is run as a systemd service
+rm -rf ~/.dropbox-dist
+install -dm0 ~/.dropbox-dist
