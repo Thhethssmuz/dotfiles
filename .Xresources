@@ -19,6 +19,7 @@ Xterm*saveLines:            8196
 ! -----------------------------------------------------------------------------
 ! Urxvt
 ! -----------------------------------------------------------------------------
+URxvt*termName:             rxvt-unicode-256color
 URxvt.scrollBar:            false
 URxvt.saveLines:            8192
 URxvt*cursorBlink:          true
@@ -27,10 +28,10 @@ URxvt*urgentOnBell:         true
 ! -- Theme
 URxvt.internalBorder:       0
 URxvt.letterSpace:          -1
-URxvt.font:                 xft:DejaVu Sans Mono:pixelsize=13:Regular
-URxvt.boldFont:             xft:DejaVu Sans Mono:pixelsize=13:Bold
-URxvt.italicFont:           xft:DejaVu Sans Mono:pixelsize=13:Italic
-URxvt.boldItalicFont:       xft:DejaVu Sans Mono:pixelsize=13:Bold:Italic
+URxvt.font:                 xft:DejaVu Sans Mono for Powerline:pixelsize=13:Regular
+URxvt.boldFont:             xft:DejaVu Sans Mono for Powerline:pixelsize=13:Bold
+URxvt.italicFont:           xft:DejaVu Sans Mono for Powerline:pixelsize=13:Oblique
+URxvt.boldItalicFont:       xft:DejaVu Sans Mono for Powerline:pixelsize=13:Bold:Oblique
 
 ! -- Transparent background
 URxvt.depth:                32
