@@ -29,15 +29,16 @@ key() {
   for k in "$@"; do
     keys="$keys $HOME/.ssh/${k}_id"
   done
+  # shellcheck disable=SC2086
   keychain --timeout $((8*60)) --quiet --host agent $keys
+  # shellcheck disable=SC1090
   source ~/.keychain/agent-sh
 }
 _key() {
-  local cur prev opts
+  local cur opts
   cur="${COMP_WORDS[COMP_CWORD]}"
-  prev="${COMP_WORDS[COMP_CWORD-1]}"
   opts="$(find ~/.ssh -name "*_id" | sed 's/^.*\.ssh\/\(.*\)_id/\1/')"
-  COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+  COMPREPLY=($(compgen -W "${opts}" -- "${cur}"))
   return 0
 }
 complete -F _key key
