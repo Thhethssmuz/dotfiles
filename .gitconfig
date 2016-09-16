@@ -11,6 +11,7 @@
   # Misc
   amend = commit --amend
   check = diff --check --cached
+  reinit = !bash -c 'rm $(git rev-parse --show-toplevel)/.git/hooks/* && git init'
 
   # Show verbose output about tags, branches or remotes
   tags = tag -l
