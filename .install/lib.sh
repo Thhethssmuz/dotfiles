@@ -95,7 +95,7 @@ aur-check-updates() {
   pacman -Qm | while read -r line; do
     PKG="$(echo "$line" | awk '{print $1}')"
     VER="$(echo "$line" | awk '{print $2}')"
-    UP="$(apacman -Si "$PKG" 2>/dev/null | grep Version | awk '{print $3}')"
+    UP="$(apacman -Si "$PKG" 2>/dev/null | egrep '^Version' | awk '{print $3}')"
 
     if [ "$VER" != "$UP" ]; then
       echo "$PKG $VER -> $UP"
