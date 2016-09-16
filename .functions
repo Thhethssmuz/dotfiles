@@ -9,6 +9,22 @@ jsf() { ff "*.js" "$@" | egrep -v "node_modules|bower_components|lib-cov|coverag
 jst() { ft "*.js" -I "node_modules|bower_components|lib-cov|coverage|*.min*" "$@"; }
 jss() { jsf "${@:2}" | xargs egrep "$1" -n --color=auto 2>/dev/null; }
 
+# version of ll with git prompt status for top-level git directories
+gl() {
+  while read -r dir <&3; do
+    read -r line <&4
+    printf "%s" "$line"
+    (
+      [ -d "$dir" ] && cd "$dir" 2>/dev/null && [ "$(git rev-parse --show-toplevel)" == "$(pwd)" ] || exit
+      local space=" " bold="[1m" reset_bold="[22m" content git_fg
+      content="$(__promptline_git)" && git_fg="[31m" || git_fg="[32m"
+      __promptline_wrap "$content" "${space}${git_fg}" "[0m"
+    )
+    echo
+  done 3< <(ls -A1 --group-directories-first) \
+       4< <(ls -Ahl --group-directories-first --color=always | tail -n+2)
+}
+
 # -- Misc ---------------------------------------------------------------------
 
 compile_xmonad() {
