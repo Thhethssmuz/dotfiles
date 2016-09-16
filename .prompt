@@ -36,7 +36,6 @@ function __promptline_host {
 function __promptline_cwd {
   local dir_limit="3"
   local truncation="⋯"
-  local first_char
   local part_count=0
   local formatted_cwd=""
   local dir_sep="  "
@@ -44,49 +43,44 @@ function __promptline_cwd {
 
   local cwd="${PWD/#$HOME/$tilde}"
 
-  # get first char of the path, i.e. tilde or slash
-  first_char=${cwd::1}
-
-  # remove leading tilde
-  cwd="${cwd#\~}"
-
   local git_root_dir
   local git_match=1
   local git_matched=0
   if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
     git_root_dir=$(git rev-parse --show-toplevel)
+    git_root_dir=${git_root_dir/$HOME/\~}
     git_match=0
-    if [ "$git_root_dir" == "$HOME" ]; then
-      git_root_dir="$tilde"
-      first_char=$(__promptline_wrap "$first_char" "$git_fg" "${reset_bold}${cwd_fg}")
-    else
-      git_root_dir=$(basename "$git_root_dir")
-    fi
   fi
 
-  while [[ "$cwd" == */* && "$cwd" != "/" ]]; do
+  while true; do
     local part="${cwd##*/}"
-    cwd="${cwd%/*}"
+    local last
+    [ "$part" == "" ] && part="/"
+    [ "$cwd" == "$part" ] && last=1 || last=0
 
-    if [ $git_match ] && [ "$part" == "$git_root_dir" ]; then
-      part=$(__promptline_wrap "$part" "${bold}${git_fg}" "${reset_bold}${cwd_fg}")
+    if [ $git_match ] && [ "$cwd" == "$git_root_dir" ]; then
+      part=$(__promptline_wrap "$part" "${bold}${git_fg}" "${cwd_fg}${reset_bold}")
       git_match=1
       git_matched=1
     fi
 
-    case "$git_match$git_matched$((part_count >= dir_limit))$((part_count == dir_limit))" in
-      ??00) formatted_cwd="$dir_sep$part$formatted_cwd" ;;
-      0011) formatted_cwd="$dir_sep$truncation$formatted_cwd" ;;
-      ?010) ;;
-      1011) first_char="$truncation"; break ;;
-      111?) formatted_cwd="$dir_sep$part$formatted_cwd"; first_char="$truncation"; break ;;
+    case "${git_match}${git_matched}$((part_count >= dir_limit))$((part_count == dir_limit))${last}" in
+      ??000) formatted_cwd="${dir_sep}${part}${formatted_cwd}" ;;
+      00100) ;;
+      00110) formatted_cwd="${dir_sep}${truncation}${formatted_cwd}" ;;
+      1???1) formatted_cwd="${part}${formatted_cwd}" ; break ;;
+      10110) formatted_cwd="${truncation}${formatted_cwd}"; break ;;
+      111?0) formatted_cwd="${truncation}${dir_sep}${part}${formatted_cwd}"; break ;;
+      *)     break ;; # this shouldn't happen, but just in case; don't go into an infinite loop
     esac
 
+    cwd="${cwd%/*}"
+    [ "$cwd" == "" ] && cwd="/"
     part_count=$((part_count+1))
     git_matched=0
   done
 
-  printf "%s" "$first_char$formatted_cwd"
+  printf "%s" "$formatted_cwd"
 }
 
 function __promptline_git {
