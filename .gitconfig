@@ -47,5 +47,8 @@
   changed = yellow
   untracked = red
 
+[core]
+  hooksPath = ~/.templates/git/hooks
+
 [init]
   templatedir = ~/.templates/git
