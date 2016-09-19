@@ -6,6 +6,7 @@ MAKEDIR    = $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 HOSTNAME  ?= $(shell hostname)
 USERNAME  ?= $(shell echo '$(MAKEDIR)' | cut -d'/' -f3)
 TYPE      ?=
+TARGET    ?= all
 
 ifneq ($(shell pwd),$(MAKEDIR))
 $(error bad execution directory)
@@ -24,11 +25,11 @@ all: $(HOSTNAME)
 
 status:
 	source lib.sh
-	$(MAKE) --no-print-directory | status
+	$(MAKE) --no-print-directory $(TARGET) | status
 
 install:
 	source lib.sh
-	$(MAKE) --no-print-directory | install
+	$(MAKE) --no-print-directory $(TARGET) | install
 
 check-updates:
 	source lib.sh
