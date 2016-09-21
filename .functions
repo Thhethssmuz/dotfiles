@@ -10,12 +10,17 @@ jst() { ft "*.js" -I "node_modules|bower_components|lib-cov|coverage|*.min*" "$@
 jss() { jsf "${@:2}" | xargs egrep "$1" -n --color=auto 2>/dev/null; }
 
 # version of ll with git prompt status for top-level git directories
+# shellcheck disable=SC2012,SC2034
 gl() {
   while read -r dir <&3; do
     read -r line <&4
     printf "%s" "$line"
     (
-      [ -d "$dir" ] && cd "$dir" 2>/dev/null && [ "$(git rev-parse --show-toplevel)" == "$(pwd)" ] || exit
+      [ -d "$dir" ] || exit
+      cd "$dir" 2>/dev/null || exit
+      [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]] || exit
+      [ "$(git rev-parse --show-toplevel)" == "$(pwd)" ] || exit
+
       local space=" " bold="[1m" reset_bold="[22m" content git_fg
       content="$(__promptline_git)" && git_fg="[31m" || git_fg="[32m"
       __promptline_wrap "$content" "${space}${git_fg}" "[0m"
