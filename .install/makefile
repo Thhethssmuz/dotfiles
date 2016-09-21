@@ -47,7 +47,7 @@ update:
 archbox: base \
 	nvidia input fs \
 	network audio \
-	xorg slim slock xmonad compton environment misc dev \
+	xorg lxdm slock xmonad compton environment misc dev \
 	browsers evince gimp libreoffice redshift steam sublime-text transmission vlc \
 	smbd dropbox
 
