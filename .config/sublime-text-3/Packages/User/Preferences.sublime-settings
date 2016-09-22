@@ -47,5 +47,6 @@
 	"trim_trailing_white_space_on_save": true,
 	"use_tab_stops": false,
 	"word_wrap": false,
-	"wrap_width": 100000
+	"wrap_width": 100000,
+	"update_check": false
 }
