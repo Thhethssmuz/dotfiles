@@ -49,7 +49,7 @@ archbox: base \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
 	browsers evince gimp libreoffice redshift steam sublime-text transmission vlc \
-	smbd dropbox
+	sshd smbd dropbox
 
 archtop: base \
 	mesa input touchpad fs \
@@ -99,7 +99,7 @@ smb: samba.pac
 nxclient: nomachine.aur
 network-tools: curl.pac bind-tools.pac ngrep.pac rsync.pac tcpdump.pac traceroute.pac whois.pac wireshark-gtk.pac wget.pac
 
-sshd: ssh sshd.cfg
+sshd: ssh sshd.srv sshd.cfg
 smbd: smb smbd.srv nmbd.srv smbd.cfg
 nxserver: nxclient nxserver.srv
 dropbox: dropbox.aur dropbox-cli.aur dropbox.usr
