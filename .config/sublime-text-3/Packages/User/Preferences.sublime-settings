@@ -45,8 +45,8 @@
 	"theme": "Cyanide.sublime-theme",
 	"translate_tabs_to_spaces": true,
 	"trim_trailing_white_space_on_save": true,
+	"update_check": false,
 	"use_tab_stops": false,
 	"word_wrap": false,
-	"wrap_width": 100000,
-	"update_check": false
+	"wrap_width": 100000
 }
