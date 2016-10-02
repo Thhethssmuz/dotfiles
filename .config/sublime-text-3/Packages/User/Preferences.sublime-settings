@@ -40,6 +40,7 @@
 		80
 	],
 	"shift_tab_unindent": true,
+	"show_definitions": false,
 	"spell_check": true,
 	"tab_size": 2,
 	"theme": "Cyanide.sublime-theme",
