@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# path
+export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.cargo/bin
 
 export BROWSER=$(which chromium-browser 2>/dev/null || which chromium 2>/dev/null)
