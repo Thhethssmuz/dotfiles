@@ -2,6 +2,6 @@
   "selector": "text.html.markdown.gfm",
   "cmd": ["ppp", "$file"],
   "env": {
-    "PATH": "/usr/local/sbin:/usr/local/bin:/usr/bin:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/thhethssmuz/.cabal/bin"
+    "PATH": "/usr/local/sbin:/usr/local/bin:/usr/bin:$HOME/.local/bin"
   }
 }
