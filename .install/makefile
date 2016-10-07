@@ -73,7 +73,7 @@ sia-10: base \
 base: systemd secret
 
 systemd: logind.cfg
-secret: gnupg.pac keychain.pac pass.pac ssh
+secret: gnupg.pac haveged.pac keychain.pac pass.pac ssh
 
 
 #
