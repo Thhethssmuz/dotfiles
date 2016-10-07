@@ -147,7 +147,7 @@ gtk-theme: elementary-icon-theme.pac numix-themes.pac lxappearance.pac
 terminals: guake.pac rxvt-unicode.pac xterm.pac
 terminal-tools: bc.pac calc.pac lolcat.pac lsb-release.pac nano.pac ranger.pac youtube-dl.pac zalgolize.npm
 hunspell: hunspell.pac hunspell-en.pac
-archive-tools: atool.pac unrar.pac unzip.pac zip.pac
+archive-tools: atool.pac unrar.pac unzip.pac zip.pac p7zip.pac
 image-tools: imagemagick.pac scrot.pac gimp.pac sxiv.pac
 
 
