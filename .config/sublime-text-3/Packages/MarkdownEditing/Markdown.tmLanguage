@@ -1794,6 +1794,22 @@
 		        </dict>
 		    </array>
 		</dict>
+		<key>fenced-stylus</key>
+		<dict>
+		    <key>begin</key>
+		    <string>^(\s*[`~]{3,})(stylus|{.*?\.(stylus)\b.*?})\s*$</string>
+		    <key>end</key>
+		    <string>^(\1)\n</string>
+		    <key>name</key>
+		    <string>markup.raw.block.markdown markup.raw.block.fenced.markdown</string>
+		    <key>patterns</key>
+		    <array>
+		        <dict>
+		            <key>include</key>
+		            <string>source.stylus</string>
+		        </dict>
+		    </array>
+		</dict>
 		<key>fenced-obj-c</key>
 		<dict>
 		    <key>begin</key>
@@ -1985,6 +2001,10 @@
 				<dict>
 					<key>include</key>
 					<string>#fenced-scala</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#fenced-stylus</string>
 				</dict>
 				<dict>
 					<key>include</key>
