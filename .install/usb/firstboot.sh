@@ -14,8 +14,8 @@ set -x
 
 # localectl
 localectl set-locale LANG=en_GB.UTF-8
-localectl set-x11-keymap dvorak pc105 "no(dvorak)"
 localectl set-keymap dvorak
+localectl set-x11-keymap dvorak pc104 "no(dvorak)"
 
 # timedatectl
 timedatectl set-ntp true
