@@ -11,6 +11,7 @@ export CXX=clang++
 export CC=clang
 
 export EDITOR=nano
+export editor=nano
 export VISUAL=nano
 
 # colours in less
