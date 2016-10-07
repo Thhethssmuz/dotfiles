@@ -103,6 +103,10 @@
 .config/sublime-text-3/Packages/**/*.*-ca-bundle
 .config/sublime-text-3/Packages/**/*.last-run
 
+# sxiv
+!.config/sxiv
+!.config/sxiv/**
+
 # top
 !.toprc
 
