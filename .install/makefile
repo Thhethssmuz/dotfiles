@@ -187,7 +187,7 @@ dev: bash cpp git haskell js pdf pm2 json dev-tools sublime-text
 bash: bash-completion.pac shellcheck.pac
 cpp: clang.pac make.pac
 git: git.pac tig.pac
-haskell: ghc.pac stack.pac
+haskell: ghc.pac stack.pac libtinfo.aur
 js: nodejs.pac npm.pac jshint.npm
 latex: $(shell pacman -Ssq texlive-most | sed 's/$$/.pac/')
 pdf: latex pandoc.pac evince # ppp
