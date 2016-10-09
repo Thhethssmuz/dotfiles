@@ -10,15 +10,13 @@
 
 ## Cloning
 
-The simplest procedure for cloning into home, is to first clone into a temporary directory, move the `.git` folder into home, and from there pull and overwrite local files:
+The simplest procedure for cloning into home, is to make an empty git repo in home and make it track master:
 
 ```sh
 cd
-git clone git@github.com:Thhethssmuz/dotfiles.git tmp
-mv tmp/.git .
-rm -rf tmp
-git reset --hard
-git pull
+git init
+git remote add origin git@github.com:Thhethssmuz/dotfiles.git
+git pull origin master
 ```
 
 From this point on you should be able to proceed as normal.
