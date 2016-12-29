@@ -72,7 +72,7 @@ main = do
     , keys               = myKeys home
     , logHook            = myLogHook left
     -- , startupHook        = myStartupHook
-    -- , mouseBindings      = mouseBindings
+    , mouseBindings      = myMouseBindings
     , manageHook         = myManageHook
     , handleEventHook    = myHandleEventHook
     , focusFollowsMouse  = True
@@ -126,41 +126,72 @@ myLayout = tiledSpace ||| tiled ||| fullScreen ||| grid
 -- Layout state that stores previous layout, allows to toggle fullscreen :D
 data LayoutState = LayoutState
   { layoutMap :: M.Map String (String, String)
+  , passThrough :: [Window]
   } deriving (Typeable, Show)
 
 instance ExtensionClass LayoutState where
-  initialValue = LayoutState $ M.fromList []
+  initialValue = LayoutState (M.fromList []) []
 
 -- jump to layout i, unless we are already on layout i then go back to previous
 layout i = do
   ws    <- gets (W.currentTag . windowset)
-  m     <- fmap layoutMap XS.get
+  st    <- XS.get
 
-  let h       = head myLayoutIDs
+  let m       = layoutMap st
+      h       = head myLayoutIDs
       (c, p ) = fromMaybe (h,h) . M.lookup ws $ m
       (c',p') = if i == c then (p,c) else (i,c)
 
-  XS.put . LayoutState . M.insert ws (c',p') $ m
+  XS.put $ st { layoutMap = M.insert ws (c',p') m }
   sendMessage . JumpToLayout $ c'
 
 -- next layout
 cycleLayouts = do
   ws    <- gets (W.currentTag . windowset)
-  m     <- fmap layoutMap XS.get
+  st    <- XS.get
 
-  let h     = head myLayoutIDs
+  let m     = layoutMap st
+      h     = head myLayoutIDs
       (c,_) = fromMaybe (h,h) . M.lookup ws $ m
       c'    = (!!) (cycle myLayoutIDs)
             . (+1) . fromJust . findIndex (== c) $ myLayoutIDs
 
-  XS.put . LayoutState . M.insert ws (c',c) $ m
+  XS.put $ st { layoutMap = M.insert ws (c',c) m }
   sendMessage NextLayout
 
 resetLayoutState l = do
   ws    <- gets (W.currentTag . windowset)
-  m     <- fmap layoutMap XS.get
-  XS.put . LayoutState . M.delete ws $ m
+  st    <- XS.get
+  let m = layoutMap st
+  XS.put $ st { layoutMap = M.delete ws $ m }
   setLayout l
+
+passThroughKey k keys = (k, toggle) : map (\(b,a) -> (b, wrap a)) keys
+  where
+    wrap a = do
+      mw  <- gets (fmap W.focus . W.stack . W.workspace . W.current . windowset)
+      case mw of
+        Nothing -> a
+        Just w  -> do
+          ws <- fmap passThrough XS.get
+          if w `elem` ws then return () else a
+
+    toggle = do
+      mw <- gets (fmap W.focus . W.stack . W.workspace . W.current . windowset)
+      case mw of
+        Nothing -> return ()
+        Just w  -> do
+          st <- XS.get
+          let ws = passThrough st
+          if w `elem` ws
+            then XS.put $ st { passThrough = filter ((/=) w) ws }
+            else XS.put $ st { passThrough = w:ws }
+
+passThroughMouse bindings = map (\(b,a) -> (b, wrap a)) bindings
+  where
+    wrap a = \w -> do
+      ws <- fmap passThrough XS.get
+      if w `elem` ws then return () else a w
 
 -------------------------------------------------------------------------------
 -- Urgency hook
@@ -349,7 +380,9 @@ myXPConf = def
 -- Key Bindings
 -------------------------------------------------------------------------------
 
-myKeys home conf@(XConfig { modMask = modMask }) = M.fromList $
+myKeys home conf@(XConfig { modMask = modMask }) =
+  M.fromList . passThroughKey (modMask .|. shiftMask .|. mod5Mask, xK_p) $
+
   [ ((modMask .|. shiftMask,    xK_Return ), spawn $ terminal conf)
   , ((modMask,                  xK_F2     ), spawn "gmrun")
 
@@ -359,7 +392,7 @@ myKeys home conf@(XConfig { modMask = modMask }) = M.fromList $
 
   , ((modMask .|. shiftMask,    xK_c      ), kill)
 
-  , ((modMask .|. shiftMask,    xK_space  ), resetLayoutState $ XMonad.layoutHook conf)
+  , ((modMask .|. shiftMask,    xK_space  ), resetLayoutState $ layoutHook conf)
   , ((modMask,                  xK_space  ), cycleLayouts)
   , ((modMask,                  xK_f      ), layout "F")
   , ((modMask,                  xK_g      ), layout "G")
@@ -438,6 +471,15 @@ myKeys home conf@(XConfig { modMask = modMask }) = M.fromList $
   , ((shiftMask,                xK_F9     ), spawn "xsel | espeak -v no -s 240")
   , ((0,                        xK_F10    ), spawn "pkill -9 espeak")
 
+  ]
+
+-------------------------------------------------------------------------------
+-- Mouse Bindings
+-------------------------------------------------------------------------------
+
+myMouseBindings conf@(XConfig { modMask = modMask }) = M.fromList . passThroughMouse $
+  [ ((modMask, button1), \w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster)
+  , ((modMask, button3), \w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster)
   ]
 
 -------------------------------------------------------------------------------
