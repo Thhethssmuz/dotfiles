@@ -1,6 +1,7 @@
 [
 
   { "keys": ["ctrl+shift+b"], "command": "build", "args": {"variant": "Rebuild"} },
+  { "keys": ["ctrl+b"], "command": "build", "args": {"variant": "Build"} },
   { "keys": ["f7"], "command": "build", "args": {"variant": "Run"} },
 
   { "keys": ["ctrl+shift+7"], "command": "toggle_comment", "args": { "block": false } },
