@@ -1,11 +1,13 @@
 {
-  "cmd": ["bash", "$file"],
   "selector": "source.shell",
-
   "variants": [
     {
       "name": "Run",
       "cmd": ["shellcheck", "-x", "$file"]
+    },
+    {
+      "name": "Build",
+      "cmd": ["bash", "$file"]
     }
   ]
 }
