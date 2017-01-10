@@ -118,6 +118,7 @@ mpd: mpd.pac mpd.usr
 mpc: mpc.pac ncmpcpp.pac
 espeak: espeak.pac
 audio-tools: mp3info.pac
+music-tools: musescore.pac
 
 
 #
