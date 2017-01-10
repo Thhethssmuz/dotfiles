@@ -172,7 +172,8 @@ evince: evince.pac
 gimp: gimp.pac
 libreoffice: libreoffice-fresh.pac
 redshift: redshift.pac redshift.usr
-steam: steam.pac steam-fonts.aur
+steam: steam.pac steam-fonts.aur steam-native-runtime.pac
+
 sublime-text: sublime-text-dev.aur
 thunderbird: thunderbird.pac
 transmission: transmission-gtk.pac
