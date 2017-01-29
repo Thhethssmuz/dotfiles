@@ -10,6 +10,7 @@
 		"BracketHighlighter",
 		"C++11",
 		"Clang Format",
+		"CMake",
 		"DocBlockr",
 		"Git Config",
 		"Jade",
