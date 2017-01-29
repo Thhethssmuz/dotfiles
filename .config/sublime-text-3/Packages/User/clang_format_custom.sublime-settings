@@ -44,7 +44,7 @@
   "KeepEmptyLinesAtTheStartOfBlocks": true,
 
   "MaxEmptyLinesToKeep": 2,
-  "NamespaceIndentation": "Inner",
+  "NamespaceIndentation": "All",
   // "PenaltyBreakBeforeFirstCallParameter": 0,
   // "PenaltyBreakComment": 0,
   // "PenaltyBreakFirstLessLess": 0,
