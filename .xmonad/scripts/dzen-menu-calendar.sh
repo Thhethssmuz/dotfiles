@@ -3,11 +3,12 @@
 . ~/.xmonad/scripts/config.sh
 
 title() {
-  echo "$(date '+%a %b %d, %H:%M')"
+  date '+%a %b %d, %H:%M'
 }
 
 slave() {
-  cal -3w
+  TERM=rxvt-unicode-256color cal -3w --color=always | \
+    sed -e "s/\x1b\[7m/^fg($COLOR1)/" -e "s/\x1b\[27m/^fg()/"
 }
 
 main() {
