@@ -6,9 +6,11 @@
   server string = Samba Server
   hosts allow = 192.168.100.0/24 127.0.0.1/8
 
-  printcap name = /etc/printcap
+  # disable print
+  printcap name = /dev/null
   load printers = no
-  # printing = bsd
+  printing = bsd
+
 
   log file = /var/log/samba/%m.log
   max log size = 50
