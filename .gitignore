@@ -23,6 +23,8 @@
 # Shell
 !.bashrc
 !.bash_profile
+!.bash-completion
+!.bash-completion/**
 !.prompt
 !.exports
 !.aliases
