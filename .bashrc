@@ -8,3 +8,7 @@
 # Enable bash completion
 [ -r /usr/share/bash-completion/bash_completion ] && \
   source /usr/share/bash-completion/bash_completion
+
+# Extra custom bash completions
+[ -r ~/.bash-completion ] &&
+  source ~/.bash-completion/*
