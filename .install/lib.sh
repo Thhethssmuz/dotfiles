@@ -17,6 +17,9 @@ filter() {
 cfg-path() {
   head -n1 "templates/$1.tmpl" | sed 's/^#\s*//'
 }
+fil-path() {
+  head -n1 "static/$1.static" | sed 's/^#\s*//'
+}
 render-tmpl() {
   eval "$(echo -e "cat <<EOF\n$(tail -n+2 "templates/$1.tmpl")\nEOF")"
 }
@@ -40,6 +43,10 @@ ini-check() {
 }
 cfg-check() {
   ini-check "$1" && render-tmpl "$1" | diff "$(cfg-path "$1")" - >/dev/null 2>&1
+}
+fil-check() {
+  [ -e "$(fil-path "$1")" ] && tail -n+2 "static/$1.static" | \
+    diff "$(fil-path "$1")" - >/dev/null 2>&1
 }
 srv-check() {
   systemctl is-enabled "$1.service" >/dev/null 2>&1
@@ -72,6 +79,11 @@ ini-install() {
 }
 cfg-install() {
   ini-install "$@"
+}
+fil-install() {
+  for TARGET in "$@"; do
+    tail -n+2 "static/$1.static" > "$(fil-path "$TARGET")"
+  done
 }
 srv-install() {
   systemctl enable "${*/%/.service}"
@@ -145,7 +157,7 @@ status() {
 install() {
   TARGETS=$(filter)
 
-  for TYPE in pac aur npm ini cfg srv usr; do
+  for TYPE in pac aur npm ini cfg fil srv usr; do
     if echo "$TARGETS" | egrep "\.$TYPE\$" >/dev/null 2>&1; then
       TARGETS_OF_TYPE=($(echo "$TARGETS" | egrep "\.$TYPE\$" | sed 's/\..*$//'))
       if [ "${#TARGETS_OF_TYPE[*]}" ]; then
