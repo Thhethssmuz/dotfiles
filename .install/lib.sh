@@ -95,7 +95,7 @@ aur-check-updates() {
   pacman -Qm | while read -r line; do
     PKG="$(echo "$line" | awk '{print $1}')"
     VER="$(echo "$line" | awk '{print $2}')"
-    UP="$(apacman -Si "$PKG" 2>/dev/null | egrep '^Version' | awk '{print $3}')"
+    UP="$(apacman -Si "$PKG" 2>/dev/null | egrep '^Version' | awk '{print $3}' || echo 'unknown')"
 
     if [ "$VER" != "$UP" ]; then
       echo "$PKG $VER -> $UP"
@@ -103,7 +103,7 @@ aur-check-updates() {
   done
 }
 npm-check-updates() {
-  npm outdated -g --depth=0 2>/dev/null | tail -n+2 | while read -r line; do
+  (npm outdated -g --depth=0 2>/dev/null || true) | tail -n+2 | while read -r line; do
     PKG="$(echo "$line" | awk '{print $1}')"
     VER="$(echo "$line" | awk '{print $2}')"
     UP="$(echo "$line" | awk '{print $4}')"
@@ -123,7 +123,7 @@ aur-update() {
   apacman -Syu --auronly
 }
 npm-update() {
-  PKGS=($(npm outdated -g --depth=0 --parseable 2>/dev/null | cut -d: -f4))
+  PKGS=($( (npm outdated -g --depth=0 --parseable 2>/dev/null || true) | cut -d: -f4))
   npm install -g "${PKGS[*]}"
 }
 
