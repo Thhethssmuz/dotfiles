@@ -38,9 +38,10 @@
 # Install scripts
 !.install
 !.install/*
-!.install/usb/*
 !.install/hooks/*
+!.install/static/*
 !.install/templates/*
+!.install/usb/*
 
 
 # user configuration directory (only directory, not all its contents)
