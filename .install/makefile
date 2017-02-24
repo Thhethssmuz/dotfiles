@@ -188,7 +188,7 @@ dev: bash cpp git haskell js pdf pm2 json dev-tools sublime-text
 
 bash: bash-completion.pac shellcheck.pac
 cpp: clang.pac make.pac
-git: git.pac tig.pac
+git: git.pac tig.pac git-crypt.aur
 haskell: ghc.pac stack.pac libtinfo.aur
 js: nodejs.pac npm.pac jshint.npm
 latex: $(shell pacman -Ssq texlive-most | sed 's/$$/.pac/')
@@ -213,6 +213,8 @@ mysql: mariadb.pac
 %.ini:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
 %.cfg:
+	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
+%.fil:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
 %.srv:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
