@@ -35,7 +35,7 @@ import Data.Time.Format (formatTime, defaultTimeLocale)
 
 import qualified Data.Map as M
 import Data.Bits ((.|.))
-import Data.Char (isSpace)
+import Data.Char (isAlphaNum)
 import Data.List
 import Data.Maybe
 import Data.Monoid
@@ -355,14 +355,14 @@ myXPConf = def
     [ ((controlMask,            xK_v        ), pasteString)
 
     , ((0,                      xK_BackSpace), deleteString Prev)
-    , ((mod1Mask,               xK_BackSpace), killWord' isSpace Prev)
+    , ((mod1Mask,               xK_BackSpace), killWord' isAlphaNum Prev)
     , ((0,                      xK_Delete   ), deleteString Next)
-    , ((mod1Mask,               xK_Delete   ), killWord' isSpace Next)
+    , ((mod1Mask,               xK_Delete   ), killWord' isAlphaNum Next)
 
     , ((0,                      xK_Left     ), moveCursor Prev)
-    , ((mod1Mask,               xK_Left     ), moveWord' isSpace Prev)
+    , ((mod1Mask,               xK_Left     ), moveWord' isAlphaNum Prev)
     , ((0,                      xK_Right    ), moveCursor Next)
-    , ((mod1Mask,               xK_Right    ), moveWord' isSpace Next)
+    , ((mod1Mask,               xK_Right    ), moveWord' isAlphaNum Next)
 
     , ((0,                      xK_Home     ), startOfLine)
     , ((controlMask,            xK_a        ), startOfLine)
