@@ -7,8 +7,9 @@ dzen2 \
   -bg "$BACKGROUND" \
   -fn "$MAIN_FONT" \
   -xs "$SCREEN" \
-  -x  "$(($WIDTH_LEFT + $WIDTH_MIDDLE))" \
+  -x  "$((WIDTH_LEFT + WIDTH_MIDDLE))" \
   -y  0 \
   -w  "$WIDTH_RIGHT" \
   -h  "$HEIGHT" \
-  -ta r
+  -ta r \
+  -dock

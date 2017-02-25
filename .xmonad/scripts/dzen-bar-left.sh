@@ -11,4 +11,5 @@ dzen2 \
   -y  0 \
   -w  "$WIDTH_LEFT" \
   -h  "$HEIGHT" \
-  -ta l
+  -ta l \
+  -dock
