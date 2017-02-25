@@ -299,7 +299,7 @@ returnComplete' state = do
 
 extConf conf state history = conf
   { historyFilter       = deleteAllDuplicates
-  , completionKey       = xK_F23
+  , completionKey       = (0, xK_F23)
   , promptKeymap        = M.fromList
     [ ((0,                      xK_Tab      ), tabComplete state)
     , ((0,                      xK_Up       ), historyUpMatching history)
@@ -309,7 +309,7 @@ extConf conf state history = conf
 
 extConf' conf state history = conf
   { historyFilter       = deleteAllDuplicates
-  , completionKey       = xK_F23
+  , completionKey       = (0, xK_F23)
   , promptKeymap        = M.fromList
     [ ((0,                      xK_Tab      ), tabComplete' state)
     , ((0,                      xK_Up       ), historyUpMatching history)
