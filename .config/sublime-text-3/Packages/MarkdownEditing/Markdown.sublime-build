@@ -1,7 +1,12 @@
 {
   "selector": "text.html.markdown.gfm",
-  "cmd": ["ppp", "$file"],
-  "env": {
-    "PATH": "/usr/local/sbin:/usr/local/bin:/usr/bin:$HOME/.local/bin"
-  }
+  "variants": [
+    {
+      "name": "Build",
+      "cmd": ["ppp", "$file"],
+      "env": {
+        "PATH": "/usr/local/sbin:/usr/local/bin:/usr/bin:$HOME/.local/bin"
+      }
+    }
+  ]
 }
