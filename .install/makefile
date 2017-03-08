@@ -144,7 +144,7 @@ home: xdg-user-dirs.pac
 aur-helper: curl.pac wget.pac apacman.aur
 x-tools: numlockx.pac xclip.pac xdotool.pac xorg-xev.pac xorg-xprop.pac xorg-xwininfo.pac xsel.pac
 fonts: ttf-dejavu.pac ttf-liberation.pac ttf-ubuntu-font-family.pac ttf-ionicons.pac ttf-font-awesome.aur ttf-opensans.aur ttf-dejavu-sans-mono-powerline-git.aur
-gtk-theme: elementary-icon-theme.pac numix-themes.pac lxappearance.pac
+gtk-theme: elementary-icon-theme.pac numix-gtk-theme.pac lxappearance.pac
 terminals: guake.pac rxvt-unicode.pac xterm.pac
 terminal-tools: bc.pac calc.pac lolcat.pac lsb-release.pac nano.pac ncdu.pac ranger.pac youtube-dl.pac zalgolize.npm
 hunspell: hunspell.pac hunspell-en.pac
