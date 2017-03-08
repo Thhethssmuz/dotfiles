@@ -135,8 +135,11 @@ aur-update() {
   apacman -Syu --auronly
 }
 npm-update() {
-  PKGS=($( (npm outdated -g --depth=0 --parseable 2>/dev/null || true) | cut -d: -f4))
-  npm install -g "${PKGS[*]}"
+  (npm outdated -g --depth=0 --parseable 2>/dev/null || true) | cut -d: -f4 | while read -r line; do
+    npm install -g "$line"
+  done
+  # PKGS=($( (npm outdated -g --depth=0 --parseable 2>/dev/null || true) | cut -d: -f4))
+  # npm install -g "${PKGS[*]}"
 }
 
 
