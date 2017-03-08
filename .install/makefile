@@ -48,21 +48,21 @@ archbox: base \
 	nvidia input fs \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
-	browsers evince gimp libreoffice redshift steam sublime-text transmission vlc \
+	browsers evince gimp libreoffice redshift steam sublime-text transmission vlc weechat \
 	sshd smbd dropbox
 
 archtop: base \
 	mesa input touchpad fs \
 	network audio \
 	xorg lxdm slock xmonad environment misc dev \
-	browsers evince gimp libreoffice steam sublime-text vlc \
+	browsers evince gimp libreoffice steam sublime-text vlc weechat \
 	dropbox
 
 sia-10: base \
 	nvidia input touchpad fs \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
-	browsers evince gimp libreoffice sublime-text thunderbird transmission vlc \
+	browsers evince gimp libreoffice sublime-text thunderbird transmission vlc weechat \
 	sshd nxserver
 
 
@@ -178,6 +178,7 @@ sublime-text: sublime-text-dev.aur
 thunderbird: thunderbird.pac
 transmission: transmission-gtk.pac
 vlc: vlc.pac
+weechat: weechat.pac
 
 
 #
