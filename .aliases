@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 # navigation
@@ -15,12 +16,12 @@ alias ............='cd ../../../../../../../../../../..'
 alias .............='cd ../../../../../../../../../../../..'
 
 # listings
-alias l='ls --group-directories-first'
-alias la='ls -A --group-directories-first'
+alias l='ls -1 --group-directories-first'
+alias la='ls -1A --group-directories-first'
 alias ll='ls -Ahl --group-directories-first'
 
 # colours
-alias ls='ls --color=auto'
+alias ls='ls --color=auto --group-directories-first'
 alias tree='tree -C'
 alias grep='grep --color=auto'
 alias diff='diff -Naur --color=auto'
