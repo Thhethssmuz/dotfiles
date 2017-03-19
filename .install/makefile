@@ -55,7 +55,7 @@ archtop: base \
 	mesa input touchpad fs \
 	network audio \
 	xorg lxdm slock xmonad environment misc dev \
-	browsers evince gimp libreoffice steam sublime-text vlc weechat \
+	browsers evince gimp libreoffice sublime-text vlc weechat \
 	dropbox
 
 sia-10: base \
