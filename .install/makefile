@@ -12,7 +12,7 @@ ifneq ($(shell pwd),$(MAKEDIR))
 $(error bad execution directory)
 endif
 
-.PHONY: all status install
+.PHONY: all status check-updates update install explicit remove
 .PHONY: archbox archtop sia-10
 .ONESHELL:
 
@@ -24,21 +24,22 @@ endif
 all: $(HOSTNAME)
 
 status:
-	source lib.sh
-	$(MAKE) --no-print-directory $(TARGET) | status
-
-install:
-	source lib.sh
-	$(MAKE) --no-print-directory $(TARGET) | install
+	$(MAKE) --no-print-directory $(TARGET) | lib/provision.sh status
 
 check-updates:
-	source lib.sh
-	check-updates
+	lib/provision.sh check-updates
 
 update:
-	source lib.sh
-	update
+	lib/provision.sh update
 
+install:
+	$(MAKE) --no-print-directory $(TARGET) | lib/provision.sh install
+
+explicit:
+	$(MAKE) --no-print-directory $(TARGET) | lib/provision.sh explicit
+
+remove:
+	$(MAKE) --no-print-directory $(TARGET) | lib/provision.sh remove
 
 #
 # Hosts
