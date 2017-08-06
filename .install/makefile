@@ -81,7 +81,7 @@ secret: gnupg.pac haveged.pac keychain.pac pass.pac ssh
 # Drivers
 #
 
-nvidia: nvidia.pac nvidia-libgl.pac lib32-nvidia-libgl.pac nvidia-settings.pac initial-nvidia-xorg.ini
+nvidia: nvidia.pac nvidia-utils.pac lib32-nvidia-utils.pac nvidia-settings.pac initial-nvidia-xorg.ini
 mesa: mesa.pac lib32-mesa.pac xf86-video-intel.pac arandr.pac
 input: libevdev.pac xf86-input-evdev.pac
 touchpad: xf86-input-synaptics.pac
