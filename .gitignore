@@ -39,6 +39,7 @@
 !.install
 !.install/*
 !.install/hooks/*
+!.install/lib/*
 !.install/static/*
 !.install/templates/*
 !.install/usb/*
