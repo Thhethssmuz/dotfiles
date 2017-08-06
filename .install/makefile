@@ -126,7 +126,7 @@ music-tools: musescore.pac
 # Desktop
 #
 
-xorg: xorg-server.pac xorg-xinit.pac xorg-server-utils.pac
+xorg: xorg-server.pac xorg-xinit.pac $(shell pacman -Ssq xorg-apps | sed 's/$$/.pac/')
 lxdm: lxdm.pac archlinux-lxdm-theme-full.aur lxdm.cfg lxdm.srv
 slim: slim.pac archlinux-themes-slim.pac slim.cfg
 slock: slock.pac xautolock.pac
