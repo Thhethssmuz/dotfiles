@@ -49,7 +49,8 @@ archbox: base \
 	nvidia input fs \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
-	blender browsers evince gimp libreoffice redshift steam sublime-text transmission vlc weechat \
+	blender browsers evince gimp libreoffice musescore redshift steam sublime-text \
+	transmission vlc weechat \
 	sshd smbd dropbox
 
 archtop: base \
@@ -119,7 +120,6 @@ mpd: mpd.pac mpd.usr
 mpc: mpc.pac ncmpcpp.pac
 espeak: espeak.pac
 audio-tools: mp3info.pac
-music-tools: musescore.pac
 
 
 #
@@ -172,9 +172,9 @@ blender: blender.pac
 evince: evince.pac
 gimp: gimp.pac
 libreoffice: libreoffice-fresh.pac
+musescore: midi musescore.pac
 redshift: redshift.pac redshift.usr
 steam: steam.pac steam-fonts.aur steam-native-runtime.pac
-
 sublime-text: sublime-text-dev.aur
 thunderbird: thunderbird.pac
 transmission: transmission-gtk.pac
