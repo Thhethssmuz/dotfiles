@@ -142,7 +142,7 @@ environment: dzen2.pac haskell-async.pac haskell-dbus.pac haskell-stm.pac hsetro
 misc: home aur-helper x-tools fonts gtk-theme terminals terminal-tools hunspell archive-tools image-tools
 
 home: xdg-user-dirs.pac
-aur-helper: curl.pac wget.pac apacman.aur
+aur-helper: curl.pac wget.pac apacman.aur expac.pac
 x-tools: numlockx.pac xclip.pac xdotool.pac xorg-xev.pac xorg-xprop.pac xorg-xwininfo.pac xsel.pac
 fonts: ttf-dejavu.pac ttf-liberation.pac ttf-ubuntu-font-family.pac ttf-ionicons.pac ttf-font-awesome.aur ttf-opensans.aur ttf-dejavu-sans-mono-powerline-git.aur
 gtk-theme: elementary-icon-theme.pac numix-gtk-theme.pac lxappearance.pac
