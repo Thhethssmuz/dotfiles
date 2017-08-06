@@ -189,7 +189,7 @@ weechat: weechat.pac
 dev: bash cpp git haskell js pdf json dev-tools sublime-text
 
 bash: bash-completion.pac shellcheck.pac
-cpp: clang.pac make.pac
+cpp: clang.pac make.pac cmake.pac ninja.pac gdb.pac
 git: git.pac tig.pac git-crypt.aur
 haskell: ghc.pac stack.pac libtinfo.aur
 js: nodejs.pac npm.pac jshint.npm
