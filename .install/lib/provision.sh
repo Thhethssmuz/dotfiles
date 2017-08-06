@@ -63,7 +63,7 @@ install() {
 }
 
 explicit() {
-  filter mark | teeall mark
+  filter explicit | teeall explicit
 }
 
 remove() {
