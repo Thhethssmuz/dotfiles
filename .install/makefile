@@ -126,7 +126,7 @@ audio-tools: mp3info.pac
 # Desktop
 #
 
-xorg: xorg-server.pac xorg-xinit.pac $(shell pacman -Ssq xorg-apps | sed 's/$$/.pac/')
+xorg: xorg-server.pac xorg-xinit.pac xorg-apps.pag
 lxdm: lxdm.pac archlinux-lxdm-theme-full.aur lxdm.cfg lxdm.srv
 slim: slim.pac archlinux-themes-slim.pac slim.cfg
 slock: slock.pac xautolock.pac
@@ -193,7 +193,7 @@ cpp: clang.pac make.pac cmake.pac ninja.pac gdb.pac
 git: git.pac tig.pac git-crypt.aur
 haskell: ghc.pac stack.pac libtinfo.aur
 js: nodejs.pac npm.pac jshint.npm
-latex: $(shell pacman -Ssq texlive-most | sed 's/$$/.pac/')
+latex: texlive-most.pag
 pdf: latex pandoc.pac evince # ppp
 json: jshon.pac json.npm
 dev-tools: git make.pac the_silver_searcher.pac
@@ -206,6 +206,8 @@ mysql: mariadb.pac
 # List targets
 #
 
+%.pag:
+	[[ "$@" =~ $(TYPE)$$ ]] && pacman -Ssq "$*" | sed 's/$$/.pac/' || true
 %.pac:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
 %.aur:
