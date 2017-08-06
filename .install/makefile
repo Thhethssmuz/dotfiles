@@ -49,7 +49,7 @@ archbox: base \
 	nvidia input fs \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
-	browsers evince gimp libreoffice redshift steam sublime-text transmission vlc weechat \
+	blender browsers evince gimp libreoffice redshift steam sublime-text transmission vlc weechat \
 	sshd smbd dropbox
 
 archtop: base \
