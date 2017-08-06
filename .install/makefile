@@ -64,7 +64,7 @@ sia-10: base \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
 	browsers evince gimp libreoffice sublime-text thunderbird transmission vlc weechat \
-	sshd nxserver
+	sshd nxserver pm2
 
 
 #
@@ -186,7 +186,7 @@ weechat: weechat.pac
 # Development
 #
 
-dev: bash cpp git haskell js pdf pm2 json dev-tools sublime-text
+dev: bash cpp git haskell js pdf json dev-tools sublime-text
 
 bash: bash-completion.pac shellcheck.pac
 cpp: clang.pac make.pac
@@ -195,10 +195,10 @@ haskell: ghc.pac stack.pac libtinfo.aur
 js: nodejs.pac npm.pac jshint.npm
 latex: $(shell pacman -Ssq texlive-most | sed 's/$$/.pac/')
 pdf: latex pandoc.pac evince # ppp
-pm2: pm2.npm pm2.srv
 json: jshon.pac json.npm
 dev-tools: git make.pac the_silver_searcher.pac
 
+pm2: pm2.npm pm2.srv
 mysql: mariadb.pac
 
 
