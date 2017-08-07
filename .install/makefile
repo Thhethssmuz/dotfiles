@@ -207,7 +207,7 @@ mysql: mariadb.pac
 #
 
 %.pag:
-	[[ "$@" =~ $(TYPE)$$ ]] && pacman -Ssq "$*" | sed 's/$$/.pac/' || true
+	[[ "$@" =~ $(TYPE)$$ ]] && pacman -Sgq "$*" | sed 's/$$/.pac/' || true
 %.pac:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
 %.aur:
