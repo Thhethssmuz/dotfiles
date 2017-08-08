@@ -64,7 +64,7 @@ sia-10: base \
 	nvidia input touchpad fs \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
-	browsers evince gimp libreoffice remmina sublime-text thunderbird \
+	browsers evince gimp libreoffice mysql remmina sublime-text thunderbird \
 	transmission vlc weechat \
 	sshd nxserver pm2
 
@@ -201,7 +201,7 @@ json: jshon.pac json.npm
 dev-tools: git make.pac the_silver_searcher.pac
 
 pm2: pm2.npm pm2.srv
-mysql: mariadb.pac
+mysql: mariadb.pac mariadb.srv mysqld.srv
 
 
 #
