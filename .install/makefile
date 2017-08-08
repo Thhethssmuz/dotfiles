@@ -64,7 +64,8 @@ sia-10: base \
 	nvidia input touchpad fs \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
-	browsers evince gimp libreoffice sublime-text thunderbird transmission vlc weechat \
+	browsers evince gimp libreoffice remmina sublime-text thunderbird \
+	transmission vlc weechat \
 	sshd nxserver pm2
 
 
@@ -105,7 +106,7 @@ sshd: ssh sshd.srv sshd.cfg
 smbd: smb smbd.srv nmbd.srv smbd.cfg
 nxserver: nxclient nxserver.srv
 dropbox: dropbox.aur dropbox-cli.aur dropbox.usr
-
+remmina: remmina.pac freerdp.pac remmina-plugin-rdesktop.aur
 
 #
 # Audio
