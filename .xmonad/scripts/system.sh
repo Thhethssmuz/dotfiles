@@ -17,7 +17,7 @@ close() {
   sleep 2
 
   for win in $(wmctrl -l | awk '{print $1}'); do
-    wmctrl -i -c $win
+    wmctrl -i -c "$win"
     sleep 0.25
   done
 }
@@ -65,7 +65,7 @@ logout() {
 
 usage() {
   cat <<EOF
-Usage: $(basename $0) OPTION
+Usage: $(basename "$0") OPTION
 
 System control.
 
@@ -91,7 +91,7 @@ main() {
 
   local cmd
 
-  while [[ $# > 0 ]]; do
+  while [[ $# -gt 0 ]]; do
 
     case $1 in
 
@@ -106,22 +106,19 @@ main() {
         ;;
 
       --*)
-        echo "$(basename $0): invalid option $1"
-        echo "Try $(basename $0) --help for more info"
+        echo "$(basename "$0"): invalid option $1"
+        echo "Try $(basename "$0") --help for more info"
         exit 1
         ;;
 
       -??*)
-        local tmp1=$(echo "$1" | sed 's/-\(.\).*/-\1/')
-        local tmp2=$(echo "$1" | sed 's/-./-/')
-        set -- "$tmp2" "${@:2}"
-        set -- "$tmp1" "$@"
+        set -- "${1:0:2}" "-${1:2}" "${@:2}"
         continue
         ;;
 
       *)
-        echo "$(basename $0): invalid option $1"
-        echo "Try $(basename $0) --help for more info"
+        echo "$(basename "$0"): invalid option $1"
+        echo "Try $(basename "$0") --help for more info"
         exit 1
         ;;
 
@@ -139,4 +136,4 @@ main() {
   fi
 }
 
-main $@
+main "$@"
