@@ -91,6 +91,17 @@
         </dict>
         <dict>
             <key>name</key>
+            <string>Invalid - Error</string>
+            <key>scope</key>
+            <string>invalid.error</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#ff0000</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key>
             <string>Operators</string>
             <key>scope</key>
             <string>keyword.operator</string>
@@ -596,6 +607,46 @@
                 <string>#bbbb77</string>
             </dict>
         </dict>
+
+        <!-- pandoc and ppp attribute blocks -->
+        <dict>
+            <key>name</key>
+            <string>Markdown attribute block</string>
+            <key>scope</key>
+            <string>meta.attribute.markdown</string>
+            <key>settings</key>
+            <dict>
+                <!-- <key>background</key> -->
+                <!-- <string></string> -->
+                <key>fontStyle</key>
+                <string></string>
+                <key>foreground</key>
+                <string>#555555</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Markdown attribute block</string>
+            <key>scope</key>
+            <string>meta.attribute.id.markdown,meta.attribute.class.markdown,meta.attribute.name.markdown,meta.attribute.flag.markdown</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#4c76a3</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Markdown attribute block</string>
+            <key>scope</key>
+            <string>meta.attribute.value.markdown</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>#926730</string>
+            </dict>
+        </dict>
+
 
         <dict>
             <key>name</key>
