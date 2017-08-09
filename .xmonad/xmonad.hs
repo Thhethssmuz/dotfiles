@@ -449,7 +449,7 @@ myKeys home conf@(XConfig { modMask = modMask }) =
   -- screen lock
   , ((mod1Mask .|. controlMask,  xK_l     ), spawn $ home ++ ".xmonad/scripts/system.sh --lock")
   , ((modMask .|. shiftMask,     xK_F12   ), spawn (home ++ ".xmonad/scripts/system.sh --logout") >> io (exitWith ExitSuccess))
-  , ((modMask,                   xK_F5    ), spawn $ "ghc -threaded -i" ++ home ++ ".xmonad/lib ~/.xmonad/xmonad.hs -o ~/.xmonad/xmonad-x86_64-linux && xmonad --restart")
+  , ((modMask,                   xK_F5    ), spawn $ home ++ ".xmonad/scripts/system.sh --rexmonad")
   , ((modMask,                   xK_F6    ), sendMessage ToggleStruts)
 
   -- print screen
