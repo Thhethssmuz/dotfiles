@@ -52,10 +52,6 @@ gt() {
 
 # -- Misc ---------------------------------------------------------------------
 
-compile_xmonad() {
-  ghc -threaded -i"$HOME/.xmonad/lib" ~/.xmonad/xmonad.hs -o ~/.xmonad/xmonad-x86_64-linux
-}
-
 # keyload
 key() {
   local keys

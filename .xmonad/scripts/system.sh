@@ -56,6 +56,11 @@ logout() {
   hdotool key 'shift+alt+F12'
 }
 
+rexmonad() {
+  ghc --make ~/.xmonad/xmonad.hs -threaded -i"$HOME/.xmonad/lib" -dynamic \
+    -fforce-recomp -o ~/.xmonad/xmonad-x86_64-linux && xmonad --restart
+}
+
 
 ###############################################################################
 #
@@ -74,6 +79,7 @@ OPTIONS:
       --logout
       --restart
       --poweroff
+      --rexmonad           recompile and restart xmonad
 
   -h, --help               display this help and exit
 
@@ -99,6 +105,7 @@ main() {
       --logout)   cmd="logout"  ;;
       --restart)  cmd="restart" ;;
       --poweroff) cmd="poweroff";;
+      --rexmonad) cmd="rexmonad";;
 
       -h|--help)
         usage
