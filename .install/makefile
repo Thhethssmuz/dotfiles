@@ -193,7 +193,7 @@ dev: bash cpp git haskell js pdf json dev-tools sublime-text
 bash: bash-completion.pac shellcheck.pac
 cpp: clang.pac make.pac cmake.pac ninja.pac gdb.pac
 git: git.pac tig.pac git-crypt.aur
-haskell: ghc.pac stack.pac libtinfo.aur
+haskell: ghc.pac stack.pac libtinfo.aur ncurses5-compat-libs.aur
 js: nodejs.pac npm.pac jshint.npm
 latex: texlive-most.pag
 pdf: latex pandoc.pac evince # ppp
