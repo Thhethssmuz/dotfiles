@@ -61,7 +61,7 @@ archtop: base \
 	dropbox
 
 sia-10: base \
-	nvidia input touchpad fs \
+	nvidia input touchpad fs printer \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
 	browsers evince gimp libreoffice mysql remmina sublime-text thunderbird \
@@ -88,7 +88,7 @@ mesa: mesa.pac lib32-mesa.pac xf86-video-intel.pac arandr.pac
 input: libevdev.pac xf86-input-evdev.pac
 touchpad: xf86-input-synaptics.pac
 fs: dosfstools.pac ntfs-3g.pac mtpfs.pac
-
+printer: cups.pac org.cups.cupsd.srv hplip.pac
 
 #
 # Network
