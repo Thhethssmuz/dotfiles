@@ -1135,8 +1135,22 @@ contexts:
         9: punctuation.definition.tag.end.html
 
   latex-inline:
+    - include: latex-block
     - match: '\\(\w+)'
       scope: constant.character
+
+  latex-block:
+    - match: '\\begin{(\w+)}'
+      push:
+        - meta_scope: constant.character
+        - match: '(%.*)$'
+          scope: comment.line.percentage.latex
+        - match: '\\end{\1}'
+          pop: true
+        # - match: '^\s*$'
+        #   pop: true
+        - include: scope:text.tex
+
   latex-math:
     - match: \$\$
       captures:
