@@ -9,7 +9,7 @@ centered_cursor                    = "no"
 ignore_leading_the                 = "yes"
 
 song_status_format                 = "$2%a $7- $3%t $7- $4%b {(Disc %d) }$7($5%y$7)"
-progressbar_look                   = "◾◾◽"
+progressbar_look                   = "━━─"
 titles_visibility                  = "no"
 
 browser_playlist_prefix            = "$2plist »$9 "
