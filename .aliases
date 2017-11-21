@@ -15,6 +15,10 @@ alias ...........='cd ../../../../../../../../../..'
 alias ............='cd ../../../../../../../../../../..'
 alias .............='cd ../../../../../../../../../../../..'
 
+# git
+alias gs='git status'
+alias gc='git commit'
+
 # listings
 alias l='ls -1 --group-directories-first'
 alias la='ls -1A --group-directories-first'
