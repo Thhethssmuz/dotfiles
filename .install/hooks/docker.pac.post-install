@@ -1,0 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+
+# docker requires the loop module
+tee /etc/modules-load.d/loop.conf <<< "loop"
+modprobe loop

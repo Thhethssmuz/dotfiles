@@ -66,7 +66,7 @@ sia-10: base \
 	xorg lxdm slock xmonad compton environment misc dev \
 	browsers evince gimp libreoffice mysql remmina sublime-text thunderbird \
 	transmission vlc weechat \
-	sshd nxserver pm2
+	sshd nxserver pm2 docker
 
 
 #
@@ -200,6 +200,7 @@ pdf: latex pandoc.pac evince # ppp
 json: jshon.pac json.npm
 dev-tools: git make.pac the_silver_searcher.pac
 
+docker: docker.pac docker.srv docker-compose.pac
 pm2: pm2.npm pm2.srv
 mysql: mariadb.pac mariadb.srv mysqld.srv
 
