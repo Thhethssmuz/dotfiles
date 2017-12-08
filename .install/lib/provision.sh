@@ -22,7 +22,7 @@ teeall() {
       while read -r line; do
         if [ -f "$DIR/../hooks/$line.pre-$1" ]; then
           echo "running pre-$1 hook for $line..."
-          "$DIR/../hooks/$line.pre"
+          "$DIR/../hooks/$line.pre-$1"
         fi
       done <<< "$tmp2"
     fi
@@ -33,7 +33,7 @@ teeall() {
       while read -r line; do
         if [ -f "$DIR/../hooks/$line.post-$1" ]; then
           echo "running post-$1 hook for $line..."
-          "$DIR/../hooks/$line.post"
+          "$DIR/../hooks/$line.post-$1"
         fi
       done <<< "$tmp"
     fi
