@@ -68,6 +68,12 @@ sia-10: base \
 	transmission vlc weechat \
 	sshd nxserver pm2 docker
 
+varch: \
+	input fs \
+	network-manager ssh sshd smb network-tools \
+	xorg lxdm slock xmonad environment misc \
+	chromium sublime-text weechat \
+	bash git js
 
 #
 # Base
