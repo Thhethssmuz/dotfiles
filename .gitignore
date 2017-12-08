@@ -43,7 +43,7 @@
 !.install/static/*
 !.install/templates/*
 !.install/usb/*
-
+!.install/vm/*
 
 # user configuration directory (only directory, not all its contents)
 !.config
