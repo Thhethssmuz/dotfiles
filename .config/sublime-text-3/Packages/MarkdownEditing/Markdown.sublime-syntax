@@ -157,8 +157,14 @@ contexts:
           pop: true
         - include: attribute-block
 
-    - match: '^(?=\S)(Table)?(:)(?![=-]{3,}(?=$))'
+    - match: '^(?=\S)(((\\.)|[\w-])*)(:)\s(?![=-]{3,}(?=$))'
+      captures:
+        1: markup.captionprefix.markdown
+        3: constant.character.escape.markdown
+        4: punctuation.definition.constant.markdown
       push:
+        - match: '^(?=[:]{3,})'
+          pop: true
         - match: '^(?:\s*$|(?=[ ]{,3}>)|(?=```|~~~))|(?=[ \t]*\n)(?<=^===|^====|=====|^---|^----|-----)[ \t]*\n|(?=^#)'
           scope: meta.paragraph.markdown
           pop: true
@@ -168,6 +174,8 @@ contexts:
     - match: '^(?=\S)(?![=-]{3,}(?=$))'
       push:
         - meta_scope: meta.paragraph.markdown
+        - match: '^(?=[:]{3,})'
+          pop: true
         - match: '^(?:\s*$|(?=[ ]{,3}>)|(?=```|~~~))|(?=[ \t]*\n)(?<=^===|^====|=====|^---|^----|-----)[ \t]*\n|(?=^#)'
           pop: true
         - include: inline
