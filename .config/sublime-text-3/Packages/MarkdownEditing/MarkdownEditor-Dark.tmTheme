@@ -325,7 +325,7 @@
                 <key>foreground</key>
                 <string>#555555</string>
                 <key>background</key>
-                <string>#131313</string>
+                <string>#0a0a0a</string>
             </dict>
         </dict>
         <dict>
@@ -409,7 +409,7 @@
                 <key>foreground</key>
                 <string>#888888</string>
                 <key>background</key>
-                <string>#171717</string>
+                <string>#0a0a0a</string>
             </dict>
         </dict>
         <dict>
@@ -479,6 +479,19 @@
             <string>Markup: Heading</string>
             <key>scope</key>
             <string>markup.heading</string>
+            <key>settings</key>
+            <dict>
+                <key>fontStyle</key>
+                <string>bold</string>
+                <key>foreground</key>
+                <string>#ffffff</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Markup: Caption prefix</string>
+            <key>scope</key>
+            <string>markup.captionprefix</string>
             <key>settings</key>
             <dict>
                 <key>fontStyle</key>
@@ -794,9 +807,20 @@
             <key>settings</key>
             <dict>
                 <key>background</key>
-                <string>#212121</string>
+                <string>#0a0a0a</string>
                 <key>foreground</key>
                 <string>#aaaaaa</string>
+            </dict>
+        </dict>
+        <dict>
+            <key>name</key>
+            <string>Nested Divs</string>
+            <key>scope</key>
+            <string>markup.nested.block.div.markdown</string>
+            <key>settings</key>
+            <dict>
+                <key>background</key>
+                <string>#06060c</string>
             </dict>
         </dict>
         <dict>
@@ -807,7 +831,7 @@
             <key>settings</key>
             <dict>
                 <key>background</key>
-                <string>#212121</string>
+                <string>#090909</string>
             </dict>
         </dict>
         <dict>
