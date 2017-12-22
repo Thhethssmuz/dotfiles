@@ -1249,7 +1249,7 @@ contexts:
     - include: attribute-flag
     - include: attribute-illegal
   attribute-id:
-    - match: '#[\w-]+'
+    - match: '#[\w-:]+'
       scope: meta.attribute.id.markdown
   attribute-class:
     - match: '\.[\w-]+'
