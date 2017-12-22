@@ -860,6 +860,8 @@ contexts:
     - include: ampersand
     - include: bracket
     - include: raw
+    - include: latex-inline
+    - include: latex-math
     - include: bold_italic
     - include: bold
     - include: italic
@@ -875,8 +877,6 @@ contexts:
     - include: link-ref-literal
     - include: link-footnote
     - include: tag-kbd
-    - include: latex-inline
-    - include: latex-math
     - include: scope:text.html.basic
   italic:
     - match: |-
@@ -1194,22 +1194,24 @@ contexts:
         8: entity.name.tag.other.html
         9: punctuation.definition.tag.end.html
 
+
   latex-inline:
     - include: latex-block
-    - match: '\\(\w+)'
-      scope: constant.character
-
+    - match: '(?=\\\w+)'
+      push:
+        - meta_scope: constant.character
+        - include: scope:text.tex
+        - match: '\s+'
+          pop: true
   latex-block:
-    - match: '\\begin{(\w+)}'
+    - match: '(?=\\begin{(\w+)})'
       push:
         - meta_scope: constant.character
         - match: '(%.*)$'
           scope: comment.line.percentage.latex
-        - match: '\\end{\1}'
-          pop: true
-        # - match: '^\s*$'
-        #   pop: true
         - include: scope:text.tex
+        - match: '(?<=\\end{\1})'
+          pop: true
 
   latex-math:
     - match: \$\$
