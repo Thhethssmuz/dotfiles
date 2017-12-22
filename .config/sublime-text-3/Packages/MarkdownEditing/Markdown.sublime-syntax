@@ -455,6 +455,40 @@ contexts:
         - match: ^(\1)\n
           pop: true
         - include: scope:source.clojure
+
+  fenced-divs-with-attr:
+    - match: '^([:]{3,})(?=\s*{.*}\s*$)'
+      captures:
+        1: punctuation.definition.string.markdown
+      push:
+        - match: '(?<=:::)\s*({)'
+          push:
+            - meta_scope: meta.attribute.markdown
+            - match: '}\s*$'
+              pop: true
+            - include: attributes
+
+        - meta_scope: markup.nested.block.div.markdown
+        - match: ^(\1[:]*)\n
+          captures:
+            1: punctuation.definition.string.markdown
+          pop: true
+        - include: body
+
+  fenced-divs:
+    - match: '^([:]{3,})\s*([\w-]+)?\s*([:]*)\s*$'
+      captures:
+        1: punctuation.definition.string.markdown
+        2: meta.attribute.class.markdown
+        3: punctuation.definition.string.markdown
+      push:
+        - meta_scope: markup.nested.block.div.markdown
+        - match: ^(\1[:]*)\n
+          captures:
+            1: punctuation.definition.string.markdown
+          pop: true
+        - include: body
+
   fenced-go:
     - match: '^(\s*[`~]{3,})(?=(go|golang|{.*?\.(go|golang)\b.*?})\s*$)'
       push:
@@ -470,6 +504,8 @@ contexts:
           pop: true
         - include: scope:source.Kotlin
   fenced-code-blocks:
+    - include: fenced-divs-with-attr
+    - include: fenced-divs
     - include: fenced-html
     - include: fenced-haskell
     - include: fenced-xml
@@ -833,6 +869,7 @@ contexts:
     - include: link-inline
     - include: link-inet
     - include: link-email
+    - include: bracketed-span
     - include: image-ref
     - include: link-ref
     - include: link-ref-literal
@@ -1035,6 +1072,21 @@ contexts:
         4: punctuation.definition.string.end.markdown
         5: punctuation.definition.constant.begin.markdown
         6: punctuation.definition.constant.end.markdown
+  bracketed-span:
+    - match: '(\[)((?<square>[^\[\]\\]|\\.|\[\g<square>*+\])*+)(\])([ ])?({)'
+      scope: meta.link.inline.markdown
+      captures:
+        1: punctuation.definition.string.begin.markdown
+        2: string.other.link.title.markdown
+        4: punctuation.definition.string.end.markdown
+        5: invalid.illegal.whitespace.markdown
+        6: punctuation.definition.metadata.markdown
+      push:
+        - match: '(})'
+          captures:
+            1: punctuation.definition.metadata.markdown
+          pop: true
+        - include: attributes
   list-paragraph:
     - match: \G\s+(?=\S)
       push:
