@@ -402,7 +402,18 @@ contexts:
       scope: constant.character.escape.markdown
 
   ppp-macro:
-    - match: '^(%)\s*([\w-]+)\s*(:)'
+    - match: '^(%)\s*([^%:\s]+)\s*(:{2,})'
+      captures:
+        1: punctuation.definition.constant.markdown
+        2: constant
+        3: punctuation.definition.constant.markdown
+      push:
+        - match: '^(?!\s+)'
+          pop: true
+        # - include: body
+        - include: inline
+
+    - match: '^(%)\s*([^%:\s]+)\s*(:)'
       captures:
         1: punctuation.definition.constant.markdown
         2: constant
@@ -412,12 +423,11 @@ contexts:
           pop: true
         - include: inline
 
-    - match: '^(%)\s*([\w-]+)\s*'
+    - match: '^(%)\s*([^%:\s]+)\s*'
       captures:
         1: punctuation.definition.constant.markdown
         2: constant
       push:
-        - meta_scope: punctuation.definition.constant.markdown
         - match: '^(?!\s+)'
           pop: true
 
@@ -459,7 +469,7 @@ contexts:
   fenced-divs-with-attr:
     - match: '^([:]{3,})(?=\s*{.*}\s*$)'
       captures:
-        1: punctuation.definition.string.markdown
+        2: punctuation.definition.string.markdown
       push:
         - match: '(?<=:::)\s*({)'
           push:
@@ -476,14 +486,14 @@ contexts:
         - include: body
 
   fenced-divs:
-    - match: '^([:]{3,})\s*([\w-]+)?\s*([:]*)\s*$'
+    - match: '^(\s*)([:]{3,})\s*([\w-]+)?\s*([:]*)\s*$'
       captures:
-        1: punctuation.definition.string.markdown
-        2: meta.attribute.class.markdown
-        3: punctuation.definition.string.markdown
+        2: punctuation.definition.string.markdown
+        3: meta.attribute.class.markdown
+        4: punctuation.definition.string.markdown
       push:
         - meta_scope: markup.nested.block.div.markdown
-        - match: ^(\1[:]*)\n
+        - match: ^\1(\2[:]*)\n
           captures:
             1: punctuation.definition.string.markdown
           pop: true
