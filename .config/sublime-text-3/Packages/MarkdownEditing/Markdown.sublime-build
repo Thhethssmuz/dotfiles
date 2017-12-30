@@ -1,5 +1,5 @@
 {
-  "selector": "text.html.markdown.gfm",
+  "selector": "text.html.markdown.ppp",
   "variants": [
     {
       "name": "Build",
