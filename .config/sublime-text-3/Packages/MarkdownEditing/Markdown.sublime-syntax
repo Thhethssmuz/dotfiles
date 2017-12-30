@@ -1224,24 +1224,24 @@ contexts:
           pop: true
 
   latex-math:
-    - match: \$\$
+    - match: (\$\$)(?=[^\s])
       captures:
-        0: constant.character.entity
+        1: constant.character.entity
       push:
-        - include: latex-inline
-        - match: \$\$
+        - match: (?<=[^\s])(\$\$)
           captures:
-            0: constant.character.entity
+            1: constant.character.entity
           pop: true
-    - match: \$
+        - include: scope:text.tex
+    - match: (\$)(?=[^\s])
       captures:
-        0: constant.character.entity
+        1: constant.character.entity
       push:
-        - include: latex-inline
-        - match: \$
+        - match: (?<=[^\s])(\$)
           captures:
-            0: constant.character.entity
+            1: constant.character.entity
           pop: true
+        - include: scope:text.tex
 
   attribute-block:
     - match: '{(?=((\\.)|[^}])*}\s*$)'
