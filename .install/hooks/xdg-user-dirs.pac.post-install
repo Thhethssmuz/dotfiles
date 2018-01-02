@@ -2,4 +2,6 @@
 set -euo pipefail
 
 # make user directories in home, if not present
-xdg-user-dirs-update
+su "$USERNAME" -l << EOF
+  xdg-user-dirs-update
+EOF

@@ -1,4 +1,6 @@
 #!/bin/bash
 set -euo pipefail
 
-ranger --copy-config=scope
+su "$USERNAME" -l << EOF
+  ranger --copy-config=scope
+EOF

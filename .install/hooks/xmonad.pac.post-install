@@ -2,4 +2,6 @@
 set -euo pipefail
 
 # recompile xmonad with threaded flag
-~/.xmonad/scripts/system --xmonad
+su "$USERNAME" -l << EOF
+  ~/.xmonad/scripts/system --xmonad
+EOF
