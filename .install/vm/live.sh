@@ -1,6 +1,7 @@
 #!/bin/bash
 set -exuo pipefail
 
+# don't automatically re-execute if something goes wrong
 sed -i 's/bash live.sh//' ~/.bashrc
 
 # partition disk
