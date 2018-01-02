@@ -8,7 +8,7 @@ rm -rf /root/.profile
 # systemctl disable getty\@tty1.service.d
 # rm -rf /etc/systemd/system/getty\@tty1.service.d
 
-dhcpcd
+dhcpcd && sleep 10
 
 # localectl
 localectl set-locale LANG=en_GB.UTF-8
