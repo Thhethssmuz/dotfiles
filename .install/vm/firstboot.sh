@@ -1,10 +1,12 @@
 #!/bin/bash
 set -exuo pipefail
 
+# don't automatically re-execute if something goes wrong
+rm -rf /root/.profile
+
 # disable autologin
 # systemctl disable getty\@tty1.service.d
 # rm -rf /etc/systemd/system/getty\@tty1.service.d
-rm -rf /root/.profile
 
 dhcpcd
 
