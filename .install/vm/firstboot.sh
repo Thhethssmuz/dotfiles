@@ -26,9 +26,9 @@ sed -i '/^# %wheel ALL=(ALL) ALL$/ s/^# //' /etc/sudoers
 visudo -cf /etc/sudoers
 
 # set password for root and new user
-yes "$PASSWORD" | passwd
+yes "$PASSWORD" | passwd || :
 useradd -m -g users -G audio,games,rfkill,uucp,video,wheel -s /bin/bash "$USERNAME"
-yes "$PASSWORD" | passwd "$USERNAME"
+yes "$PASSWORD" | passwd $USERNAME || :
 
 # install git
 pacman -S --noconfirm git
