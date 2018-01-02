@@ -9,7 +9,7 @@ locate() {
 }
 
 render() {
-  eval "$(echo -e "cat <<EOF\n$(tail -n+2 "$1")\nEOF")"
+  eval "$(echo -e "cat <<EOF\\n$(tail -n+2 "$1")\\nEOF")"
 }
 
 
