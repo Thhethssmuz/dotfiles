@@ -49,4 +49,5 @@ EOF
 cd ~$USERNAME/.install
 make install
 
-# reboot
+# TODO: kill dhcpcd
+poweroff
