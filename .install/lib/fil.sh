@@ -33,8 +33,10 @@ update() {
 
 install() {
   sed 's/\.fil$//' | while read -r line; do
-    render "$DIR/static/$line.static" | \
-      sudo tee "$(locate "$DIR/static/$line.static")" > /dev/null
+    if [ -n "$line" ]; then
+      render "$DIR/static/$line.static" | \
+        sudo tee "$(locate "$DIR/static/$line.static")" > /dev/null
+    fi
   done
 }
 

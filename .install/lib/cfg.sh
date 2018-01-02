@@ -33,8 +33,10 @@ update() {
 
 install() {
   sed 's/\.cfg$//' | while read -r line; do
-    render "$DIR/templates/$line.tmpl" | \
-      sudo tee "$(locate "$DIR/templates/$line.tmpl")" > /dev/null
+    if [ -n "$line" ]; then
+      render "$DIR/templates/$line.tmpl" | \
+        sudo tee "$(locate "$DIR/templates/$line.tmpl")" > /dev/null
+    fi
   done
 }
 
