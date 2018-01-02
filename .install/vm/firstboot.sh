@@ -6,8 +6,8 @@ set -exuo pipefail
 rm -rf /root/.profile
 
 # disable autologin
-# systemctl disable getty\@tty1.service.d
-# rm -rf /etc/systemd/system/getty\@tty1.service.d
+systemctl disable getty\@tty1.service.d
+rm -rf /etc/systemd/system/getty\@tty1.service.d
 
 dhcpcd && sleep 10
 
