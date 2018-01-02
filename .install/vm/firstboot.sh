@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2086
 set -exuo pipefail
 
 # don't automatically re-execute if something goes wrong
@@ -27,16 +28,15 @@ visudo -cf /etc/sudoers
 
 # set password for root and new user
 yes "$PASSWORD" | passwd || :
-useradd -m -g users -G audio,games,rfkill,uucp,video,wheel -s /bin/bash "$USERNAME"
+useradd -m -g users -G audio,games,rfkill,uucp,video,wheel -s /bin/bash $USERNAME
 yes "$PASSWORD" | passwd $USERNAME || :
 
 # install git
 pacman -S --noconfirm git
 
-# finalize install as user
-su "$USERNAME" -l << EOF
+# clone dotfiles
+su $USERNAME -l << EOF
 
-  # clone dotfiles
   cd ~
   git init
   git remote add origin https://github.com/Thhethssmuz/dotfiles.git
@@ -45,8 +45,8 @@ su "$USERNAME" -l << EOF
 
 EOF
 
-# # run provision
-# cd ~/.install
-# make install
+# run provision
+cd ~$USERNAME/.install
+make install
 
 # reboot
