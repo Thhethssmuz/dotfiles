@@ -3,9 +3,9 @@
   "variants": [
     {
       "name": "Run",
-      "cmd": ["jshint", "$file", "--reporter", "$packages/JSHint/reporter.js"],
-      "file_regex": "JSHint: (.+)\\]",
-      "line_regex": "(\\d+),(\\d+): (.*)$"
+      "cmd": ["eslint", "$file"],
+      "file_regex": "^([^\\s]+\\.js)$",
+      "line_regex": "^\\s*(\\d+):(\\d+)\\s*(.*)$"
     },
     {
       "name": "Build",

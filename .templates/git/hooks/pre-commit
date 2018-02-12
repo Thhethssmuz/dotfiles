@@ -53,8 +53,8 @@ fi
 # catches whitespace errors and leftover conflict markers
 check "*" git check
 
-# run all staged .js files through jshint
-check "*\.js" jshint
+# run all staged .js files through eslint
+check "*\.js" eslint
 
 # run all staged .json files through json --validate
 check "*\.json" json -qnf

@@ -200,7 +200,7 @@ bash: bash-completion.pac shellcheck.pac
 cpp: clang.pac make.pac cmake.pac ninja.pac gdb.pac
 git: git.pac tig.pac git-crypt.aur
 haskell: ghc.pac stack.pac libtinfo.aur ncurses5-compat-libs.aur
-js: nodejs.pac npm.pac jshint.npm
+js: nodejs.pac npm.pac eslint.npm
 latex: texlive-most.pag
 pdf: latex pandoc.pac evince # ppp
 json: jshon.pac json.npm
