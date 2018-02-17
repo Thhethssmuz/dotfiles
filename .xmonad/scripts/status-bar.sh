@@ -19,7 +19,7 @@ render_keyboard_indicator() {
   # echo -n  "^ca(1, exec ~/.xmonad/scripts/dzen-menu-keyboard.sh)"
   echo -n  "^ca(4, exec ~/.xmonad/scripts/keyboard.sh --prev)"
   echo -n  "^ca(5, exec ~/.xmonad/scripts/keyboard.sh --next)"
-  echo -ne "^fn(Font Awesome:size=$FONT_SIZE)\uf11c^fn() "
+  echo -ne "^fn(Font Awesome 5 Free:size=$FONT_SIZE)\\uf11c^fn() "
   echo -n  "$(~/.xmonad/scripts/keyboard.sh --code)"
   echo -n  "^ca()"
   echo -n  "^ca()"
