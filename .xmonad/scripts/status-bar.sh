@@ -64,6 +64,35 @@ render_dropbox_indicator() {
   fi
 }
 
+render_power_indicator() {
+  local status level icon
+
+  for bat in /sys/class/power_supply/BAT*; do
+    status=$(< "$bat/status")
+    level=$(< "$bat/capacity")
+  done
+
+  if [ -z "$status" ]; then
+    return
+  fi
+
+  if [ "$status" == "Discharging" ]; then
+    if [[ "$level" -gt 75 ]]; then
+      icon="\\uf113"
+    elif [[ "$level" -gt 50 ]]; then
+      icon="\\uf114"
+    elif [[ "$level" -gt 25 ]]; then
+      icon="\\uf115"
+    else
+      icon="\\uf112"
+    fi
+  else
+    icon="\\uf111"
+  fi
+
+  echo -ne "^fn(Ionicons:size=$FONT_SIZE)$icon^fn() $level%"
+}
+
 render_user_indicator() {
   echo -n "$(whoami)"
   echo -n " "
@@ -128,12 +157,14 @@ run() {
   local updates_state
   local volume_state
   local dropbox_state
+  local power_state
   local user_state
 
   keyboard_state=$(render_keyboard_indicator)
   updates_state=$(render_updates_indicator)
   volume_state=$(render_volume_indicator)
   dropbox_state=$(render_dropbox_indicator)
+  power_state=$(render_power_indicator)
   user_state=$(render_user_indicator)
 
   render_all_indicators() {
@@ -142,6 +173,7 @@ run() {
       "$updates_state"
       "$volume_state"
       "$dropbox_state"
+      "$power_state"
       "$user_state"
     )
     echo "${all[*]}"
@@ -155,6 +187,7 @@ run() {
   fi
 
   set_update_interval updates 900
+  set_update_interval power 10
   if hash dropbox-cli 2>/dev/null; then
     set_update_interval dropbox 5
   fi
@@ -167,6 +200,7 @@ run() {
       updates)   updates_state=$(render_updates_indicator)   ;;
       volume)    volume_state=$(render_volume_indicator)     ;;
       dropbox)   dropbox_state=$(render_dropbox_indicator)   ;;
+      power)     power_state=$(render_power_indicator)       ;;
       user)      user_state=$(render_user_indicator)         ;;
       quit)      exit 0                                      ;;
     esac
@@ -195,6 +229,7 @@ INDICATORS:
   keyboard                 current keyboard layout indicator
   updates                  available updates indicator
   volume                   current volume indicator
+  power                    power/battery indicator
   user                     current user indicator
 
 EOF
