@@ -7,7 +7,8 @@
     "node": true
   },
   "globals": {
-    "Promise": true
+    "Promise": true,
+    "Set": true
   },
   "rules": {
     "comma-dangle": [0, "never"],
@@ -165,7 +166,11 @@
       "before": true
     }],
     "space-before-blocks": [1, "always"],
-    "space-before-function-paren": [1, "never"],
+    "space-before-function-paren": [1, {
+      "named": "never",
+      "anonymous": "always",
+      "asyncArrow": "always"
+    }],
     "space-in-parens": [1, "never"],
     "space-infix-ops": 1,
     "space-unary-ops": [1, {
