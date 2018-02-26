@@ -126,20 +126,23 @@ runDzenMenus xs = do
 
   state   <- makeState xs
   addr    <- getSessionAddress
-  when (isNothing addr) . throwIO . clientError $ "bad DBUS_SESSION_BUS_ADDRESS"
-  client  <- connectSession
-  reply   <- requestName client name
-               [ nameReplaceExisting
-               , nameAllowReplacement
-               , nameDoNotQueue
-               ]
 
-  let match = matchAny
-                { matchPath        = Just . objectPath_ $ "/org/DzenMenu/Server"
-                , matchInterface   = Just . interfaceName_ $ "org.DzenMenu.Server"
-                , matchDestination = Just name
-                }
+  if isNothing addr
+  then return ()
+  else do
+    client  <- connectSession
+    reply   <- requestName client name
+                 [ nameReplaceExisting
+                 , nameAllowReplacement
+                 , nameDoNotQueue
+                 ]
 
-  addMatch client match . signalHandler $ state
+    let match = matchAny
+                  { matchPath        = Just . objectPath_ $ "/org/DzenMenu/Server"
+                  , matchInterface   = Just . interfaceName_ $ "org.DzenMenu.Server"
+                  , matchDestination = Just name
+                  }
 
-  return ()
+    addMatch client match . signalHandler $ state
+
+    return ()
