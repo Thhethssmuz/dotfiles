@@ -467,8 +467,8 @@ myKeys home conf@(XConfig { modMask = modMask }) =
   , ((0,                        0x1008ff17), spawn "mpc next")
 
   -- espeak
-  , ((0,                        xK_F9     ), spawn "xsel | espeak -s280")
-  , ((shiftMask,                xK_F9     ), spawn "xsel | espeak -vnb -s280")
+  , ((0,                        xK_F9     ), spawn "xsel | espeak -s300")
+  , ((shiftMask,                xK_F9     ), spawn "xsel | espeak -vnb -s300")
   , ((0,                        xK_F10    ), spawn "pkill -9 espeak")
 
   ]
