@@ -6,7 +6,7 @@ list() {
 }
 
 ignore() {
-  pacman -Qgq base base-devel xorg xorg-drivers xorg-apps | sed 's/$/.pac/'
+  pacman -Qgq base base-devel xorg xorg-drivers xorg-apps 2>/dev/null | sed 's/$/.pac/'
 }
 
 
