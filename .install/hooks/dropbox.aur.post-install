@@ -1,7 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-# disable auto update hack since auto update messes with systemd when dropbox
-# is run as a systemd service
+# fix for filesystem max-watchers
+echo 'fs.inotify.max_user_watches = 100000' >> /etc/sysctl.d/99-sysctl.conf
+sysctl --system
+
+# hack to disable auto update
 rm -rf ~/.dropbox-dist
 install -dm0 ~/.dropbox-dist
