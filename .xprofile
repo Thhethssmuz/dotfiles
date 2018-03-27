@@ -37,8 +37,8 @@ xautolock -locker "$HOME/.xmonad/scripts/system.sh --lock" -time 30 &
 if [ "$(hostname)" = "archbox" ]; then
 
   # Screen layout, resolution and frame rate
-  xrandr --output DP-1 --mode 1920x1080 --rate 119.98 --pos 1920x0 --primary
-  xrandr --output DVI-D-0 --mode 1920x1080 --rate 60.00 --pos 0x0
+  xrandr --output DP-2 --mode 1920x1080 --rate 60.00 --pos 1920x0 --primary
+  xrandr --output HDMI-0 --mode 1920x1080 --rate 60.00 --pos 0x0
   xrandr --output DVI-I-1 --mode 1920x1080 --rate 60.00 --pos 3840x0
 
 fi
