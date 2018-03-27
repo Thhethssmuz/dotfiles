@@ -2,8 +2,10 @@
 set -euo pipefail
 
 list() {
-  find /usr/lib/node_modules -mindepth 1 -maxdepth 1 -type d -print0 | \
-    xargs --null basename -a | sed 's/$/\.npm/'
+  if [ -d /usr/lib/node_modules ]; then
+    find /usr/lib/node_modules -mindepth 1 -maxdepth 1 -type d -print0 | \
+      xargs --null basename -a | sed 's/$/\.npm/'
+  fi
 }
 
 ignore() {
