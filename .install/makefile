@@ -66,7 +66,7 @@ sia-10: base \
 	xorg lxdm slock xmonad compton environment misc dev \
 	browsers evince gimp libreoffice mysql remmina sublime-text thunderbird \
 	transmission vlc weechat \
-	sshd nxserver pm2 docker
+	sshd nxserver docker
 
 varch: \
 	input fs \
