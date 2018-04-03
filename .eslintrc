@@ -3,13 +3,11 @@
     "ecmaVersion": 8
   },
   "env": {
+    "es6": true,
     "browser": true,
     "node": true
   },
-  "globals": {
-    "Promise": true,
-    "Set": true
-  },
+  "globals": {},
   "rules": {
     "comma-dangle": [0, "never"],
     "no-cond-assign": [2, "always"],
