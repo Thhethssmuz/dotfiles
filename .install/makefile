@@ -66,7 +66,7 @@ sia-10: base \
 	xorg lxdm slock xmonad compton environment misc dev \
 	browsers evince gimp libreoffice mysql remmina sublime-text thunderbird \
 	transmission vlc weechat \
-	sshd nxserver docker
+	sshd nxserver docker badvpn
 
 varch: \
 	input fs \
@@ -159,6 +159,8 @@ terminal-tools: bc.pac calc.pac cmatrix.pac lolcat.pac lsb-release.pac nano.pac 
 hunspell: hunspell.pac hunspell-en.pac
 archive-tools: atool.pac unrar.pac unzip.pac zip.pac p7zip.pac
 image-tools: imagemagick.pac scrot.pac gimp.pac sxiv.pac
+
+badvpn: badvpn.pac python2-pip.pac screen.pac
 
 
 #
