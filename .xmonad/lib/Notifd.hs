@@ -16,6 +16,7 @@ module Notifd
   ) where
 
 import Control.Monad
+import Control.Monad.Trans.Class
 import Control.Concurrent
 import Control.Concurrent.STM
 import Control.Concurrent.Async
@@ -144,9 +145,9 @@ makeState  = do
 
 getCapabilitiesInn = signature_ []
 getCapabilitiesOut = signature_ [ TypeArray TypeString ]
-getCapabilities :: MethodCall -> IO Reply
+getCapabilities :: MethodCall -> DBusR Reply
 getCapabilities _ = do
-  return . replyReturn $ [ body, sound, xvendor ]
+  return . ReplyReturn $ [ body, sound, xvendor ]
   where
     body    = toVariant $ ("body"         :: String)
     sound   = toVariant $ ("sound"        :: String)
@@ -155,12 +156,12 @@ getCapabilities _ = do
 
 notifyInn = signature_ [ TypeString, TypeWord32, TypeString, TypeString, TypeString, TypeArray TypeString, TypeDictionary TypeString TypeString, TypeInt32 ]
 notifyOut = signature_ [ TypeWord32 ]
-notify :: State -> NotifConf -> MethodCall -> IO Reply
+notify :: State -> NotifConf -> MethodCall -> DBusR Reply
 notify state conf method = do
 
   let args          = methodCallBody method
 
-  notif            <- notifPreProcess conf $ Notif
+  notif            <- lift . notifPreProcess conf $ Notif
                         { notifId  = fromMaybe 0  . fromVariant $ args !! 1
                         , appName  = fromMaybe "" . fromVariant $ args !! 0
                         , appIcon  = fromMaybe "" . fromVariant $ args !! 2
@@ -183,7 +184,7 @@ notify state conf method = do
 
       soundFile     = getHint "sound-file" :: Maybe String
 
-  newAction <- async $ do
+  newAction <- lift . async $ do
     case compare duration' 0 of
       LT -> threadDelay $ notifDuration conf
       EQ -> forever getLine
@@ -194,7 +195,7 @@ notify state conf method = do
     notifOutput conf =<< notifStatusbar conf l
 
   -- update state
-  (action, notif') <- atomically $ do
+  (action, notif') <- lift . atomically $ do
     a <- readTVar . currentAction $ state
     i <- case notifId notif of
            0 -> fmap (+1) . readTVar . currentId $ state
@@ -208,33 +209,33 @@ notify state conf method = do
     writeTVar (currentId state) $ i
     return (a, notif')
 
-  forM_ action cancel
-  unless suppressSound $ (forkIO . notifPlay conf $ soundFile) >> return ()
-  notifOutput conf . notifFormat conf $ notif'
-  return $ replyReturn [toVariant $ notifId notif']
+  lift $ forM_ action cancel
+  lift $ unless suppressSound $ (forkIO . notifPlay conf $ soundFile) >> return ()
+  lift . notifOutput conf . notifFormat conf $ notif'
+  return $ ReplyReturn [toVariant $ notifId notif']
 
 -- we use the close method to clear or remove entries from the log
 closeNotificationInn = signature_ [ TypeWord32 ]
 closeNotificationOut = signature_ []
-closeNotification :: Daemon -> State -> MethodCall -> IO Reply
+closeNotification :: Daemon -> State -> MethodCall -> DBusR Reply
 closeNotification daemon state method = do
   let args    = methodCallBody method
       closeId = fromMaybe 0 . fromVariant $ args !! 0
 
   case closeId of
-    0 -> atomically . writeTVar (currentLog state) $ M.fromList []
-    i -> atomically . modifyTVar' (currentLog state) $ M.delete closeId
+    0 -> lift . atomically . writeTVar (currentLog state) $ M.fromList []
+    i -> lift . atomically . modifyTVar' (currentLog state) $ M.delete closeId
 
-  ndUpdate daemon
+  lift $ ndUpdate daemon
 
-  return $ replyReturn []
+  return $ ReplyReturn []
 
 
 getServerInformationInn = signature_ []
 getServerInformationOut = signature_ [ TypeString, TypeString, TypeString, TypeString ]
-getServerInformation :: MethodCall -> IO Reply
+getServerInformation :: MethodCall -> DBusR Reply
 getServerInformation _ = do
-  return . replyReturn $ [ name, vendor, version, dono ]
+  return . ReplyReturn $ [ name, vendor, version, dono ]
   where
     name    = toVariant $ ("notifd" :: String)
     vendor  = toVariant $ ("notifd" :: String)
@@ -317,31 +318,34 @@ runNotifDaemon conf = do
   if reply /= NamePrimaryOwner
   then return Nothing
   else do
-    export client "/org/freedesktop/Notifications"
-      [ method "org.freedesktop.Notifications"
-               "GetCapabilities"
-               getCapabilitiesInn
-               getCapabilitiesOut
-               getCapabilities
+    export client "/org/freedesktop/Notifications" $ defaultInterface
+      { interfaceName    = "org.freedesktop.Notifications"
+      , interfaceMethods =
+        [ makeMethod
+          "GetCapabilities"
+          getCapabilitiesInn
+          getCapabilitiesOut
+          getCapabilities
 
-      , method "org.freedesktop.Notifications"
-               "Notify"
-               notifyInn
-               notifyOut
-               (notify state conf)
+        , makeMethod
+          "Notify"
+          notifyInn
+          notifyOut
+          (notify state conf)
 
-      , method "org.freedesktop.Notifications"
-               "CloseNotification"
-               closeNotificationInn
-               closeNotificationOut
-               (closeNotification daemon state)
+        , makeMethod
+          "CloseNotification"
+          closeNotificationInn
+          closeNotificationOut
+          (closeNotification daemon state)
 
-      , method "org.freedesktop.Notifications"
-               "GetServerInformation"
-               getServerInformationInn
-               getServerInformationOut
-               getServerInformation
-      ]
+        , makeMethod
+          "GetServerInformation"
+          getServerInformationInn
+          getServerInformationOut
+          getServerInformation
+        ]
+      }
 
     addMatch client matchActionInvoked . actionInvoked daemon $ conf
 
