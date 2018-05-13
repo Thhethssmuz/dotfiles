@@ -93,7 +93,7 @@ nvidia: nvidia.pac nvidia-utils.pac lib32-nvidia-utils.pac nvidia-settings.pac i
 mesa: mesa.pac lib32-mesa.pac xf86-video-intel.pac arandr.pac
 input: libevdev.pac xf86-input-evdev.pac
 touchpad: xf86-input-synaptics.pac
-fs: dosfstools.pac ntfs-3g.pac mtpfs.pac
+fs: dosfstools.pac ntfs-3g.pac mtpfs.pac gvfs-mtp.pac
 printer: cups.pac org.cups.cupsd.srv hplip.pac
 
 #
