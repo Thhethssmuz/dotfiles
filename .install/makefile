@@ -148,7 +148,7 @@ environment: dzen2.pac haskell-async.pac haskell-dbus.pac haskell-stm.pac hsetro
 
 misc: home aur-helper x-tools fonts gtk-theme ranger terminals terminal-tools hunspell archive-tools image-tools
 
-home: xdg-user-dirs.pac
+home: xdg-user-dirs.pac xdg-user-dirs-update.usr
 aur-helper: curl.pac jshon.pac wget.pac apacman.aur expac.pac
 x-tools: numlockx.pac xclip.pac xdotool.pac xorg-xev.pac xorg-xprop.pac xorg-xwininfo.pac xsel.pac
 fonts: gucharmap.pac ttf-dejavu.pac ttf-liberation.pac ttf-ubuntu-font-family.pac ttf-ionicons.pac ttf-font-awesome.pac ttf-opensans.aur ttf-dejavu-sans-mono-powerline-git.aur
