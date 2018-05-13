@@ -50,7 +50,7 @@ archbox: base \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
 	blender browsers evince gimp libreoffice musescore redshift steam sublime-text \
-	transmission vlc weechat \
+	thunar transmission vlc weechat \
 	sshd smbd dropbox
 
 archtop: base \
@@ -186,6 +186,7 @@ musescore: midi musescore.pac
 redshift: redshift.pac redshift.usr
 steam: steam.pac steam-fonts.aur steam-native-runtime.pac
 sublime-text: sublime-text-dev.aur
+thunar: thunar.pac
 thunderbird: thunderbird.pac
 transmission: transmission-gtk.pac
 vlc: vlc.pac
