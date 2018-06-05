@@ -331,7 +331,7 @@ myLogHook h = dynamicLogWithPP $ def
   , ppHidden    = pad
   , ppWsSep     = ""
   , ppSep       = "   "
-  , ppSort      = getSortByXineramaPhysicalRule
+  , ppSort      = getSortByXineramaPhysicalRule def
   , ppOrder     = \(ws:_:t:_) -> [ ' ':ws, t ]
   , ppOutput    = hPutStrLn h
   }
