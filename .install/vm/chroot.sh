@@ -14,7 +14,7 @@ systemd-firstboot \
   --timezone=Europe/Oslo \
   --locale=en_GB.UTF-8 \
   --locale-messages=en_GB.UTF-8 \
-  --hostname=varch
+  --hostname="$HOSTNAME"
 
 hwclock --systohc --utc
 
