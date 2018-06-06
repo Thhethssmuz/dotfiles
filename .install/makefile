@@ -68,7 +68,7 @@ sia-10: base \
 	transmission vlc weechat \
 	sshd nxserver docker badvpn
 
-varch: \
+%-vm: \
 	input fs \
 	network-manager ssh sshd smb network-tools \
 	xorg lxdm slock xmonad environment misc \
