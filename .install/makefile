@@ -13,7 +13,7 @@ $(error bad execution directory)
 endif
 
 .PHONY: all status check-updates update install explicit remove
-.PHONY: archbox archtop sia-10
+.PHONY: archbox archtop sia-10 %-vm
 .ONESHELL:
 
 
@@ -74,6 +74,7 @@ sia-10: base \
 	xorg lxdm slock xmonad environment misc \
 	chromium sublime-text weechat \
 	bash git js
+	-
 
 #
 # Base
