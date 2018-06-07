@@ -81,8 +81,9 @@ sia-10: base \
 # Base
 #
 
-base: systemd secret
+base: pacman systemd secret
 
+pacman: pacman.pac pacman-contrib.pac
 systemd: logind.cfg
 secret: gnupg.pac haveged.pac keychain.pac pass.pac ssh
 
