@@ -156,7 +156,7 @@ fonts: gucharmap.pac ttf-dejavu.pac ttf-liberation.pac ttf-ubuntu-font-family.pa
 gtk-theme: elementary-icon-theme.pac numix-gtk-theme.pac lxappearance.pac
 ranger: ranger.pac highlight.pac
 terminals: guake.pac rxvt-unicode.pac xterm.pac
-terminal-tools: bc.pac calc.pac cmatrix.pac lolcat.pac lsb-release.pac nano.pac ncdu.pac youtube-dl.pac zalgolize.npm
+terminal-tools: bc.pac calc.pac cmatrix.pac lolcat.pac lsb-release.pac nano.pac ncdu.pac pwgen.pac youtube-dl.pac zalgolize.npm
 hunspell: hunspell.pac hunspell-en.pac
 archive-tools: atool.pac unrar.pac unzip.pac zip.pac p7zip.pac
 image-tools: imagemagick.pac scrot.pac gimp.pac sxiv.pac
