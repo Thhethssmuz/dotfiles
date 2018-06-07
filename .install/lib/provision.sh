@@ -2,7 +2,7 @@
 set -euo pipefail
 
 TYPES="pac aur npm  ini cfg fil  mod srv usr"
-DIR=$(dirname "$0")
+DIR=$(realpath "$(dirname "$0")")
 
 
 forall() {
