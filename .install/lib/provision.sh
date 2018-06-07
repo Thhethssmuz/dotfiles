@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-TYPES="pac aur npm  ini cfg fil  srv usr"
+TYPES="pac aur npm  ini cfg fil  mod srv usr"
 DIR=$(dirname "$0")
 
 
