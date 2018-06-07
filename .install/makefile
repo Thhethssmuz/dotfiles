@@ -51,7 +51,7 @@ archbox: base \
 	xorg lxdm slock xmonad compton environment misc dev \
 	blender browsers evince gimp libreoffice musescore redshift steam sublime-text \
 	thunar transmission vlc weechat \
-	sshd smbd dropbox
+	sshd smbd dropbox vm
 
 archtop: base \
 	mesa input touchpad fs \
@@ -66,7 +66,7 @@ sia-10: base \
 	xorg lxdm slock xmonad compton environment misc dev \
 	browsers evince gimp libreoffice mysql remmina sublime-text thunderbird \
 	transmission vlc weechat \
-	sshd nxserver docker badvpn
+	sshd nxserver docker badvpn vm
 
 %-vm: \
 	input fs \
@@ -210,6 +210,7 @@ pdf: latex pandoc.pac evince # ppp
 json: jshon.pac json.npm
 dev-tools: git make.pac the_silver_searcher.pac
 
+vm: archiso.pac ovmf.pac qemu.pac
 docker: docker.pac docker.srv docker-compose.pac
 pm2: pm2.npm pm2.srv
 mysql: mariadb.pac mariadb.srv mysqld.srv
