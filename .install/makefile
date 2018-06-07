@@ -152,7 +152,7 @@ misc: home aur-helper x-tools fonts gtk-theme ranger terminals terminal-tools hu
 home: xdg-user-dirs.pac xdg-user-dirs-update.usr
 aur-helper: curl.pac jshon.pac wget.pac apacman.aur expac.pac
 x-tools: numlockx.pac xclip.pac xdotool.pac xorg-xev.pac xorg-xprop.pac xorg-xwininfo.pac xsel.pac
-fonts: gucharmap.pac ttf-dejavu.pac ttf-liberation.pac ttf-ubuntu-font-family.pac ttf-ionicons.pac ttf-font-awesome.pac ttf-opensans.aur ttf-dejavu-sans-mono-powerline-git.aur
+fonts: gucharmap.pac ttf-dejavu-sans-mono-powerline-git.aur ttf-dejavu.pac ttf-droid.pac ttf-font-awesome.pac ttf-freefont.pac ttf-ionicons.pac ttf-liberation.pac ttf-linux-libertine.pac ttf-opensans.aur ttf-ubuntu-font-family.pac
 gtk-theme: elementary-icon-theme.pac numix-gtk-theme.pac lxappearance.pac
 ranger: ranger.pac highlight.pac
 terminals: guake.pac rxvt-unicode.pac xterm.pac
