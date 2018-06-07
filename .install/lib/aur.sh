@@ -14,7 +14,7 @@ check-updates() {
   local url="https://aur.archlinux.org/rpc/?v=5&type=multiinfo"
 
   for pac in $(pacman -Qqm); do
-    url="$url&arg\[\]=$pac"
+    url="$url&arg\\[\\]=$pac"
   done
 
   curl -s "$url" | jshon -e results -a -e Name -u -p -e Version -u | \
