@@ -38,6 +38,7 @@
 # Install scripts
 !.install
 !.install/*
+!.install/custom/*
 !.install/hooks/*
 !.install/lib/*
 !.install/static/*

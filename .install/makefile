@@ -224,21 +224,27 @@ mysql: mariadb.pac mariadb.srv mysqld.srv
 
 %.pag:
 	[[ "$@" =~ $(TYPE)$$ ]] && pacman -Sgq "$*" | sed 's/$$/.pac/' || true
+
 %.pac:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
 %.aur:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
 %.npm:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
+
 %.ini:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
 %.cfg:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
 %.fil:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
+
+%.mod:
+	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
 %.srv:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
 %.usr:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
-%.mod:
+
+%.src:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true

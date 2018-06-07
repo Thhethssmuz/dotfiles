@@ -12,8 +12,15 @@ forall() {
 }
 
 teeall() {
-  local tmp tmp2
+  local tmp tmp2 order
   tmp="$(cat)"
+  tmp2="$( (grep '\.src$' || true) <<< "$tmp")"
+
+  declare -A hooks
+  for target in $tmp2; do
+    order="$("$DIR/../custom/${target%.src}.sh" "order")"
+    hooks[$order]="$(echo "${hooks[$order]+}" && echo "$target")"
+  done
 
   for type in $TYPES; do
     tmp2="$( (grep '\.'"$type"'$' || true) <<< "$tmp")"
@@ -27,7 +34,13 @@ teeall() {
       done <<< "$tmp2"
     fi
 
+    test "${hooks["pre-$type"]+isDefined}" && \
+      "$DIR/src.sh" "$@" <<< "${hooks["pre-$type"]}"
+
     "$DIR/$type.sh" "$@" <<< "$tmp2"
+
+    test "${hooks["post-$type"]+isDefined}" && \
+      "$DIR/src.sh" "$@" <<< "${hooks["post-$type"]}"
 
     if [ "$1" != "status" ]; then
       while read -r line; do
