@@ -140,7 +140,7 @@ slim: slim.pac archlinux-themes-slim.pac slim.cfg
 slock: slock.pac xautolock.pac
 xmonad: xmonad.pac xmonad-contrib.pac
 compton: compton.pac
-environment: dzen2.pac haskell-async.pac haskell-dbus.pac haskell-stm.pac hsetroot.aur
+environment: dzen2.pac haskell-async.pac haskell-dbus.pac ghc-libs.pac hsetroot.aur
 
 
 #
