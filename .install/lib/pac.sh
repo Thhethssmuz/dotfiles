@@ -31,7 +31,7 @@ explicit() {
 
 remove() {
   sed 's/\.pac$//' | xargs --no-run-if-empty \
-    sudo pacman -Rs
+    sudo pacman -Rs --noconfirm
 }
 
 

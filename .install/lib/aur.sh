@@ -41,7 +41,7 @@ explicit() {
 
 remove() {
   sed 's/\.aur$//' | xargs --no-run-if-empty \
-    sudo pacman -Rs
+    sudo pacman -Rs --noconfirm
 }
 
 
