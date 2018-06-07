@@ -66,7 +66,7 @@ status() {
     done
 
   while read -r line; do
-    echo "$line.aur/remove/info/Orphaned"
+    echo "$line.aur/remove-orphans/info/Orphaned"
   done < <(pacman -Qtdmq || exit)
 }
 

@@ -38,8 +38,9 @@ install:
 explicit:
 	$(MAKE) --no-print-directory $(TARGET) | lib/provision.sh explicit
 
-remove:
-	$(MAKE) --no-print-directory $(TARGET) | lib/provision.sh remove
+remove-orphans:
+	$(MAKE) --no-print-directory $(TARGET) | lib/provision.sh remove-orphans
+
 
 #
 # Hosts

@@ -56,7 +56,7 @@ status() {
     done
 
   while read -r line; do
-    echo "$line.pac/remove/info/Orphaned"
+    echo "$line.pac/remove-orphans/info/Orphaned"
   done < <(pacman -Qtdnq || exit)
 }
 

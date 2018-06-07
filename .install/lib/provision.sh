@@ -66,8 +66,8 @@ explicit() {
   filter explicit | teeall explicit
 }
 
-remove() {
-  filter remove | teeall remove
+remove-orphans() {
+  filter remove-orphans | teeall remove
 }
 
 
