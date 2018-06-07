@@ -74,9 +74,9 @@ remove() {
 status() {
   teeall status | while IFS='/' read -r entity _ level message; do
     case "$level" in
-      info)  echo -e "$entity \e[1;35m$message\e[0m" ;;
-      warn)  echo -e "$entity \e[1;33m$message\e[0m" ;;
-      error) echo -e "$entity \e[1;31m$message\e[0m" ;;
+      info)  echo -e "$entity \\e[1;35m$message\\e[0m" ;;
+      warn)  echo -e "$entity \\e[1;33m$message\\e[0m" ;;
+      error) echo -e "$entity \\e[1;31m$message\\e[0m" ;;
       *)     echo -e "$entity $message" ;;
     esac
   done | sort -t. -k1,1
