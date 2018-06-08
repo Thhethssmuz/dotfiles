@@ -114,7 +114,7 @@ network-tools: curl.pac bind-tools.pac ngrep.pac rsync.pac tcpdump.pac tracerout
 sshd: ssh sshd.srv sshd.cfg
 smbd: smb smbd.srv nmbd.srv smbd.cfg
 nxserver: nxclient nxserver.srv
-dropbox: dropbox.aur dropbox-cli.aur dropbox.usr
+dropbox: dropbox.aur dropbox-cli.aur dropbox.usr dropbox.src
 remmina: remmina.pac freerdp.pac remmina-plugin-rdesktop.aur
 vpn: badvpn.pac openconnect.pac python2-pip.pac screen.pac
 
