@@ -23,7 +23,7 @@ update() {
 install() {
   sed 's/\.mod$//' | while read -r line; do
     if [ -n "$line" ]; then
-      sudo tee "$(locate "/etc/modules-load.d/$line.conf")" > /dev/null
+      sudo tee "/etc/modules-load.d/$line.conf" > /dev/null
     fi
   done
 }
