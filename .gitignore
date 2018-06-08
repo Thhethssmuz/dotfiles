@@ -115,6 +115,10 @@
 # top
 !.toprc
 
+# vm
+!vm
+!vm/makefile
+
 # XMonad
 !.xmonad
 !.xmonad/xmonad.hs
