@@ -25,7 +25,7 @@ update() {
 install() {
   sed 's/\.src$//' | while read -r line; do
     if [ -n "$line" ]; then
-      sudo -u "$USERNAME" -i "$DIR/../custom/$line.sh install"
+      sudo -u "$USERNAME" -i "$DIR/../custom/$line.sh" "install"
     fi
   done
 }
