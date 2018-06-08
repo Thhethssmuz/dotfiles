@@ -70,7 +70,7 @@ sia-10: base \
 	sshd nxserver docker vpn vm
 
 %-vm: \
-	input fs \
+	mesa input fs \
 	network-manager ssh sshd smb network-tools \
 	xorg lxdm slock xmonad environment misc \
 	chromium sublime-text weechat \

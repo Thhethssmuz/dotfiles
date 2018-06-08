@@ -41,4 +41,8 @@ if [ "$(hostname)" = "archbox" ]; then
   xrandr --output HDMI-0 --mode 1920x1080 --rate 60.00 --pos 0x0
   xrandr --output DVI-I-1 --mode 1920x1080 --rate 60.00 --pos 3840x0
 
+elif [[ "$(hostname)" = *-vm ]]; then
+
+  xrandr --output Virtual-1 --auto
+
 fi
