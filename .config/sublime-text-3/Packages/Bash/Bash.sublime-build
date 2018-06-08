@@ -3,7 +3,8 @@
   "variants": [
     {
       "name": "Run",
-      "cmd": ["shellcheck", "-x", "$file"]
+      "cmd": ["shellcheck", "-x", "$file"],
+      "file_regex": "^In (.*) line (\\d+):$"
     },
     {
       "name": "Build",
