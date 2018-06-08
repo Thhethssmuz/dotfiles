@@ -67,7 +67,7 @@ sia-10: base \
 	xorg lxdm slock xmonad compton environment misc dev \
 	browsers evince gimp libreoffice mysql remmina sublime-text thunderbird \
 	transmission vlc weechat \
-	sshd nxserver docker badvpn vm
+	sshd nxserver docker vpn vm
 
 %-vm: \
 	input fs \
@@ -116,6 +116,8 @@ smbd: smb smbd.srv nmbd.srv smbd.cfg
 nxserver: nxclient nxserver.srv
 dropbox: dropbox.aur dropbox-cli.aur dropbox.usr
 remmina: remmina.pac freerdp.pac remmina-plugin-rdesktop.aur
+vpn: badvpn.pac openconnect.pac python2-pip.pac screen.pac
+
 
 #
 # Audio
@@ -162,8 +164,6 @@ terminal-tools: bc.pac calc.pac cmatrix.pac lolcat.pac lsb-release.pac nano.pac 
 hunspell: hunspell.pac hunspell-en.pac
 archive-tools: atool.pac unrar.pac unzip.pac zip.pac p7zip.pac
 image-tools: imagemagick.pac scrot.pac gimp.pac sxiv.pac
-
-badvpn: badvpn.pac python2-pip.pac screen.pac
 
 
 #
