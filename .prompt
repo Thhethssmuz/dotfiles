@@ -196,7 +196,7 @@ function __promptline_ps1 {
   __promptline_ps1_print "$git_content"
 
   # close sections
-  printf "%s" "${reset}\n${alt_sep}${space}"
+  printf "%s" "${reset}\\n${alt_sep}${space}"
 }
 
 function __promptline {
