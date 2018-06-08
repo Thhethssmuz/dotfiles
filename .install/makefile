@@ -188,7 +188,7 @@ libreoffice: libreoffice-fresh.pac
 musescore: midi musescore.pac
 redshift: redshift.pac redshift.usr
 steam: steam.pac steam-fonts.aur steam-native-runtime.pac
-sublime-text: sublime-text-dev.aur
+sublime-text: sublime-text-dev.aur package-control.src
 thunar: thunar.pac
 thunderbird: thunderbird.pac
 transmission: transmission-gtk.pac
