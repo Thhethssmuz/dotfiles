@@ -30,6 +30,8 @@ function __promptline_last_exit_code {
 function __promptline_host {
   if [ -n "${SSH_CLIENT}" ]; then
     printf "%s" \\h;
+  elif [[ "$(hostname)" = *-vm ]]; then
+    printf "%s" \\h;
   fi
 }
 
