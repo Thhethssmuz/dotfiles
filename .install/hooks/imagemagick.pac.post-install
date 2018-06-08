@@ -1,6 +1,0 @@
-#!/bin/bash
-set -euo pipefail
-
-su "$USERNAME" -l << EOF
-  ~/.xmonad/scripts/mkicons.sh
-EOF
