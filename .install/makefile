@@ -83,7 +83,7 @@ sia-10: base \
 
 base: pacman systemd secret
 
-pacman: pacman.pac pacman-contrib.pac
+pacman: pacman.pac pacman-contrib.pac reflector.pac mirrorupgrade.cfg
 systemd: logind.cfg
 secret: gnupg.pac haveged.pac keychain.pac pass.pac ssh
 
