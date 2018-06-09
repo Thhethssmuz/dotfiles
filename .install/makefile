@@ -12,7 +12,7 @@ ifneq ($(shell pwd),$(MAKEDIR))
 $(error bad execution directory)
 endif
 
-.PHONY: all status check-updates update install explicit remove
+.PHONY: all status check-updates update install explicit remove-orphans
 .PHONY: archbox archtop sia-10 %-vm
 .ONESHELL:
 
