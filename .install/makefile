@@ -50,7 +50,7 @@ archbox: base \
 	nvidia input fs \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
-	blender browsers evince gimp libreoffice musescore redshift steam sublime-text \
+	blender browsers evince gimp libreoffice musescore steam sublime-text \
 	thunar transmission vlc weechat \
 	sshd smbd dropbox vm
 
@@ -170,7 +170,7 @@ image-tools: imagemagick.pac scrot.pac gimp.pac sxiv.pac
 # Browsers
 #
 
-browsers: chromium firefox opera google-talkplugin.aur
+browsers: chromium firefox opera
 
 chromium: chromium.pac
 firefox: firefox.pac
