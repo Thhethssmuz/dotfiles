@@ -246,5 +246,8 @@ mysql: mariadb.pac mariadb.srv mysqld.srv
 %.usr:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
 
+%.git:
+	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
+
 %.src:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
