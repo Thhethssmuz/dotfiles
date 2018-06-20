@@ -52,6 +52,8 @@ gt() {
 
 # -- Misc ---------------------------------------------------------------------
 
+kill-tabs() { pkill -u "$USER" -f "chromium.*--type=renderer"; }
+
 # keyload
 key() {
   local keys
