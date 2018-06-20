@@ -83,6 +83,7 @@ extract () {
       *.sublime-package) unzip "$1"       ;;
       *.Z)               uncompress "$1"  ;;
       *.7z)              7z x "$1"        ;;
+      *.deb)             ar x "$1"        ;;
       *)                 echo "unknown extension for '$1'" ;;
     esac
   else
