@@ -52,7 +52,7 @@ archbox: base \
 	xorg lxdm slock xmonad compton environment misc dev \
 	blender browsers evince gimp libreoffice musescore redshift steam sublime-text \
 	thunar transmission vlc weechat \
-	sshd smbd dropbox vm
+	sshd smbd dropbox docker vm
 
 archtop: base \
 	mesa input touchpad fs \
