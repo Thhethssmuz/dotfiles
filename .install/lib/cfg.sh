@@ -34,6 +34,7 @@ update() {
 install() {
   sed 's/\.cfg$//' | while read -r line; do
     if [ -n "$line" ]; then
+      sudo mkdir -p "$(dirname "$(locate "$DIR/templates/$line.tmpl")")"
       render "$DIR/templates/$line.tmpl" | \
         sudo tee "$(locate "$DIR/templates/$line.tmpl")" > /dev/null
     fi
