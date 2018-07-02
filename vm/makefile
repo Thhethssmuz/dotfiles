@@ -34,7 +34,7 @@ help:
 	echo 'ARGS=( \' >> '$*-vm'
 	echo '  qemu-system-x86_64 \' >> '$*-vm'
 	echo '    -name "$*-vm" \' >> '$*-vm'
-	echo '    -display sdl,gl=on \' >> '$*-vm'
+	echo '    -display sdl,gl=off \' >> '$*-vm'
 	echo '    -vga virtio \' >> '$*-vm'
 	echo '    -boot "once=d" \' >> '$*-vm'
 	echo '    -m "$(MEMORY)" \' >> '$*-vm'
