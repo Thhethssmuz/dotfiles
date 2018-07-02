@@ -46,7 +46,7 @@ help:
 	echo '    -drive "if=pflash,format=raw,readonly,file=/usr/share/ovmf/x64/OVMF_CODE.fd" \' >> '$*-vm'
 	echo '    -drive "if=pflash,format=raw,file=$(MAKEDIR)/data/$*-vm.fd" \' >> '$*-vm'
 	echo '    -net nic \' >> '$*-vm'
-	echo '    -net user,smb=$(MAKEDIR)/shared \' >> '$*-vm'
+	echo '    -net user \' >> '$*-vm'
 	echo ')' >> '$*-vm'
 	echo '' >> '$*-vm'
 	echo 'if [ -f "$(MAKEDIR)/data/$*-vm.iso" ]; then' >> '$*-vm'
