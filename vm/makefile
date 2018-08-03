@@ -90,9 +90,6 @@ data/%-vm.iso: | data
 	echo 'echo "bash live.sh" >> /root/.bashrc' \
 		>> "$$DIR"/airootfs/root/customize_airootfs.sh
 
-	# Temporary hack fix...
-	sed -i '/^speedtouch$$/d' "$$DIR"/packages.*
-
 	# build the image
 	mkdir -p "$$DIR"/out/
 	( cd "$$DIR" && sudo ./build.sh -v )
