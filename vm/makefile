@@ -8,6 +8,7 @@ MEMORY      ?= 2G
 CPU_CORES   ?= 1
 CPU_THREADS ?= 2
 DISC        ?= 64G
+MOUNTS      ?= ''
 
 ifneq ($(shell pwd),$(MAKEDIR))
 $(error bad execution directory)
@@ -20,13 +21,17 @@ endif
 help:
 	echo 'Usage: [<var>=<value>] make <vm-name>'
 	echo ''
-	echo 'VARIABLES:'
-	echo '  USERNAME    $(USERNAME)'
-	echo '  PASSWORD    $(PASSWORD)'
-	echo '  MEMORY      $(MEMORY)'
-	echo '  CPU_CORES   $(CPU_CORES)'
-	echo '  CPU_THREADS $(CPU_THREADS)'
-	echo '  DISC        $(DISC)'
+	echo 'VARIABLES     DEFAULTS'
+	echo '  USERNAME    $(shell whoami)'
+	echo '  PASSWORD    1234'
+	echo '  MEMORY      2G'
+	echo '  CPU_CORES   1'
+	echo '  CPU_THREADS 2'
+	echo '  DISC        64G'
+	echo '  MOUNT       '"''"
+	echo ''
+	echo 'EXAMPLE:'
+	echo '  MEMORY=4G CPU_CORES=4 MOUNT=/path/to/mount make my-new-vm'
 
 %-vm: | data/%-vm.iso data/%-vm.qcow2 data/%-vm.fd
 	echo '#!/usr/bin/bash' > '$*-vm'
@@ -51,6 +56,13 @@ help:
 	echo '' >> '$*-vm'
 	echo 'if [ -f "$(MAKEDIR)/data/$*-vm.iso" ]; then' >> '$*-vm'
 	echo '  ARGS+=(-cdrom "$(MAKEDIR)/data/$*-vm.iso")' >> '$*-vm'
+	echo 'else' >> '$*-vm'
+	echo '  :' >> '$*-vm'
+	for mount in $(MOUNT); do
+		if [ -n "$$mount" ]; then
+			echo '  ARGS+=(-virtfs "local,id='"$$(basename "$$mount")"',path='"$$mount"',mount_tag='"$$(basename "$$mount")"',security_model=mapped")' >> '$*-vm'
+		fi
+	done
 	echo 'fi' >> '$*-vm'
 	echo '' >> '$*-vm'
 	echo '"$${ARGS[@]}"' >> '$*-vm'
