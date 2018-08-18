@@ -161,7 +161,7 @@ gtk-theme: elementary-icon-theme.pac numix-gtk-theme.pac lxappearance.pac
 ranger: ranger.pac highlight.pac
 terminals: guake.pac rxvt-unicode.pac xterm.pac
 terminal-tools: bc.pac calc.pac cmatrix.pac lolcat.pac lsb-release.pac nano.pac ncdu.pac pwgen.pac youtube-dl.pac zalgolize.npm
-hunspell: hunspell.pac hunspell-en.pac # hunspell-no.src
+hunspell: hunspell.pac hunspell-en_GB.pac hunspell-en_US.pac # hunspell-no.src
 archive-tools: atool.pac unrar.pac unzip.pac zip.pac p7zip.pac
 image-tools: imagemagick.pac scrot.pac gimp.pac sxiv.pac
 
