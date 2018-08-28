@@ -111,7 +111,7 @@ myLayout = tiledSpace ||| tiled ||| fullScreen ||| grid
 
     fullScreen = renamed [Replace "F"]
                . noBorders
-               $ fullscreenFull Full
+               $ Full
 
     grid       = renamed [Replace "G"]
                . avoidStruts
