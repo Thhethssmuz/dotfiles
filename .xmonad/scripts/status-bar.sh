@@ -77,17 +77,13 @@ render_power_indicator() {
   fi
 
   if [ "$status" == "Discharging" ]; then
-    if [[ "$level" -gt 75 ]]; then
-      icon="\\uf113"
-    elif [[ "$level" -gt 50 ]]; then
-      icon="\\uf114"
-    elif [[ "$level" -gt 25 ]]; then
-      icon="\\uf115"
+    if [[ "$level" -gt 25 ]]; then
+      icon="\\uf296"
     else
-      icon="\\uf112"
+      icon="\\uf295"
     fi
   else
-    icon="\\uf111"
+    icon="\\uf294"
   fi
 
   echo -ne "^fn(Ionicons:size=$FONT_SIZE)$icon^fn() $level%"

@@ -4,43 +4,43 @@
 
 case $1 in
   notification-audio-next)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\uf051^fn()"
+    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf3fd^fn()"
     ;;
 
   notification-audio-play)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\uf04b^fn()"
+    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf357^fn()"
     ;;
 
   notification-audio-previous)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\uf048^fn()"
+    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf37c^fn()"
     ;;
 
   notification-audio-volume-high)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\uf3ba^fn()"
+    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf123^fn()"
     ;;
 
   notification-audio-volume-low)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\uf3b7^fn()"
+    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf3a1^fn()"
     ;;
 
   notification-audio-volume-medium)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\uf3ba^fn()"
+    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf131^fn()"
     ;;
 
   notification-audio-volume-muted)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\uf3b9^fn()"
+    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf3a2^fn()"
     ;;
 
   notification-audio-volume-off)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\uf3b8^fn()"
+    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf3a2^fn()"
     ;;
 
   notification-battery-low)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\uf112^fn()"
+    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf295^fn()"
     ;;
 
   notification-device-eject)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\uf052^fn()"
+    echo -en ""
     ;;
 
   notification-device-firewire)
@@ -68,11 +68,11 @@ case $1 in
     ;;
 
   notification-message-email)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\uf0e0^fn()"
+    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf322^fn()"
     ;;
 
   notification-message-IM)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\uf075^fn()"
+    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf2b6^fn()"
     ;;
 
   notification-network-ethernet-connected)
@@ -112,7 +112,7 @@ case $1 in
     ;;
 
   notification-screen-capture)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\uf118^fn()"
+    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf2ad^fn()"
     ;;
 
   *)
