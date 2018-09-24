@@ -46,7 +46,7 @@ remove-orphans:
 # Hosts
 #
 
-archbox: base \
+archbox: base media-lib.amt media-u.amt media-x.amt \
 	nvidia input fs \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
@@ -81,7 +81,7 @@ sia-10: base \
 # Base
 #
 
-base: pacman systemd secret
+base: pacman systemd secret -.mnt boot.mnt
 
 pacman: pacman.pac pacman-contrib.pac reflector.pac mirrorupgrade.cfg
 systemd: logind.cfg
@@ -244,6 +244,10 @@ mysql: mariadb.pac mariadb.srv mysqld.srv
 %.srv:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
 %.usr:
+	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
+%.mnt:
+	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
+%.amt:
 	[[ "$@" =~ $(TYPE)$$ ]] && echo "$@" || true
 
 %.git:

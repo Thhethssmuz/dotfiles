@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-TYPES="pac aur npm  ini cfg fil  mod srv usr  git"
+TYPES="pac aur npm  ini cfg fil  mod srv usr mnt amt  git"
 DIR=$(realpath "$(dirname "$0")")
 
 
