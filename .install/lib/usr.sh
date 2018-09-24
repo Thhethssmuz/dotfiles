@@ -7,13 +7,15 @@ set -euo pipefail
 list() {
   printf "%s " \
     "XDG_RUNTIME_DIR=\"/run/user/\$(id -u)\"" \
-    "systemctl list-unit-files --user --type service" \
-    "--no-pager --no-legend --state enabled" | \
-    sudo -u "$USERNAME" -i bash | sed 's/\.service.*/\.usr/'
+    "systemctl list-units --user --type service" \
+    "--no-pager --no-legend --state active --state failed" | \
+    sudo -u "$USERNAME" -i bash | \
+    grep -v '^gvfs-' | \
+    sed 's/\.service.*/\.usr/'
 }
 
 ignore() {
-  :
+  echo 'at-spi-dbus-bus.usr'
 }
 
 

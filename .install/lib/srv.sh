@@ -2,14 +2,17 @@
 set -euo pipefail
 
 list() {
-  systemctl list-unit-files \
-    --system --type service \
-    --no-pager --no-legend \
-    --state enabled | sed 's/\.service.*/\.srv/'
+  systemctl list-units --system --type service \
+    --no-pager --no-legend --state active --state failed | \
+    grep -v '^systemd-' | \
+    grep -v '^lvm2-' | \
+    grep -v '^getty@' | \
+    sed 's/\.service.*/\.srv/'
 }
 
 ignore() {
-  echo $'autovt@.srv\ngetty@.srv\nsystemd-timesyncd.srv'
+  echo $'alsa-restore.srv\nkmod-static-nodes.srv\npolkit.srv\nrtkit-daemon.srv'
+  echo $'udisks2.srv\nuser-runtime-dir@1000.srv\nuser@1000.srv'
 }
 
 

@@ -81,8 +81,9 @@ sia-10: base \
 # Base
 #
 
-base: pacman systemd secret -.mnt boot.mnt
+base: dbus pacman systemd secret -.mnt boot.mnt
 
+dbus: dbus.pac dbus.srv dbus.usr
 pacman: pacman.pac pacman-contrib.pac reflector.pac mirrorupgrade.cfg
 systemd: logind.cfg
 secret: gnupg.pac haveged.pac keychain.pac pass.pac ssh
@@ -153,7 +154,7 @@ environment: dzen2.pac haskell-async.pac haskell-dbus.pac ghc-libs.pac hsetroot.
 
 misc: home aur-helper x-tools fonts gtk-theme ranger terminals terminal-tools hunspell archive-tools image-tools
 
-home: xdg-user-dirs.pac xdg-user-dirs-update.usr dotfiles.git .gnupg.git .password-store.git .ssh.git
+home: xdg-user-dirs.pac dotfiles.git .gnupg.git .password-store.git .ssh.git
 aur-helper: curl.pac jshon.pac wget.pac apacman.src apacman.aur expac.pac
 x-tools: numlockx.pac xclip.pac xdotool.pac xorg-xev.pac xorg-xprop.pac xorg-xwininfo.pac xsel.pac
 fonts: gucharmap.pac ttf-dejavu-sans-mono-powerline-git.aur ttf-dejavu.pac ttf-droid.pac ttf-font-awesome.pac ttf-freefont.pac ttf-ionicons.pac ttf-liberation.pac ttf-linux-libertine.pac ttf-opensans.aur ttf-ubuntu-font-family.pac
