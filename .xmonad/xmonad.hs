@@ -1,14 +1,13 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 
-import XMonad hiding ((|||))
+import XMonad
 
-import XMonad.Layout.LayoutCombinators
-import XMonad.Layout.Grid
-import XMonad.Layout.Spacing
 import XMonad.Layout.Fullscreen
-import XMonad.Layout.NoBorders
+import XMonad.Layout.Grid
+import XMonad.Layout.MultiToggle
+import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.ResizableTile
-import XMonad.Layout.Renamed
+import XMonad.Layout.Spacing
 
 import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks, docksEventHook, ToggleStruts(..))
 import XMonad.Hooks.DynamicLog
@@ -94,77 +93,37 @@ myWorkspaces = clickable $ map (:[]) set
 -- Layouts
 -------------------------------------------------------------------------------
 
-myLayoutIDs = [ "S", "T", "F", "G" ]
+myLayout = mkToggle (single NBFULL)
+         . avoidStruts
+         . mkToggle (single MIRROR)
+         $ spaced ||| tiled ||| grid
 
-myLayout = tiledSpace ||| tiled ||| fullScreen ||| grid
   where
 
-    tiledSpace = renamed [Replace "S"]
-               . avoidStruts
-               . spacing 60
-               $ ResizableTall nmaster delta ratio []
+    spaced  = spacing 60
+            $ ResizableTall nmaster delta ratio []
 
-    tiled      = renamed [Replace "T"]
-               . avoidStruts
-               . spacing 5
-               $ ResizableTall nmaster delta ratio []
+    tiled   = spacing 5
+            $ ResizableTall nmaster delta ratio []
 
-    fullScreen = renamed [Replace "F"]
-               . noBorders
-               $ Full
+    grid    = spacing 5
+            $ GridRatio (16/9)
 
-    grid       = renamed [Replace "G"]
-               . avoidStruts
-               . spacing 5
-               $ GridRatio (16/9)
-
-    nmaster    = 1
-    delta      = 5/100
-    ratio      = toRational (2/(1 + sqrt 5 :: Double))
+    nmaster = 1
+    delta   = 5/100
+    ratio   = toRational (2/(1 + sqrt 5 :: Double))
 
 
--- Layout state that stores previous layout, allows to toggle fullscreen :D
-data LayoutState = LayoutState
-  { layoutMap :: M.Map String (String, String)
-  , passThrough :: [Window]
+-------------------------------------------------------------------------------
+-- State
+-------------------------------------------------------------------------------
+
+data PassThroughState = PassThroughState
+  { passThrough :: [Window]
   } deriving (Typeable, Show)
 
-instance ExtensionClass LayoutState where
-  initialValue = LayoutState (M.fromList []) []
-
--- jump to layout i, unless we are already on layout i then go back to previous
-layout i = do
-  ws    <- gets (W.currentTag . windowset)
-  st    <- XS.get
-
-  let m       = layoutMap st
-      h       = head myLayoutIDs
-      (c, p ) = fromMaybe (h,h) . M.lookup ws $ m
-      (c',p') = if i == c then (p,c) else (i,c)
-
-  XS.put $ st { layoutMap = M.insert ws (c',p') m }
-  sendMessage . JumpToLayout $ c'
-
--- next layout
-cycleLayouts = do
-  ws    <- gets (W.currentTag . windowset)
-  st    <- XS.get
-
-  let m     = layoutMap st
-      h     = head myLayoutIDs
-      (c,_) = fromMaybe (h,h) . M.lookup ws $ m
-      c'    = (!!) (cycle myLayoutIDs)
-            . (+1) . fromJust . findIndex (== c) $ myLayoutIDs
-
-  XS.put $ st { layoutMap = M.insert ws (c',c) m }
-  sendMessage NextLayout
-
-resetLayoutState l = do
-  ws    <- gets (W.currentTag . windowset)
-  st    <- XS.get
-  let m = layoutMap st
-  XS.put $ st { layoutMap = M.delete ws $ m }
-  setLayout l
+instance ExtensionClass PassThroughState where
+  initialValue = PassThroughState []
 
 passThroughKey k keys = (k, toggle) : map (\(b,a) -> (b, wrap a)) keys
   where
@@ -392,10 +351,10 @@ myKeys home conf@(XConfig { modMask = modMask }) =
 
   , ((modMask .|. shiftMask,    xK_c      ), kill)
 
-  , ((modMask .|. shiftMask,    xK_space  ), resetLayoutState $ layoutHook conf)
-  , ((modMask,                  xK_space  ), cycleLayouts)
-  , ((modMask,                  xK_f      ), layout "F")
-  , ((modMask,                  xK_g      ), layout "G")
+  , ((modMask .|. shiftMask,    xK_space  ), setLayout $ layoutHook conf)
+  , ((modMask,                  xK_space  ), sendMessage NextLayout)
+  , ((modMask,                  xK_f      ), sendMessage $ Toggle NBFULL)
+  , ((modMask,                  xK_g      ), sendMessage $ Toggle MIRROR)
 
   , ((mod1Mask,                 xK_Tab    ), windows W.focusDown)
   , ((mod1Mask .|. shiftMask,   xK_Tab    ), windows W.focusUp)
