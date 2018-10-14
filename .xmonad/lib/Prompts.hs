@@ -1,16 +1,15 @@
-module Prompts (prompt, prompt', calc, bash, pass, defi, enno, noen) where
+module Prompts (prompt, prompt', calc, bash, pass) where
 
 import Control.Monad
 import Data.Char (isSpace)
 import Data.List
 import Data.IORef
-import Data.Maybe (fromMaybe, catMaybes)
+import Data.Maybe (fromMaybe)
 import qualified Data.Map as M
 
-import System.Directory (doesFileExist, doesDirectoryExist, getDirectoryContents, getHomeDirectory)
+import System.Directory (doesFileExist, doesDirectoryExist, getDirectoryContents)
 import System.Environment
 import System.FilePath.Posix
-import System.IO (appendFile)
 
 import XMonad
 import XMonad.Prompt
@@ -179,66 +178,6 @@ passTabCompletion xs = case xs of
          endOfLine
 
 -------------------------------------------------------------------------------
--- Defi
--------------------------------------------------------------------------------
-
-data Defi = Defi State
-
-instance XPrompt Defi where
-  showXPrompt        (Defi state) = "Def: "
-  commandToComplete  (Defi state) = id
-  completionFunction (Defi state) = mkCompelFunc' state (\_ -> return ()) defiReturnComplete (defiCompletion "en_GB")
-  modeAction (Defi state) query _ = return ()
-
-defiCompletion :: String -> String -> IO [String]
-defiCompletion _    ""   = return []
-defiCompletion lang line = do
-  let w = last . words $ line
-  xs <- fmap words
-      . runProcessWithInput "bash" ["-c", "hunspell -d " ++ lang ++ " | egrep '&|#' | sed 's/#.*$/-/g' | sed 's/&.*: //g' | sed 's/, /\\n/g'"]
-      $ w
-  return $ case xs of
-    []    -> [w]
-    ["-"] -> []
-    xs    -> xs
-
-defiReturnComplete :: String -> IO [String]
-defiReturnComplete line = do
-  h <- getHomeDirectory
-  d <- runProcessWithInput "node" [h++"/.xmonad/lib/lang.js", "78", "dictionaryapi", line] $ ""
-  return . f . lines $ d
-  where f xs | length xs == 0 = ["no definitions found"]
-             | otherwise      = xs ++ replicate 10 ""
-
--------------------------------------------------------------------------------
--- Trans
--------------------------------------------------------------------------------
-
-data Enno = Enno State
-
-instance XPrompt Enno where
-  showXPrompt        (Enno state) = "en->no: "
-  commandToComplete  (Enno state) = id
-  completionFunction (Enno state) = mkCompelFunc' state (\_ -> return ()) (transReturnComplete "eng" "nob") (defiCompletion "en_GB")
-  modeAction (Enno state) query _ = return ()
-
-data Noen = Noen State
-
-instance XPrompt Noen where
-  showXPrompt        (Noen state) = "no->en: "
-  commandToComplete  (Noen state) = id
-  completionFunction (Noen state) = mkCompelFunc' state (\_ -> return ()) (transReturnComplete "nob" "eng") (defiCompletion "nb_NO")
-  modeAction (Noen state) query _ = return ()
-
-transReturnComplete :: String -> String -> String -> IO [String]
-transReturnComplete from to line = do
-  h <- getHomeDirectory
-  d <- runProcessWithInput "node" [h++"/.xmonad/lib/lang.js", "78", "glosbe", from, to, line] $ ""
-  return . f . lines $ d
-  where f xs | length xs == 0 = ["no translation found"]
-             | otherwise      = xs ++ replicate 10 ""
-
--------------------------------------------------------------------------------
 -- Tab completion
 -------------------------------------------------------------------------------
 
@@ -325,9 +264,6 @@ extConf' conf state history = conf
 calc = XPT . Calc
 bash = XPT . Bash
 pass = XPT . Pass
-defi = XPT . Defi
-enno = XPT . Enno
-noen = XPT . Noen
 
 prompt :: XPConfig -> [State -> XPType] -> X ()
 prompt conf xs = do
