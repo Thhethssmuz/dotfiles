@@ -80,6 +80,10 @@
 !.ncmpcpp
 !.ncmpcpp/config
 
+# Alacritty
+!.config/alacritty
+!.config/alacritty/**
+
 # Fontconfig
 !.config/fontconfig
 !.config/fontconfig/**
