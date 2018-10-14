@@ -14,6 +14,8 @@ import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
 import XMonad.Layout.WindowNavigation
 
+import XMonad.Actions.PhysicalScreens
+
 import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks, docksEventHook, ToggleStruts(..))
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageHelpers (isInProperty, isFullscreen, doFullFloat)
@@ -406,14 +408,14 @@ myKeys home conf@(XConfig { modMask = modMask }) =
 
 
   -- set focus to what ever workspace is visible on screen n
-  , ((modMask,                  xK_1      ), screenWorkspace 2 >>= flip whenJust (windows . W.view))
-  , ((modMask,                  xK_2      ), screenWorkspace 0 >>= flip whenJust (windows . W.view))
-  , ((modMask,                  xK_3      ), screenWorkspace 1 >>= flip whenJust (windows . W.view))
+  , ((modMask,                  xK_1      ), viewScreen def 0)
+  , ((modMask,                  xK_2      ), viewScreen def 1)
+  , ((modMask,                  xK_3      ), viewScreen def 2)
 
   -- move window to what ever workspace is visible on screen n
-  , ((modMask .|. shiftMask,    xK_1      ), screenWorkspace 2 >>= flip whenJust (windows . W.shift))
-  , ((modMask .|. shiftMask,    xK_2      ), screenWorkspace 0 >>= flip whenJust (windows . W.shift))
-  , ((modMask .|. shiftMask,    xK_3      ), screenWorkspace 1 >>= flip whenJust (windows . W.shift))
+  , ((modMask .|. shiftMask,    xK_1      ), sendToScreen def 0)
+  , ((modMask .|. shiftMask,    xK_2      ), sendToScreen def 1)
+  , ((modMask .|. shiftMask,    xK_3      ), sendToScreen def 2)
 
   -- set focus to workspace n
   , ((modMask,                   xK_aring ), windows . W.greedyView $ workspaces conf !! 0)
