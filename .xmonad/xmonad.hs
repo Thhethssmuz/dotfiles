@@ -2,12 +2,17 @@
 
 import XMonad
 
+import XMonad.Layout.BoringWindows
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.Grid
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.ResizableTile
+import XMonad.Layout.Simplest
 import XMonad.Layout.Spacing
+import XMonad.Layout.SubLayouts
+import XMonad.Layout.Tabbed
+import XMonad.Layout.WindowNavigation
 
 import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks, docksEventHook, ToggleStruts(..))
 import XMonad.Hooks.DynamicLog
@@ -93,8 +98,12 @@ myWorkspaces = clickable $ map (:[]) set
 -- Layouts
 -------------------------------------------------------------------------------
 
-myLayout = mkToggle (single NBFULL)
+myLayout = addTabs shrinkText theme
+         . subLayout [] Simplest
+         . boringWindows
+         . mkToggle (single NBFULL)
          . avoidStruts
+         . windowNavigation
          . mkToggle (single MIRROR)
          $ spaced ||| tiled ||| grid
 
@@ -108,6 +117,23 @@ myLayout = mkToggle (single NBFULL)
 
     grid    = spacing 5
             $ GridRatio (16/9)
+
+    theme   = def
+              { activeColor         = color15
+              , inactiveColor       = color8
+              , urgentColor         = color9
+              , activeBorderColor   = color15
+              , inactiveBorderColor = color8
+              , urgentBorderColor   = color9
+              , activeTextColor     = color15
+              , inactiveTextColor   = color8
+              , urgentTextColor     = color9
+              , fontName            = "xft:Ubuntu:size=12:Regular"
+              , decoWidth           = 2
+              , decoHeight          = 2
+              , windowTitleAddons   = []
+              , windowTitleIcons    = []
+              }
 
     nmaster = 1
     delta   = 5/100
@@ -356,12 +382,22 @@ myKeys home conf@(XConfig { modMask = modMask }) =
   , ((modMask,                  xK_f      ), sendMessage $ Toggle NBFULL)
   , ((modMask,                  xK_g      ), sendMessage $ Toggle MIRROR)
 
-  , ((mod1Mask,                 xK_Tab    ), windows W.focusDown)
-  , ((mod1Mask .|. shiftMask,   xK_Tab    ), windows W.focusUp)
+  -- tabs
+  , ((mod4Mask,                 xK_Up     ), sendMessage $ pullGroup U)
+  , ((mod4Mask,                 xK_Down   ), sendMessage $ pullGroup D)
+  , ((mod4Mask,                 xK_Left   ), sendMessage $ pullGroup L)
+  , ((mod4Mask,                 xK_Right  ), sendMessage $ pullGroup R)
+  , ((mod4Mask,                 xK_Return ), withFocused $ sendMessage . UnMerge)
+  , ((mod4Mask,                 xK_Tab    ), onGroup W.focusDown')
+  , ((mod4Mask .|. shiftMask,   xK_Tab    ), onGroup W.focusUp')
+
+  -- window navigation
+  , ((mod1Mask,                 xK_Tab    ), focusDown)
+  , ((mod1Mask .|. shiftMask,   xK_Tab    ), focusUp)
+  -- , ((mod1Mask,                 xK_Tab    ), windows W.focusDown)
+  -- , ((mod1Mask .|. shiftMask,   xK_Tab    ), windows W.focusUp)
   , ((modMask,                  xK_m      ), windows W.focusMaster)
-
   , ((modMask,                  xK_Return ), windows W.swapMaster)
-
   , ((modMask,                  xK_minus  ), sendMessage Shrink)
   , ((modMask,                  xK_plus   ), sendMessage Expand)
   , ((modMask,                  xK_t      ), withFocused $ windows . W.sink)
