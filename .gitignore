@@ -80,6 +80,10 @@
 !.ncmpcpp
 !.ncmpcpp/config
 
+# Fontconfig
+!.config/fontconfig
+!.config/fontconfig/**
+
 # RedShift
 !.config/redshift.conf
 
