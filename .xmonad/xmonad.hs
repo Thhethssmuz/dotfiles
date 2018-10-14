@@ -180,6 +180,44 @@ passThroughMouse bindings = map (\(b,a) -> (b, wrap a)) bindings
       ws <- fmap passThrough XS.get
       if w `elem` ws then return () else a w
 
+
+data PrevWindowState = PrevWindowState
+  { prevWindows :: M.Map String [Window]
+  } deriving (Typeable, Show)
+
+instance ExtensionClass PrevWindowState where
+  initialValue = PrevWindowState M.empty
+
+prevWindowLogHook :: X ()
+prevWindowLogHook = withWindowSet $ \s -> whenJust (W.peek s) $ \w -> do
+  st <- XS.get
+  let tag = W.currentTag s
+      ws = W.integrate' . W.stack . W.workspace $ W.current s
+      m   = prevWindows st
+      ps  = fromMaybe [] $ M.lookup tag m
+      ps' = w : [ p | p <- ps, p /= w, elem p ws ]
+
+  XS.put $ st { prevWindows = M.insert tag ps' m }
+
+focusPrevious :: Window -> X ()
+focusPrevious w = withWindowSet $ \s -> do
+  st <- XS.get
+  let tag = W.currentTag s
+      ws = W.integrate' . W.stack . W.workspace $ W.current s
+      m   = prevWindows st
+      ps  = fromMaybe [] $ M.lookup tag m
+      ps' = [ p | p <- ps, p /= w, elem p ws ]
+
+  XS.put $ st { prevWindows = M.insert tag ps' m }
+  when (not $ null ps') $ do
+    modify (\xs -> xs { windowset = W.focusWindow (head ps') (windowset xs) })
+
+prevWindowEventHook :: Event -> X All
+prevWindowEventHook event = case event of
+  (DestroyWindowEvent { ev_window = w }) -> focusPrevious w >> return (All True)
+  (UnmapEvent { ev_window = w }) -> focusPrevious w >> return (All True)
+  _ -> return $ All True
+
 -------------------------------------------------------------------------------
 -- Urgency hook
 -------------------------------------------------------------------------------
@@ -289,7 +327,10 @@ myManageHook = (composeAll
 -- Handle event hooks
 -------------------------------------------------------------------------------
 
-myHandleEventHook = refreshOnFullscreen <+> fullscreenEventHook <+> docksEventHook
+myHandleEventHook = prevWindowEventHook
+                <+> refreshOnFullscreen
+                <+> fullscreenEventHook
+                <+> docksEventHook
 
 -- hack for fullscreening chromium inside a tiled window
 refreshOnFullscreen :: Event -> X All
@@ -311,17 +352,19 @@ refreshOnFullscreen _ = return $ All True
 -- Status bar (left)
 -------------------------------------------------------------------------------
 
-myLogHook h = dynamicLogWithPP $ def
-  { ppCurrent   = fg color12 . pad
-  , ppVisible   = fg color4 . pad
-  , ppUrgent    = fg color1 . pad
-  , ppHidden    = pad
-  , ppWsSep     = ""
-  , ppSep       = "   "
-  , ppSort      = getSortByXineramaPhysicalRule def
-  , ppOrder     = \(ws:_:t:_) -> [ ' ':ws, t ]
-  , ppOutput    = hPutStrLn h
-  }
+myLogHook h = do
+  prevWindowLogHook
+  dynamicLogWithPP $ def
+    { ppCurrent   = fg color12
+    , ppVisible   = fg color4
+    , ppUrgent    = fg color1
+    , ppHidden    = id
+    , ppWsSep     = "  "
+    , ppSep       = "   "
+    , ppSort      = getSortByXineramaPhysicalRule def
+    , ppOrder     = \(ws:_:t:_) -> [ ' ':ws, t ]
+    , ppOutput    = hPutStrLn h
+    }
 
 -------------------------------------------------------------------------------
 -- Prompt
