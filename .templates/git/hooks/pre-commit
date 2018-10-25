@@ -47,6 +47,11 @@ elif [[ $(get_remote) == *gogs.tnst.no* ]]; then
     echo -e "You have not set your identity: use 'git sia'"
     FAIL=true
   fi
+elif [[ $(get_remote) == *bitbucket.tc.nsc.no* ]]; then
+  if [[ $(git whoami) != Svein* ]]; then
+    echo -e "You have not set your identity: use 'git sia'"
+    FAIL=true
+  fi
 fi
 
 # run all staged files through git diff --check
