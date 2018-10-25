@@ -74,7 +74,7 @@ sia-10: base \
 	network-manager ssh sshd smb network-tools \
 	xorg lxdm slock xmonad environment misc \
 	chromium sublime-text weechat \
-	bash git js docker vpn
+	bash git js json docker vpn
 	-
 
 #
