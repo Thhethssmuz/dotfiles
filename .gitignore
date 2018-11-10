@@ -106,6 +106,8 @@
 !.config/sublime-text-3/Packages/Default/**
 !.config/sublime-text-3/Packages/Haskell
 !.config/sublime-text-3/Packages/Haskell/**
+!.config/sublime-text-3/Packages/JavaScript
+!.config/sublime-text-3/Packages/JavaScript/**
 !.config/sublime-text-3/Packages/MarkdownEditing
 !.config/sublime-text-3/Packages/MarkdownEditing/**
 !.config/sublime-text-3/Packages/Python
