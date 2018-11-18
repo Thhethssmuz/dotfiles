@@ -2029,7 +2029,8 @@
     (
       \B\.[0-9]+|               # e.g. .999
       \b[0-9]+(\.[0-9]*)?       # e.g. 999.999, 999. or 999
-    )(e[-+]?[0-9]+)?            # e.g. e+123, E-123
+    )
+    (n|(e[-+]?[0-9]+))?            # e.g. e+123, E-123
   )</string>
           <key>name</key>
           <string>constant.numeric.js</string>
