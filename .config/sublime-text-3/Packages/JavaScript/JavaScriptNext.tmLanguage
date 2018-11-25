@@ -2830,7 +2830,7 @@
       <array>
         <dict>
           <key>match</key>
-          <string>\b(Array|ArrayBuffer|Boolean|DataView|Date|Float(32|64)Array|Function|Int(8|16|32)Array|Map|Math|Number|Object|Promise|Proxy|(Readable|Transform|Writable)Stream|RegExp|Set|String|Symbol|Text(Decoder|Encoder)|Uint8ClampedArray|Uint(8|16|32)Array|WeakMap|WeakSet)\b</string>
+          <string>\b(Array|ArrayBuffer|Big(Uint|Int)64Array|Boolean|DataView|Date|Float(32|64)Array|Function|Int(8|16|32)Array|Map|Math|Number|Object|Promise|Proxy|(Readable|Transform|Writable)Stream|RegExp|Set|String|Symbol|Text(Decoder|Encoder)|Uint8ClampedArray|Uint(8|16|32)Array|WeakMap|WeakSet)\b</string>
           <key>name</key>
           <string>support.class.builtin.js</string>
         </dict>
