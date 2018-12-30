@@ -160,7 +160,7 @@ x-tools: numlockx.pac xclip.pac xdotool.pac xorg-xev.pac xorg-xprop.pac xorg-xwi
 fonts: gucharmap.pac ttf-dejavu-sans-mono-powerline-git.aur ttf-dejavu.pac ttf-droid.pac ttf-font-awesome.pac ttf-freefont.pac ttf-ionicons.pac ttf-liberation.pac ttf-linux-libertine.pac ttf-opensans.pac ttf-ubuntu-font-family.pac
 gtk-theme: elementary-icon-theme.pac numix-gtk-theme.pac lxappearance.pac
 ranger: ranger.pac highlight.pac
-terminals: alacritty.pac guake.pac rxvt-unicode.pac xterm.pac
+terminals: alacritty.pac rxvt-unicode.pac xterm.pac
 terminal-tools: bc.pac calc.pac cmatrix.pac lolcat.pac lsb-release.pac nano.pac ncdu.pac pwgen.pac youtube-dl.pac zalgolize.npm
 hunspell: hunspell.pac hunspell-en_GB.pac hunspell-en_US.pac # hunspell-no.src
 archive-tools: atool.pac unrar.pac unzip.pac zip.pac p7zip.pac
