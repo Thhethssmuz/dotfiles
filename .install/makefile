@@ -214,7 +214,7 @@ json: jshon.pac json.npm
 dev-tools: git make.pac the_silver_searcher.pac
 
 vm: archiso.pac ovmf.pac qemu.pac
-docker: docker.pac docker.srv docker-compose.pac loop.mod
+docker: docker.pac docker.srv loop.mod
 pm2: pm2.npm pm2.srv
 mysql: mariadb.pac mariadb.srv mysqld.srv
 
