@@ -131,7 +131,7 @@ pulse: pulseaudio-alsa.pac pavucontrol.pac pulseaudio.usr
 midi: timidity++.pac timidity-freepats.pac
 mpd: mpd.pac mpd.usr
 mpc: mpc.pac ncmpcpp.pac
-espeak: espeak-ng.aur
+espeak: espeak-ng.pac
 audio-tools: id3v2.pac
 
 
