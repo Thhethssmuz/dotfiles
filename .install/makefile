@@ -62,6 +62,7 @@ archtop: base \
 	dropbox
 
 sia-10: base \
+	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
 	nvidia input touchpad fs printer \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
