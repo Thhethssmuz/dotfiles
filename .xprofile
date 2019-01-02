@@ -43,6 +43,6 @@ if [ "$(hostname)" = "archbox" ]; then
 
 elif [[ "$(hostname)" = *-vm ]]; then
 
-  xrandr --output Virtual-1 --auto
+  xrandr --output VGA-1 --auto
 
 fi
