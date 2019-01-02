@@ -210,7 +210,7 @@ haskell: ghc.pac stack.pac ncurses5-compat-libs.aur
 js: nodejs.pac npm.pac eslint.npm
 latex: texlive-most.pag
 pdf: latex pandoc.pac evince # ppp
-json: jshon.pac json.npm
+json: jq.pac jshon.pac json.npm
 dev-tools: git make.pac the_silver_searcher.pac
 
 vm: archiso.pac ovmf.pac qemu.pac
