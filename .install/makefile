@@ -145,7 +145,7 @@ slim: slim.pac archlinux-themes-slim.pac slim.cfg
 slock: slock.pac xautolock.pac
 xmonad: xmonad.pac xmonad-contrib.pac
 compton: compton.pac
-environment: dzen2.pac haskell-async.pac haskell-dbus.pac ghc-libs.pac hsetroot.aur status-bar-icons.src
+environment: dzen2.pac haskell-async.pac haskell-dbus.pac ghc-libs.pac hsetroot.pac status-bar-icons.src
 
 
 #
