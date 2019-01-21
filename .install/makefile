@@ -50,7 +50,7 @@ archbox: base media-lib.amt media-u.amt media-x.amt \
 	nvidia input fs \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
-	blender browsers evince gimp libreoffice musescore redshift steam sublime-text \
+	blender browsers evince gimp libreoffice musescore reaper redshift steam sublime-text \
 	thunar transmission vlc weechat \
 	sshd smbd dropbox docker vm
 
@@ -188,6 +188,7 @@ evince: evince.pac
 gimp: gimp.pac
 libreoffice: libreoffice-fresh.pac
 musescore: midi musescore.pac
+reaper: reaper-bin.aur carla.pac
 redshift: redshift.pac redshift.usr
 steam: steam.pac steam-fonts.aur steam-native-runtime.pac
 sublime-text: sublime-text-dev.aur package-control.src
