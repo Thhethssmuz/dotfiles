@@ -195,6 +195,7 @@ sublime-text: sublime-text-dev.aur package-control.src
 thunar: thunar.pac
 thunderbird: thunderbird.pac
 transmission: transmission-gtk.pac
+virtualbox: virtualbox.pac virtualbox-ext-oracle.aur
 vlc: vlc.pac
 weechat: weechat.pac
 
@@ -215,7 +216,7 @@ pdf: latex pandoc.pac evince # ppp
 json: jq.pac jshon.pac json.npm
 dev-tools: git make.pac the_silver_searcher.pac
 
-vm: archiso.pac ovmf.pac qemu.pac
+vm: archiso.pac virtualbox
 docker: docker.pac docker.srv loop.mod
 pm2: pm2.npm pm2.srv
 mysql: mariadb.pac mariadb.srv
