@@ -8,17 +8,17 @@ sed -i 's/bash live.sh//' ~/.bashrc
 sgdisk \
   -n 1:0:+128M -t 1:ef00 -c 1:bootefi \
   -n 2:0:0 -t 2:8300 -c 2:linux \
-  -p /dev/vda
+  -p "$DISC"
 
 # create filesystems
-mkfs.fat -F32 /dev/vda1
-mkfs.ext4 /dev/vda2
+mkfs.fat -F32 "$DISC"1
+mkfs.ext4 "$DISC"2
 
 # mount filesystems
 mkdir -p /mnt
-mount /dev/vda2 /mnt
+mount "$DISC"2 /mnt
 mkdir -p /mnt/boot
-mount /dev/vda1 /mnt/boot
+mount "$DISC"1 /mnt/boot
 
 # bootstrap
 pacstrap /mnt base base-devel

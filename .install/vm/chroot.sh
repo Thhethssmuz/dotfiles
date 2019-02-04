@@ -30,7 +30,7 @@ cat <<EOF > /boot/loader/entries/arch.conf
 title Arch Linux
 linux /vmlinuz-linux
 initrd /initramfs-linux.img
-options root=$(blkid --match-tag PARTUUID /dev/vda2 | awk '{print $2}' | sed 's/"//g') rw
+options root=$(blkid --match-tag PARTUUID "$DISC"2 | awk '{print $2}' | sed 's/"//g') rw
 EOF
 
 # bootloader conf
