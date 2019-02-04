@@ -54,13 +54,6 @@ archbox: base media-lib.amt media-u.amt media-x.amt \
 	thunar transmission vlc weechat \
 	sshd smbd dropbox docker vm
 
-archtop: base \
-	mesa input touchpad fs \
-	network audio \
-	xorg lxdm slock xmonad environment misc dev \
-	browsers evince gimp libreoffice sublime-text vlc weechat \
-	dropbox
-
 sia-10: base \
 	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
 	nvidia input touchpad fs printer \
