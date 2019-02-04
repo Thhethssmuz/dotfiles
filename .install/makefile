@@ -46,29 +46,35 @@ remove-orphans:
 # Hosts
 #
 
-archbox: base media-lib.amt media-u.amt media-x.amt \
-	nvidia input fs \
+archbox: \
+	media-lib.amt media-u.amt media-x.amt \
+	base nvidia input fs \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
 	blender browsers evince gimp libreoffice musescore reaper redshift steam sublime-text \
 	thunar transmission vlc weechat \
-	sshd smbd dropbox docker vm
+	sshd smbd dropbox docker mkvm
 
-sia-10: base \
+sia-10: \
 	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
-	nvidia input touchpad fs printer \
+	base nvidia input touchpad fs printer \
 	network audio \
 	xorg lxdm slock xmonad compton environment misc dev \
 	browsers evince gimp libreoffice mysql remmina sublime-text thunderbird \
 	transmission vlc weechat \
-	sshd nxserver docker vpn vm
+	sshd nxserver docker vpn mkvm
+
+
+#
+# Virtual Hosts
+#
 
 %-vm: \
 	base mesa input fs \
 	network-manager ssh sshd smb network-tools \
-	xorg lxdm slock xmonad environment misc \
-	chromium sublime-text weechat \
-	bash git js json docker vpn
+	xorg lxdm slock xmonad environment misc dev \
+	browsers sublime-text weechat \
+	vpn
 	-
 
 #
@@ -209,7 +215,7 @@ pdf: latex pandoc.pac evince # ppp
 json: jq.pac jshon.pac json.npm
 dev-tools: git make.pac the_silver_searcher.pac
 
-vm: archiso.pac virtualbox
+mkvm: archiso.pac
 docker: docker.pac docker.srv loop.mod
 pm2: pm2.npm pm2.srv
 mysql: mariadb.pac mariadb.srv
