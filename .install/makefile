@@ -13,7 +13,7 @@ $(error bad execution directory)
 endif
 
 .PHONY: all status check-updates update install explicit remove-orphans
-.PHONY: archbox archtop sia-10 %-vm
+.PHONY: archbox archtop sia-10 virtual %-vmk %-vmb %-vmw
 .ONESHELL:
 
 
@@ -69,13 +69,20 @@ sia-10: \
 # Virtual Hosts
 #
 
-%-vm: \
+virtual: \
 	base mesa input fs \
 	network-manager ssh sshd smb network-tools \
 	xorg lxdm slock xmonad environment misc dev \
 	browsers sublime-text weechat \
 	vpn
+
+%-vmk: virtual
 	-
+%-vmb: virtual
+	-
+%-vmw: virtual
+	-
+
 
 #
 # Base
