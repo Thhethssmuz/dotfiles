@@ -49,20 +49,18 @@ remove-orphans:
 archbox: \
 	media-lib.amt media-u.amt media-x.amt \
 	base nvidia input fs \
-	network audio \
-	xorg lxdm slock xmonad compton environment misc dev \
-	blender browsers evince gimp libreoffice musescore reaper redshift steam sublime-text \
-	thunar transmission vlc weechat \
-	sshd smbd dropbox docker mkvm
+	network sshd dropbox \
+	audio desktop compton misc browsers \
+	blender evince gimp libreoffice musescore reaper redshift steam sublime-text thunar virtualbox vlc weechat \
+	dev docker mkvm
 
 sia-10: \
 	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
 	base nvidia input touchpad fs printer \
-	network audio \
-	xorg lxdm slock xmonad compton environment misc dev \
-	browsers evince gimp libreoffice mysql remmina sublime-text thunderbird \
-	transmission vlc weechat \
-	sshd nxserver docker vpn mkvm
+	network sshd nxserver docker remmina vpn \
+	audio desktop compton misc browsers \
+	evince gimp libreoffice remmina sublime-text thunar thunderbird virtualbox vlc weechat \
+	dev mkvm mysql
 
 
 #
@@ -71,10 +69,10 @@ sia-10: \
 
 virtual: \
 	base mesa input fs \
-	network-manager ssh sshd smb network-tools \
-	xorg lxdm slock xmonad environment misc dev \
-	browsers sublime-text weechat \
-	vpn
+	network-manager ssh sshd smb network-tools vpn \
+	desktop misc browsers \
+	sublime-text weechat \
+	dev
 
 %-vmk: virtual
 	-
@@ -146,13 +144,16 @@ audio-tools: id3v2.pac
 # Desktop
 #
 
+desktop: xorg lxdm slock xmonad environment
+
 xorg: xorg-server.pac xorg-xinit.pac xorg-apps.pag
 lxdm: lxdm.pac archlinux-lxdm-theme-full.aur lxdm.cfg lxdm.srv
-slim: slim.pac archlinux-themes-slim.pac slim.cfg
 slock: slock.pac xautolock.pac
 xmonad: xmonad.pac xmonad-contrib.pac
-compton: compton.pac
 environment: dzen2.pac haskell-async.pac haskell-dbus.pac ghc-libs.pac hsetroot.pac status-bar-icons.src
+
+slim: slim.pac archlinux-themes-slim.pac slim.cfg
+compton: compton.pac
 
 
 #
