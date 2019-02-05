@@ -11,14 +11,14 @@ sgdisk \
   -p "$DISC"
 
 # create filesystems
-mkfs.fat -F32 "$DISC"1
-mkfs.ext4 "$DISC"2
+mkfs.fat -F32 "$DISC1"
+mkfs.ext4 "$DISC2"
 
 # mount filesystems
 mkdir -p /mnt
-mount "$DISC"2 /mnt
+mount "$DISC2" /mnt
 mkdir -p /mnt/boot
-mount "$DISC"1 /mnt/boot
+mount "$DISC1" /mnt/boot
 
 # bootstrap
 pacstrap /mnt base base-devel
