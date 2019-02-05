@@ -3,11 +3,9 @@
 # shellcheck source=/home/thhethssmuz/.xmonad/scripts/config.sh
 source "$HOME/.xmonad/scripts/config.sh"
 
-###############################################################################
 #
 # Generate icons using current colour theme
 #
-###############################################################################
 
 SRC="$HOME/.xmonad/icons/src"
 DST="$HOME/.xmonad/icons"
@@ -49,6 +47,13 @@ mk_pacman() {
     -alpha remove \
     -resize "x$FONT_SIZE" \
     "$DST/pacman.xpm"
+  convert "$SRC/pacman.png" \
+    +level-colors ",$COLOR15" \
+    -rotate 90 \
+    -background "$BACKGROUND" \
+    -alpha remove \
+    -resize "x$FONT_SIZE" \
+    "$DST/aur.xpm"
 }
 
 # Make dropbox icons
@@ -86,7 +91,7 @@ mk_redshift() {
 
 # Make layout icons
 mk_layout() {
-  for i in $SRC/layout_*.png; do
+  for i in "$SRC"/layout_*.png; do
     convert "$i" \
       +level-colors "$COLOR15" \
       -background "$BACKGROUND" \
@@ -98,7 +103,7 @@ mk_layout() {
 
 # Make volume icons
 mk_volume() {
-  for i in $SRC/volume-*.png; do
+  for i in "$SRC"/volume-*.png; do
     convert "$i" \
       +level-colors ",$COLOR15" \
       -background "$BACKGROUND" \

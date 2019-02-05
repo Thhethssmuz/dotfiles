@@ -1,14 +1,16 @@
 #! /usr/bin/env bash
 
+# shellcheck source=/dev/null
 . ~/.xmonad/scripts/config.sh
 
 title() {
-  local n=$(checkupdates | wc -l)
-  echo "^p(+20)$n update(s) available"
+  local updates
+  updates=$(~/.xmonad/scripts/updates.sh)
+  echo "^p(+20)$updates update(s) available"
 }
 
 slave() {
-  checkupdates | awk '{print "^pa(20)- " $0}'
+  ~/.xmonad/scripts/updates.sh -l | awk '{print "^pa(20)- " $0}'
 }
 
 main() {
@@ -23,7 +25,7 @@ main() {
     -ta l \
     -sa l \
     -e 'onstart=uncollapse;button3=exit;button4=scrollup;button5=scrolldown' \
-    $@
+    "$@"
 }
 
-$@
+"$@"

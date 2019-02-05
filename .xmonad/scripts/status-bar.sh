@@ -9,11 +9,9 @@ PID_FILE=/tmp/status-bar.pid
 OUTPUT=~/.xmonad/scripts/dzen-bar-right.sh
 
 
-###############################################################################
 #
 # Render individual status indicators
 #
-###############################################################################
 
 render_keyboard_indicator() {
   # echo -n  "^ca(1, exec ~/.xmonad/scripts/dzen-menu-keyboard.sh)"
@@ -26,11 +24,12 @@ render_keyboard_indicator() {
 }
 
 render_updates_indicator() {
-  local icon
-  local n
-  icon="^i($HOME/.xmonad/icons/pacman.xpm)"
-  n=$(~/.xmonad/scripts/updates.sh)
-  echo -n "^ca(1, ~/.xmonad/scripts/dbus.sh menu Toggle Updates)$icon $n^ca()"
+  local updates line
+  updates=$(~/.xmonad/scripts/updates.sh -g)
+  line+="^i($HOME/.xmonad/icons/pacman.xpm) $(awk '{print $1}' <<< "$updates") "
+  line+="^i($HOME/.xmonad/icons/aur.xpm) $(awk '{print $2}' <<< "$updates") "
+  line+="^fn(Ionicons:size=$FONT_SIZE)\\uf195^fn() $(awk '{print $3}' <<< "$updates")"
+  echo -ne "^ca(1, ~/.xmonad/scripts/dbus.sh menu Toggle Updates)$line^ca()"
 }
 
 render_volume_indicator() {
@@ -95,7 +94,6 @@ render_user_indicator() {
 }
 
 
-###############################################################################
 #
 # Update a status indicator at a given interval
 #
@@ -103,7 +101,6 @@ render_user_indicator() {
 #   $1  indicator name
 #   $2  interval in seconds
 #
-###############################################################################
 
 set_update_interval() {
   while true; do
@@ -115,25 +112,21 @@ set_update_interval() {
 }
 
 
-###############################################################################
 #
 # Send an update signal to the status bar for a specific indicator
 #
 # Arguments:
 #   $1  indicator name
 #
-###############################################################################
 
 update() {
   echo "$1" >> $FIFO
 }
 
 
-###############################################################################
 #
 # Kill the status bar
 #
-###############################################################################
 
 kill_statusbar() {
   xargs kill < $PID_FILE
@@ -141,11 +134,9 @@ kill_statusbar() {
 }
 
 
-###############################################################################
 #
 # Start the status bar
 #
-###############################################################################
 
 run() {
 
@@ -204,11 +195,9 @@ run() {
 }
 
 
-###############################################################################
 #
 # Print usage
 #
-###############################################################################
 
 usage() {
   cat <<EOF
@@ -232,11 +221,9 @@ EOF
 }
 
 
-###############################################################################
 #
 # Argument parsing
 #
-###############################################################################
 
 main() {
 
@@ -253,7 +240,7 @@ main() {
           update "$2"
           shift
         else
-          echo "expected argument after option $1"
+          echo "expected argument after option $1" 1>&2
           exit 1
         fi
         ;;
@@ -268,8 +255,8 @@ main() {
         ;;
 
       --*)
-        echo "$(basename "$0"): invalid option $1"
-        echo "Try $(basename "$0") --help for more info"
+        echo "$(basename "$0"): invalid option $1" 1>&2
+        echo "Try $(basename "$0") --help for more info" 1>&2
         exit 1
         ;;
 
@@ -279,8 +266,8 @@ main() {
         ;;
 
       *)
-        echo "$(basename "$0"): invalid option $1"
-        echo "Try $(basename "$0") --help for more info"
+        echo "$(basename "$0"): invalid option $1" 1>&2
+        echo "Try $(basename "$0") --help for more info" 1>&2
         exit 1
         ;;
 
