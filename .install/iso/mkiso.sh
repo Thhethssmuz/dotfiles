@@ -48,5 +48,5 @@ mkdir -p "$TMPDIR"/out/
 
 # copy out and clean up
 mv "$TMPDIR"/out/archlinux-*-x86_64.iso \
-  "./archlinux-$(date +%F)-x86_64.$PROFILE.iso"
+  "./archlinux-$(date +%F)-x86_64.$HOSTNAME.iso"
 sudo rm -rf "$TMPDIR"
