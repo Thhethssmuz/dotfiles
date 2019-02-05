@@ -12,7 +12,7 @@ ifneq ($(shell pwd),$(MAKEDIR))
 $(error bad execution directory)
 endif
 
-.PHONY: all status check-updates update install explicit remove-orphans
+.PHONY: all status check-updates update install explicit remove-orphans iso
 .PHONY: archbox archtop sia-10 virtual %-vmk %-vmb %-vmw
 .ONESHELL:
 
@@ -40,6 +40,9 @@ explicit:
 
 remove-orphans:
 	$(MAKE) --no-print-directory $(TARGET) | lib/provision.sh remove-orphans
+
+iso:
+	iso/mkiso.sh
 
 
 #
