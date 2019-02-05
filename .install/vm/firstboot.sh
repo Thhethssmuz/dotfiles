@@ -12,6 +12,7 @@ rm -rf /etc/systemd/system/getty\@tty1.service.d
 dhcpcd && sleep 10
 
 # localectl
+pacman -S --noconfirm libxkbcommon-x11
 localectl set-locale LANG=en_GB.UTF-8
 localectl set-x11-keymap dvorak pc104 "no(dvorak)"
 localectl set-keymap --no-convert dvorak
