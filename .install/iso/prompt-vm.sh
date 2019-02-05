@@ -10,9 +10,16 @@ while true; do
 done
 
 echo ""
-read -rp "Enter username for auto-install: " USERNAME
+read -rp "Enter username for auto-install [$(whoami)]: " USERNAME
+if [ -z "$USERNAME" ]; then
+  USERNAME="$(whoami)"
+fi
+
 echo ""
-read -rp "Enter root password for auto-install: " PASSWORD
+read -rp "Enter root password for auto-install [1234]: " PASSWORD
+if [ -z "$PASSWORD" ]; then
+  PASSWORD="1234"
+fi
 
 export HOSTNAME
 export USERNAME
