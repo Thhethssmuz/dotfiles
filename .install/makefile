@@ -76,7 +76,7 @@ virtual: \
 
 %-vmk: virtual
 	-
-%-vmb: virtual
+%-vmb: virtual virtualbox-guest-utils.pac virtualbox-guest-modules-arch.pac
 	-
 %-vmw: virtual
 	-
