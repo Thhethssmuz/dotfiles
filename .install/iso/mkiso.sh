@@ -35,8 +35,10 @@ case "$PROFILE" in
     exit 1 ;;
 esac
 
-# automatically source the live script when starting up the live image
+# set the live shell to bash not zsh
 sed -i 's/zsh/bash/' "$TMPDIR"/airootfs/root/customize_airootfs.sh
+
+# automatically source the live script when starting up the live image
 echo 'echo "bash live.sh" >> /root/.bashrc' \
   >> "$TMPDIR"/airootfs/root/customize_airootfs.sh
 
