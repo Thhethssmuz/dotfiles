@@ -67,6 +67,7 @@ render_power_indicator() {
   local status level icon
 
   for bat in /sys/class/power_supply/BAT*; do
+    [ -e "$bat" ] || continue
     status=$(< "$bat/status")
     level=$(< "$bat/capacity")
   done
