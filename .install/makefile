@@ -200,6 +200,7 @@ evince: evince.pac
 gimp: gimp.pac
 libreoffice: libreoffice-fresh.pac
 musescore: midi musescore.pac
+kvm: qemu.pac ovmf.pac
 reaper: reaper-bin.aur carla.pac
 redshift: redshift.pac redshift.usr
 steam: steam.pac steam-fonts.aur steam-native-runtime.pac
