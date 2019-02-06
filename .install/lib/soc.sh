@@ -2,19 +2,13 @@
 set -euo pipefail
 
 list() {
-  systemctl list-unit-files --system --type service \
+  systemctl list-unit-files --system --type socket \
     --no-pager --no-legend --state enabled | \
-    sed 's/\.service.*/\.srv/'
+    sed 's/\.socket.*/\.soc/'
 }
 
 ignore() {
-  echo 'autovt@.srv'
-  echo 'dbus-org.freedesktop.NetworkManager.srv'
-  echo 'dbus-org.freedesktop.nm-dispatcher.srv'
-  echo 'display-manager.srv'
-  echo 'getty@.srv'
-  echo 'NetworkManager-dispatcher.srv'
-  echo 'systemd-timesyncd.srv'
+  :
 }
 
 
@@ -28,7 +22,7 @@ update() {
 
 
 install() {
-  sed 's/\.srv$/\.service/' | xargs --no-run-if-empty \
+  sed 's/\.soc$/\.socket/' | xargs --no-run-if-empty \
     sudo systemctl enable
 }
 
@@ -37,7 +31,7 @@ explicit() {
 }
 
 remove() {
-  sed 's/\.srv$/\.service/' | xargs --no-run-if-empty \
+  sed 's/\.soc$/\.socket/' | xargs --no-run-if-empty \
     sudo systemctl disable
 }
 
