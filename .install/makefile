@@ -138,7 +138,7 @@ audio: alsa pulse midi mpd mpc espeak audio-tools
 
 alsa: alsa-utils.pac
 pulse: pulseaudio-alsa.pac pavucontrol.pac pulseaudio.usc
-midi: timidity++.pac timidity-freepats.pac
+midi: timidity++.pac freepats-general-midi.pac
 mpd: mpd.pac mpd.usr
 mpc: mpc.pac ncmpcpp.pac
 espeak: espeak-ng.pac
