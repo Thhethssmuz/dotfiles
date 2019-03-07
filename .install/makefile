@@ -127,7 +127,7 @@ smbd: smb smbd.srv nmbd.srv smbd.cfg
 nxserver: nxclient nxserver.srv
 dropbox: dropbox.aur dropbox-cli.aur dropbox.usr dropbox.src
 remmina: remmina.pac freerdp.pac remmina-plugin-rdesktop.aur
-vpn: badvpn.pac openconnect.pac python2-pip.pac screen.pac
+vpn: badvpn.pac openconnect.pac python2-pip.pac screen.pac systemd-resolvconf.pac
 
 
 #
