@@ -90,8 +90,7 @@ render_power_indicator() {
 }
 
 render_user_indicator() {
-  echo -n "$(whoami)"
-  echo -n " "
+  echo -n "$(whoami)@$(hostname) "
 }
 
 
