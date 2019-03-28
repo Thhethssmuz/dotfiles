@@ -104,8 +104,8 @@ render_user_indicator() {
 
 set_update_interval() {
   while true; do
-    sleep "$2"
     echo "$1" >> $FIFO
+    sleep "$2"
   done &
   echo $! >> $PID_FILE
   disown
@@ -140,19 +140,12 @@ kill_statusbar() {
 
 run() {
 
-  local keyboard_state
-  local updates_state
-  local volume_state
-  local dropbox_state
-  local power_state
-  local user_state
-
-  keyboard_state=$(render_keyboard_indicator)
-  updates_state=$(render_updates_indicator)
-  volume_state=$(render_volume_indicator)
-  dropbox_state=$(render_dropbox_indicator)
-  power_state=$(render_power_indicator)
-  user_state=$(render_user_indicator)
+  local keyboard_state="_"
+  local updates_state="_"
+  local volume_state="_"
+  local dropbox_state="_"
+  local power_state="_"
+  local user_state="_ "
 
   render_all_indicators() {
     local all=(
@@ -173,11 +166,16 @@ run() {
     mkfifo $FIFO
   fi
 
-  set_update_interval updates 900
-  set_update_interval power 10
+  ( sleep 0.1 && update keyboard ) &
+  ( sleep 2 && set_update_interval updates 900 ) &
+  ( sleep 0.2 && update volume ) &
   if hash dropbox-cli 2>/dev/null; then
-    set_update_interval dropbox 5
+    (sleep 1 && set_update_interval dropbox 5 ) &
+  else
+    (sleep 1 && update dropbox ) &
   fi
+  ( sleep 0.3 && set_update_interval power 10 ) &
+  ( sleep 0.4 && update user ) &
 
   while true; do
     render_all_indicators
