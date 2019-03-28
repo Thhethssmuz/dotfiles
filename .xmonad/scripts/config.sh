@@ -23,7 +23,7 @@ MAIN_FONT="$BOLD_MONO"
 ###############################################################################
 
 FOREGROUND="#FFFFFF"
-BACKGROUND="$([[ "$(hostname)" = *-vm ]] && echo "#75507B" || echo "#000000")"
+BACKGROUND="#000000"
 COLOR0="#2E3436"     # dark grey
 COLOR1="#CC0000"     # dark red
 COLOR2="#4E9A06"     # dark green
