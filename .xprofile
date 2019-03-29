@@ -46,7 +46,7 @@ elif [[ "$(hostname)" = "sia-10" ]]; then
   xrandr --output DP-1.1 --mode 1920x1200 --primary
   xrandr --output DP-1.2 --mode 1920x1200
 
-elif [[ "$(hostname)" = *-vm ]]; then
+elif [[ "$(hostname)" = *-vmb ]]; then
 
   xrandr --output VGA-1 --auto
 
