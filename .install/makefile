@@ -120,7 +120,7 @@ network-manager: networkmanager.pac NetworkManager.srv NetworkManager-wait-onlin
 ssh: openssh.pac sshfs.pac
 smb: samba.pac
 nxclient: nomachine.aur
-network-tools: curl.pac bind-tools.pac ngrep.pac rsync.pac tcpdump.pac traceroute.pac whois.pac wireshark-gtk.pac wget.pac
+network-tools: curl.pac bind-tools.pac ngrep.pac rsync.pac tcpdump.pac traceroute.pac whois.pac wireshark-qt.pac wget.pac
 
 sshd: ssh sshd.srv sshd.cfg
 smbd: smb smbd.srv nmbd.srv smbd.cfg
