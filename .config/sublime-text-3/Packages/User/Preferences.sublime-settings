@@ -33,9 +33,9 @@
 	"ignored_words":
 	[
 	],
+	"mini_diff": "auto",
 	"mouse_wheel_switches_tabs": false,
 	"overlay_scroll_bars": "enabled",
-	"mini_diff": "auto",
 	"rulers":
 	[
 		80
