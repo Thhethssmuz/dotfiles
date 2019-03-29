@@ -234,7 +234,7 @@ dev-tools: git make.pac the_silver_searcher.pac
 mkvm: archiso.pac
 docker: docker.pac docker.srv loop.mod
 pm2: pm2.npm pm2.srv
-mysql: mariadb.pac mariadb.srv
+mysql: mariadb.pac mariadb.srv mysqld.srv
 
 
 #
