@@ -81,7 +81,9 @@ virtual: \
 	-
 %-vmk: virtual
 	-
-%-vmb: virtual virtualbox-guest-utils.pac virtualbox-guest-modules-arch.pac
+%-vmb: virtual \
+	virtualbox-guest-utils.pac virtualbox-guest-modules-arch.pac \
+	vboxservice.srv
 	-
 %-vmw: virtual
 	-
@@ -208,7 +210,7 @@ sublime-text: sublime-text-dev.aur package-control.src
 thunar: thunar.pac
 thunderbird: thunderbird.pac
 transmission: transmission-gtk.pac
-virtualbox: virtualbox.pac virtualbox-ext-oracle.aur
+virtualbox: virtualbox.pac
 vlc: vlc.pac
 weechat: weechat.pac
 
