@@ -1,0 +1,15 @@
+# /usr/lib/systemd/user/redshift.service
+
+[Unit]
+Description=Redshift display colour temperature adjustment
+Documentation=http://jonls.dk/redshift/
+After=display-manager.service
+
+[Service]
+Environment=DISPLAY=:0
+RestartSec=3
+ExecStart=/usr/bin/redshift
+Restart=always
+
+[Install]
+WantedBy=default.target
