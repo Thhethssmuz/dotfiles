@@ -166,16 +166,16 @@ run() {
     mkfifo $FIFO
   fi
 
-  ( sleep 0.1 && update keyboard ) &
-  ( sleep 2 && set_update_interval updates 900 ) &
-  ( sleep 0.2 && update volume ) &
+  ( sleep 2 && update keyboard ) &
+  ( sleep 5 && set_update_interval updates 900 ) &
+  ( sleep 3 && update volume ) &
   if hash dropbox-cli 2>/dev/null; then
-    (sleep 1 && set_update_interval dropbox 5 ) &
+    (sleep 4 && set_update_interval dropbox 5 ) &
   else
-    (sleep 1 && update dropbox ) &
+    (sleep 4 && update dropbox ) &
   fi
-  ( sleep 0.3 && set_update_interval power 10 ) &
-  ( sleep 0.4 && update user ) &
+  ( sleep 2 && set_update_interval power 10 ) &
+  ( sleep 1 && update user ) &
 
   while true; do
     render_all_indicators
