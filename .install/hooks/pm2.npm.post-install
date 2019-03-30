@@ -1,5 +1,0 @@
-#!/bin/bash
-set -euo pipefail
-
-# generate systemd service for pm2
-pm2 startup systemd
