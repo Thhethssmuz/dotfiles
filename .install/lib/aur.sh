@@ -53,7 +53,7 @@ status() {
         /)
           ;;
         /*)
-          if pacman -Qn "${line:1: -4}" >/dev/null 2>&1; then
+          if pacman -Qm "${line:1: -4}" >/dev/null 2>&1; then
             echo "${line:1}/explicit/info/Installed but not explicitly"
           else
             echo "${line:1}/install/error/Not installed"
