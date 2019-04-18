@@ -85,7 +85,8 @@ virtual: \
 	virtualbox-guest-utils.pac virtualbox-guest-modules-arch.pac \
 	vboxservice.srv
 	-
-%-vmw: virtual
+%-vmw: virtual \
+	open-vm-tools.pac vmware-vmblock-fuse.srv vmtoolsd.srv
 	-
 
 
