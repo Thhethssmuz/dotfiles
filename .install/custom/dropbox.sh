@@ -8,10 +8,10 @@ order() {
 install() {
   echo 'fs.inotify.max_user_watches = 100000' | \
     sudo tee /etc/sysctl.d/99-sysctl.conf >/dev/null
-  sysctl --system
+  sudo sysctl --system
 
-  rm -rf ~/.dropbox-dist
-  install -dm0 ~/.dropbox-dist
+  sudo rm -rf ~/.dropbox-dist
+  sudo /usr/bin/install -dm0 ~/.dropbox-dist
 }
 
 remove() {
