@@ -551,6 +551,7 @@ contexts:
     - include: fenced-kotlin
     - include: fenced-ocaml
     - include: fenced-reason
+    - include: fenced-toml
     - include: fenced-undefined
   fenced-coffee:
     - match: '^(\s*[`~]{3,})(?=(coffee|cjsx|{.*?\.(coffee|cjsx)\b.*?})\s*$)'
@@ -761,6 +762,13 @@ contexts:
         - match: ^(\1)\n
           pop: true
         - include: scope:source.yaml
+  fenced-toml:
+    - match: '^(\s*[`~]{3,})(?=(toml|{.*?\.(toml)\b.*?})\s*$)'
+      push:
+        - meta_scope: markup.raw.block.markdown markup.raw.block.fenced.markdown
+        - match: ^(\1)\n
+          pop: true
+        - include: scope:source.toml
 
   heading:
     - match: '\G(#{1,6})(?!#)\s*(?=\S)'
