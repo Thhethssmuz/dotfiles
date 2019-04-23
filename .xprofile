@@ -49,5 +49,6 @@ elif [[ "$(hostname)" = "sia-10" ]]; then
 elif [[ "$(hostname)" = *-vmb ]]; then
 
   xrandr --output VGA-1 --auto
+  VBoxClient --clipboard
 
 fi
