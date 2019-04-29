@@ -1,0 +1,125 @@
+{{- $w := sub termWidth (.key | append ": " | len) -}}
+{{- $w := sub $w (.fields.summary | len) -}}
+
+{{- printf "\n" -}}
+
+{{- color "white+bh" -}}
+{{- .key | append ": " -}}
+{{- .fields.summary -}}
+{{- color "reset" -}}
+
+{{- printf "\n" -}}
+{{- if gt $w 0 -}}
+  {{- rep (sub termWidth $w) "=" -}}
+{{- else -}}
+  {{- rep termWidth "=" -}}
+{{- end -}}
+{{- printf "\n" -}}
+
+{{- if eq .fields.status.statusCategory.name "To Do" -}}
+  {{- color "blue+b"  }}{{ .fields.status.statusCategory.name }}{{ color "reset" -}}
+{{- else if eq .fields.status.statusCategory.name "In Progress" -}}
+  {{- color "yellow+b" }}{{ .fields.status.statusCategory.name }}{{ color "reset" -}}
+{{- else if eq .fields.status.statusCategory.name "Done" -}}
+  {{- color "green+b" }}{{ .fields.status.statusCategory.name }}{{ color "reset" -}}
+{{- else -}}
+  {{- color "+b"}}{{ .fields.status.statusCategory.name }}{{ color "reset" -}}
+{{- end -}}
+
+{{- printf " " -}}
+
+{{- if eq .fields.issuetype.name "Story" -}}
+  {{- color "green+b" }}{{ .fields.issuetype.name }}{{ color "reset" -}}
+{{- else if eq .fields.issuetype.name "Task" -}}
+  {{- color "blue+b" }}{{ .fields.issuetype.name }}{{ color "reset" -}}
+{{- else if eq .fields.issuetype.name "Bug" -}}
+  {{- color "red+b" }}{{ .fields.issuetype.name }}{{ color "reset" -}}
+{{- else if eq .fields.issuetype.name "Epic" -}}
+  {{- color "magenta+b" }}{{ .fields.issuetype.name }}{{ color "reset" -}}
+{{- else -}}
+  {{- color "+b" }}{{ .fields.issuetype.name }}{{ color "reset" -}}
+{{- end -}}
+
+{{- printf " " -}}
+
+{{- if eq .fields.priority.name "Blocker" -}}
+  {{- color "black+b:red+h" }}{{ .fields.priority.name }}{{ color "reset" -}}
+{{- else if eq .fields.priority.name "Critical" -}}
+  {{- color "black:red" }}{{ .fields.priority.name }}{{ color "reset" -}}
+{{- else if eq .fields.priority.name "Major" -}}
+  {{- color "red+b" }}{{ .fields.priority.name }}{{ color "reset" -}}
+{{- else if eq .fields.priority.name "Highest" -}}
+  {{- color "red" }}{{ .fields.priority.name }}{{ color "reset" -}}
+{{- else if eq .fields.priority.name "High" -}}
+  {{- color "red" }}{{ .fields.priority.name }}{{ color "reset" -}}
+{{- else if eq .fields.priority.name "Medium" -}}
+  {{- color "yellow" }}{{ .fields.priority.name }}{{ color "reset" -}}
+{{- else if eq .fields.priority.name "Low" -}}
+  {{- color "blue" }}{{ .fields.priority.name }}{{ color "reset" -}}
+{{- else if eq .fields.priority.name "Lowest" -}}
+  {{- color "blue" }}{{ .fields.priority.name }}{{ color "reset" -}}
+{{- else if eq .fields.priority.name "Minor" -}}
+  {{- color "blue+b" }}{{ .fields.priority.name }}{{ color "reset" -}}
+{{- else if eq .fields.priority.name "Trivial" -}}
+  {{- color "black+h" }}{{ .fields.priority.name }}{{ color "reset" -}}
+{{- else -}}
+  {{- color "white" }}{{ .fields.priority.name }}{{ color "reset" -}}
+{{- end -}}
+
+{{if .fields.labels -}}
+  {{- printf " " -}}
+  {{- join " " .fields.labels -}}
+{{- end -}}
+
+{{- if .fields.votes -}}
+  {{- if gt .fields.votes.votes 0 -}}
+    {{- color "magenta+h" }}
+    {{- printf " +" -}}
+    {{- .fields.votes.votes -}}
+    {{ color "reset" -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if .fields.assignee -}}
+  {{- color "+h" -}}
+  {{- printf "\x1b[3m" -}}
+  {{- printf " >> " -}}
+  {{- printf "\x1b[4m" -}}
+  {{- .fields.assignee.name -}}
+  {{- color "reset" -}}
+{{- end -}}
+
+{{- printf "\n\n" -}}
+
+{{- color "+h" -}}
+{{- printf "\x1b[3m" -}}
+{{- printf "created by " -}}
+{{- printf "\x1b[4m" -}}
+{{- .fields.reporter.name -}}
+{{- printf "\x1b[24m " -}}
+{{- .fields.created | age -}}
+{{- printf ":" -}}
+{{- color "reset" -}}
+
+{{- "\n" | append (or .fields.description "") | indent 2 -}}
+
+{{- printf "\n\n" -}}
+
+{{if .fields.comment.comments}}
+  {{- range .fields.comment.comments -}}
+
+    {{- color "+h" -}}
+    {{- printf "\x1b[3m" -}}
+    {{- printf "\x1b[4m" -}}
+    {{- .author.name -}}
+    {{- printf "\x1b[24m" -}}
+    {{- printf ", " -}}
+    {{- .created | age -}}
+    {{- printf " ago:" -}}
+    {{- color "reset" -}}
+
+    {{ "\n" | append (or .body "") | indent 2}}
+    {{- printf "\n\n" -}}
+
+  {{- end -}}
+{{- end -}}

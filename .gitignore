@@ -70,6 +70,11 @@
 # jshint
 !.jshintrc
 
+# jira
+!.jira.d
+!.jira.d/templates
+!.jira.d/templates/**
+
 # mpd
 !.config/mpd
 !.config/mpd/mpd.conf

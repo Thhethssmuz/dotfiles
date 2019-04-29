@@ -1,0 +1,113 @@
+{{- range .issues }}
+
+  {{- if .fields.assignee -}}
+
+    {{- $w := sub termWidth (.fields.reporter.name | len) -}}
+    {{- $w := sub $w (.fields.created | age | len) -}}
+    {{- $w := sub $w (.fields.assignee.name | len) -}}
+    {{- $w := sub $w 20 -}}
+
+    {{- color "+h" -}}
+    {{- printf "\x1b[3m" -}}
+    {{- rep $w "-" -}}
+    {{- printf "created by " -}}
+    {{- printf "\x1b[4m" -}}
+    {{- .fields.reporter.name -}}
+    {{- printf "\x1b[24m" -}}
+    {{- printf " " -}}
+    {{- .fields.created | age -}}
+    {{- printf " ago >> " -}}
+    {{- printf "\x1b[4m" -}}
+    {{- .fields.assignee.name -}}
+    {{- color "reset" -}}
+
+  {{- else -}}
+
+    {{- $w := sub termWidth (.fields.reporter.name | len) -}}
+    {{- $w := sub $w (.fields.created | age | len) -}}
+    {{- $w := sub $w 16 -}}
+
+    {{- color "+h" -}}
+    {{- printf "\x1b[3m" -}}
+    {{- rep $w "-" -}}
+    {{- printf "created by " -}}
+    {{- printf "\x1b[4m" -}}
+    {{- .fields.reporter.name -}}
+    {{- printf "\x1b[24m" -}}
+    {{- printf " " -}}
+    {{- .fields.created | age -}}
+    {{- printf " ago" -}}
+    {{- color "reset" -}}
+
+  {{- end -}}
+
+  {{- printf "\n" -}}
+
+  {{- $w := sub termWidth (.key | append ":" | printf "%-8s" | len) -}}
+  {{- $w := sub $w 1 -}}
+  {{- $w := sub $w (.fields.status.statusCategory.name | printf "%-11s" | len) -}}
+  {{- $w := sub $w 1 -}}
+  {{- $w := sub $w 1 -}}
+  {{- $w := sub $w (.fields.issuetype.name | len) -}}
+  {{- $w := sub $w 1 -}}
+  {{- $w := sub $w (.fields.priority.name | len) -}}
+
+  {{- color "white+bh" }}{{ .key | append ":" | printf "%-8s" }}{{ color "reset" -}}
+
+  {{- printf " " -}}
+
+  {{- if eq .fields.status.statusCategory.name "To Do" -}}
+    {{- color "blue+b"  }}{{ .fields.status.statusCategory.name | printf "%-11s" }}{{ color "reset" -}}
+  {{- else if eq .fields.status.statusCategory.name "In Progress" -}}
+    {{- color "yellow+b" }}{{ .fields.status.statusCategory.name | printf "%-11s" }}{{ color "reset" -}}
+  {{- else if eq .fields.status.statusCategory.name "Done" -}}
+    {{- color "green+b" }}{{ .fields.status.statusCategory.name | printf "%-11s" }}{{ color "reset" -}}
+  {{- else -}}
+    {{- color "+b"}}{{ .fields.status.statusCategory.name | printf "%-11s" }}{{ color "reset" -}}
+  {{- end -}}
+
+  {{- printf " " -}}
+  {{- abbrev $w .fields.summary -}}
+  {{- printf " " -}}
+
+  {{- if eq .fields.issuetype.name "Story" -}}
+    {{- color "green+b" }}{{ .fields.issuetype.name }}{{ color "reset" -}}
+  {{- else if eq .fields.issuetype.name "Task" -}}
+    {{- color "blue+b" }}{{ .fields.issuetype.name }}{{ color "reset" -}}
+  {{- else if eq .fields.issuetype.name "Bug" -}}
+    {{- color "red+b" }}{{ .fields.issuetype.name }}{{ color "reset" -}}
+  {{- else if eq .fields.issuetype.name "Epic" -}}
+    {{- color "magenta+b" }}{{ .fields.issuetype.name }}{{ color "reset" -}}
+  {{- else -}}
+    {{- color "+b" }}{{ .fields.issuetype.name }}{{ color "reset" -}}
+  {{- end -}}
+
+  {{- printf " " -}}
+
+  {{- if eq .fields.priority.name "Blocker" -}}
+    {{- color "black+b:red+h" }}{{ .fields.priority.name }}{{ color "reset" -}}
+  {{- else if eq .fields.priority.name "Critical" -}}
+    {{- color "black:red" }}{{ .fields.priority.name }}{{ color "reset" -}}
+  {{- else if eq .fields.priority.name "Major" -}}
+    {{- color "red+b" }}{{ .fields.priority.name }}{{ color "reset" -}}
+  {{- else if eq .fields.priority.name "Highest" -}}
+    {{- color "red" }}{{ .fields.priority.name }}{{ color "reset" -}}
+  {{- else if eq .fields.priority.name "High" -}}
+    {{- color "red" }}{{ .fields.priority.name }}{{ color "reset" -}}
+  {{- else if eq .fields.priority.name "Medium" -}}
+    {{- color "yellow" }}{{ .fields.priority.name }}{{ color "reset" -}}
+  {{- else if eq .fields.priority.name "Low" -}}
+    {{- color "blue" }}{{ .fields.priority.name }}{{ color "reset" -}}
+  {{- else if eq .fields.priority.name "Lowest" -}}
+    {{- color "blue" }}{{ .fields.priority.name }}{{ color "reset" -}}
+  {{- else if eq .fields.priority.name "Minor" -}}
+    {{- color "blue+b" }}{{ .fields.priority.name }}{{ color "reset" -}}
+  {{- else if eq .fields.priority.name "Trivial" -}}
+    {{- color "black+h" }}{{ .fields.priority.name }}{{ color "reset" -}}
+  {{- else -}}
+    {{- color "white" }}{{ .fields.priority.name }}{{ color "reset" -}}
+  {{- end -}}
+
+  {{- printf "\n" -}}
+
+{{- end -}}
