@@ -9,7 +9,7 @@ import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Simplest
-import XMonad.Layout.Spacing
+import XMonad.Layout.Spacing hiding (spacing)
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
 import XMonad.Layout.WindowNavigation
@@ -114,13 +114,13 @@ myLayout = addTabs shrinkText theme
 
   where
 
-    spaced  = spacing 60
+    spaced  = space 60
             $ ResizableTall nmaster delta ratio []
 
-    tiled   = spacing 5
+    tiled   = space 5
             $ ResizableTall nmaster delta ratio []
 
-    grid    = spacing 5
+    grid    = space 5
             $ GridRatio (16/9)
 
     theme   = def
@@ -143,7 +143,7 @@ myLayout = addTabs shrinkText theme
     nmaster = 1
     delta   = 5/100
     ratio   = toRational (2/(1 + sqrt 5 :: Double))
-
+    space i = spacingRaw False (Border 0 0 0 0) False (Border i i i i) True
 
 -------------------------------------------------------------------------------
 -- State
