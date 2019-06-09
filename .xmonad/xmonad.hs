@@ -7,6 +7,7 @@ import XMonad.Layout.Fullscreen
 import XMonad.Layout.Grid
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
+import XMonad.Layout.Reflect
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.Simplest
 import XMonad.Layout.Spacing hiding (spacing)
@@ -109,7 +110,7 @@ myLayout = addTabs shrinkText theme
          . mkToggle (single NBFULL)
          . avoidStruts
          . windowNavigation
-         . mkToggle (single MIRROR)
+         . mkToggle (REFLECTX ?? REFLECTY ?? MIRROR ?? EOT)
          $ spaced ||| tiled ||| grid
 
   where
@@ -511,9 +512,10 @@ myKeys home conf@(XConfig { modMask = modMask }) =
   , ((modMask .|. shiftMask,    xK_c      ), kill)
 
   , ((modMask .|. shiftMask,    xK_space  ), setLayout $ layoutHook conf)
-  , ((modMask,                  xK_space  ), sendMessage NextLayout)
+  , ((modMask,                  xK_space  ), sendMessage $ NextLayout)
   , ((modMask,                  xK_f      ), sendMessage $ Toggle NBFULL)
   , ((modMask,                  xK_g      ), sendMessage $ Toggle MIRROR)
+  , ((modMask .|. shiftMask,    xK_g      ), sendMessage $ Toggle REFLECTX)
 
   -- tabs
   , ((mod4Mask,                 xK_Up     ), sendMessage $ pullGroup U)
