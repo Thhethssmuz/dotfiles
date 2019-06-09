@@ -2,6 +2,7 @@
 
 import XMonad
 
+import XMonad.Layout.BinarySpacePartition
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.Grid
@@ -111,7 +112,7 @@ myLayout = addTabs shrinkText theme
          . avoidStruts
          . windowNavigation
          . mkToggle (REFLECTX ?? REFLECTY ?? MIRROR ?? EOT)
-         $ spaced ||| tiled ||| grid
+         $ spaced ||| tiled ||| grid ||| bsp
 
   where
 
@@ -123,6 +124,9 @@ myLayout = addTabs shrinkText theme
 
     grid    = space 5
             $ GridRatio (16/9)
+
+    bsp     = space 5
+            $ emptyBSP
 
     theme   = def
               { activeColor         = color15
@@ -514,8 +518,9 @@ myKeys home conf@(XConfig { modMask = modMask }) =
   , ((modMask .|. shiftMask,    xK_space  ), setLayout $ layoutHook conf)
   , ((modMask,                  xK_space  ), sendMessage $ NextLayout)
   , ((modMask,                  xK_f      ), sendMessage $ Toggle NBFULL)
-  , ((modMask,                  xK_g      ), sendMessage $ Toggle MIRROR)
-  , ((modMask .|. shiftMask,    xK_g      ), sendMessage $ Toggle REFLECTX)
+  -- , ((modMask,                  xK_g      ), sendMessage $ Toggle MIRROR)
+  -- , ((modMask .|. shiftMask,    xK_g      ), sendMessage $ Toggle REFLECTX)
+  , ((modMask,                  xK_g      ), sendMessage $ Rotate)
 
   -- tabs
   , ((mod4Mask,                 xK_Up     ), sendMessage $ pullGroup U)
@@ -533,8 +538,16 @@ myKeys home conf@(XConfig { modMask = modMask }) =
   -- , ((mod1Mask .|. shiftMask,   xK_Tab    ), windows W.focusUp)
   , ((modMask,                  xK_m      ), windows W.focusMaster)
   , ((modMask,                  xK_Return ), windows W.swapMaster)
-  , ((modMask,                  xK_minus  ), sendMessage Shrink)
-  , ((modMask,                  xK_plus   ), sendMessage Expand)
+  , ((modMask,                  xK_minus  ), do
+                                             sendMessage $ Shrink
+                                             sendMessage $ ShrinkFrom R)
+  , ((modMask .|. shiftMask,    xK_minus  ), sendMessage $ ShrinkFrom D)
+  , ((modMask,                  xK_plus   ), do
+                                             sendMessage $ Expand
+                                             sendMessage $ ExpandTowards R)
+  , ((modMask .|. shiftMask,    xK_plus   ), sendMessage $ ExpandTowards D)
+
+
   , ((modMask,                  xK_t      ), consoleRelease >> withFocused (windows . W.sink))
   , ((modMask .|. shiftMask,    xK_t      ), consoleInsert)
 
