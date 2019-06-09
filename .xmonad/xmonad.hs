@@ -534,9 +534,8 @@ myKeys home conf@(XConfig { modMask = modMask }) =
   -- window navigation
   , ((mod1Mask,                 xK_Tab    ), focusDown)
   , ((mod1Mask .|. shiftMask,   xK_Tab    ), focusUp)
-  -- , ((mod1Mask,                 xK_Tab    ), windows W.focusDown)
-  -- , ((mod1Mask .|. shiftMask,   xK_Tab    ), windows W.focusUp)
-  , ((modMask,                  xK_m      ), windows W.focusMaster)
+  , ((modMask,                  xK_m      ), windows W.swapUp)
+  , ((modMask,                  xK_w      ), windows W.swapDown)
   , ((modMask,                  xK_Return ), windows W.swapMaster)
   , ((modMask,                  xK_minus  ), do
                                              sendMessage $ Shrink
