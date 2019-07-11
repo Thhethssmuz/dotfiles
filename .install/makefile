@@ -57,6 +57,13 @@ archbox: \
 	blender evince gimp libreoffice musescore reaper redshift steam sublime-text thunar virtualbox vlc weechat \
 	dev docker mkvm
 
+archtop: \
+	base mesa input touchpad fs \
+	network wifi docker vpn dropbox \
+	audio desktop misc browsers \
+	evince gimp libreoffice musescore redshift sublime-text thunar virtualbox vlc weechat \
+	dev mkvm mysql
+
 sia-10: \
 	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
 	base nvidia input touchpad fs printer \
