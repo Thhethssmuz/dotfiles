@@ -101,7 +101,7 @@ virtual: \
 # Base
 #
 
-base: dbus pacman systemd secret -.mnt boot.mnt
+base: dbus pacman systemd secret -.mnt boot.mnt keymap.src timezone.src
 
 dbus: dbus.pac
 pacman: pacman.pac pacman-contrib.pac reflector.pac mirrorupgrade.cfg
