@@ -8,6 +8,9 @@ numlockx on &
 # Set keyboard layout
 setxkbmap "no(dvorak)"
 
+# for applications that try to be smart: don't
+export WINIT_HIDPI_FACTOR=1
+
 # Set background image.
 if [ -e "$HOME/Pictures/wallpaper.jpg" ]; then
   hsetroot -fill ~/Pictures/wallpaper.jpg &
