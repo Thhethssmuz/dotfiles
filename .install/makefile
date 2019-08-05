@@ -130,7 +130,7 @@ network-manager: networkmanager.pac NetworkManager.srv NetworkManager-wait-onlin
 ssh: openssh.pac sshfs.pac
 smb: samba.pac
 nxclient: nomachine.aur
-network-tools: curl.pac bind-tools.pac ngrep.pac rsync.pac tcpdump.pac traceroute.pac whois.pac wireshark-qt.pac wget.pac
+network-tools: curl.pac bind-tools.pac gnu-netcat.pac httping.pac ngrep.pac rsync.pac tcpdump.pac traceroute.pac whois.pac wireshark-qt.pac wget.pac
 
 sshd: ssh sshd.srv sshd.cfg
 smbd: smb smbd.srv nmbd.srv smbd.cfg
@@ -176,7 +176,7 @@ compton: compton.pac
 # Misc
 #
 
-misc: home aur-helper x-tools fonts gtk-theme ranger terminals terminal-tools hunspell archive-tools image-tools
+misc: home aur-helper x-tools fonts gtk-theme ranger terminals terminal-tools hunspell archive-tools image-tools sys-info
 
 home: xdg-user-dirs.pac xdg-user-dirs-update.usr dotfiles.git .gnupg.git .password-store.git .ssh.git
 aur-helper: curl.pac jshon.pac wget.pac apacman.src apacman.aur expac.pac
@@ -189,6 +189,7 @@ terminal-tools: bc.pac calc.pac cmatrix.pac lolcat.pac lsb-release.pac nano.pac 
 hunspell: hunspell.pac hunspell-en_GB.pac hunspell-en_US.pac # hunspell-no.src
 archive-tools: atool.pac unrar.pac unzip.pac zip.pac p7zip.pac
 image-tools: imagemagick.pac scrot.pac gimp.pac sxiv.pac
+sys-info: lshw.pac lsof.pac
 
 
 #
