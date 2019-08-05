@@ -182,7 +182,7 @@ home: xdg-user-dirs.pac xdg-user-dirs-update.usr dotfiles.git .gnupg.git .passwo
 aur-helper: curl.pac jshon.pac wget.pac apacman.src apacman.aur expac.pac
 x-tools: numlockx.pac xclip.pac xdotool.pac xorg-xev.pac xorg-xprop.pac xorg-xwininfo.pac xsel.pac
 fonts: gucharmap.pac ttf-dejavu-sans-mono-powerline-git.aur ttf-dejavu.pac ttf-droid.pac ttf-font-awesome.pac ttf-freefont.pac ttf-ionicons.pac ttf-liberation.pac ttf-linux-libertine.pac ttf-opensans.pac ttf-ubuntu-font-family.pac
-gtk-theme: dconf.pac dconf.src elementary-icon-theme.pac numix-gtk-theme.pac lxappearance.pac
+gtk-theme: dconf.pac dconf.src elementary-icon-theme.pac arc-gtk-theme.pac lxappearance.pac
 ranger: ranger.pac highlight.pac
 terminals: alacritty.pac rxvt-unicode.pac xterm.pac
 terminal-tools: bc.pac calc.pac cmatrix.pac lolcat.pac lsb-release.pac nano.pac ncdu.pac pwgen.pac youtube-dl.pac zalgolize.npm
