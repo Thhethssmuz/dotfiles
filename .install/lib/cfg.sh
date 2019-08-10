@@ -2,6 +2,7 @@
 set -euo pipefail
 
 DIR="$(dirname "$0")/.."
+: "${USERHOME:=$(sudo -Hu "$USERNAME" -s -- echo '$HOME')}"
 
 
 locate() {

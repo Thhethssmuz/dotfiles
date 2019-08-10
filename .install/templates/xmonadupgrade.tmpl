@@ -1,0 +1,12 @@
+# /etc/pacman.d/hooks/xmonadupgrade.hook
+
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = *
+
+[Action]
+Description = Recompiling xmonad with ...
+When = PostTransaction
+Depends = xmonad
+Exec = ghc --make "$USERHOME/.xmonad/xmonad.hs" -threaded -i"$USERHOME/.xmonad/lib" -dynamic -fforce-recomp -o "$USERHOME/.xmonad/xmonad-x86_64-linux"
