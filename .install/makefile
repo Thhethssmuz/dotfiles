@@ -59,18 +59,18 @@ archbox: \
 
 archtop: \
 	base mesa input touchpad fs \
-	network network-manager wifi docker vpn dropbox \
+	network network-manager wifi vpn dropbox \
 	audio desktop misc browsers \
 	evince gimp libreoffice musescore redshift sublime-text thunar virtualbox vlc weechat \
-	dev mkvm mysql
+	dev docker mkvm mysql
 
 sia-10: \
 	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
 	base nvidia input touchpad fs printer \
-	network network-manager sshd nxserver docker remmina vpn \
+	network network-manager sshd nxserver remmina vpn \
 	audio desktop compton misc browsers \
-	evince gimp libreoffice remmina sublime-text thunar thunderbird virtualbox vlc weechat \
-	dev mkvm mysql
+	evince gimp libreoffice sublime-text thunar thunderbird virtualbox vlc weechat \
+	dev docker mkvm mysql
 
 
 #
