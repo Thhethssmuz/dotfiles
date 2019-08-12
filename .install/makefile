@@ -119,6 +119,7 @@ input: libevdev.pac xf86-input-evdev.pac
 touchpad: xf86-input-synaptics.pac
 fs: dosfstools.pac ntfs-3g.pac mtpfs.pac gvfs-mtp.pac
 printer: cups.pac org.cups.cupsd.srv hplip.pac
+mouse-accel: mouse-accel.cfg
 
 #
 # Network
