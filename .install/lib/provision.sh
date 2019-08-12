@@ -19,7 +19,7 @@ teeall() {
   declare -A hooks
   for target in $tmp2; do
     order="$("$DIR/../custom/${target%.src}.sh" "order")"
-    hooks[$order]="$(echo "${hooks[$order]+}" && echo "$target")"
+    hooks[$order]+="$(echo "${hooks[$order]+}" && echo "$target")"
   done
 
   for type in $TYPES; do
