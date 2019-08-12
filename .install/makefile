@@ -72,6 +72,14 @@ sia-10: \
 	evince gimp libreoffice sublime-text thunar thunderbird virtualbox vlc weechat \
 	dev docker mkvm mysql
 
+sia-11: \
+	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
+	base nvidia input fs mouse-accel \
+	network networkd sshd nxserver vpn \
+	audio desktop compton misc browsers \
+	evince gimp libreoffice sublime-text thunar thunderbird virtualbox vlc weechat \
+	dev docker mkvm mysql
+
 
 #
 # Virtual Hosts
