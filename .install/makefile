@@ -52,14 +52,14 @@ iso:
 archbox: \
 	media-lib.amt media-u.amt media-x.amt \
 	base nvidia input fs \
-	network sshd dropbox \
+	network network-manager sshd dropbox \
 	audio desktop compton misc browsers \
 	blender evince gimp libreoffice musescore reaper redshift steam sublime-text thunar virtualbox vlc weechat \
 	dev docker mkvm
 
 archtop: \
 	base mesa input touchpad fs \
-	network wifi docker vpn dropbox \
+	network network-manager wifi docker vpn dropbox \
 	audio desktop misc browsers \
 	evince gimp libreoffice musescore redshift sublime-text thunar virtualbox vlc weechat \
 	dev mkvm mysql
@@ -67,7 +67,7 @@ archtop: \
 sia-10: \
 	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
 	base nvidia input touchpad fs printer \
-	network sshd nxserver docker remmina vpn \
+	network network-manager sshd nxserver docker remmina vpn \
 	audio desktop compton misc browsers \
 	evince gimp libreoffice remmina sublime-text thunar thunderbird virtualbox vlc weechat \
 	dev mkvm mysql
@@ -124,14 +124,15 @@ printer: cups.pac org.cups.cupsd.srv hplip.pac
 # Network
 #
 
-network: network-manager ssh smb nxclient network-tools
+network: ssh smb nxclient network-tools
 
-network-manager: networkmanager.pac NetworkManager.srv NetworkManager-wait-online.srv
 ssh: openssh.pac sshfs.pac
 smb: samba.pac
 nxclient: nomachine.aur
 network-tools: curl.pac bind-tools.pac gnu-netcat.pac httping.pac ngrep.pac rsync.pac tcpdump.pac traceroute.pac whois.pac wireshark-qt.pac wget.pac
 
+networkd: systemd-networkd.soc systemd-networkd.srv systemd-networkd-wait-online.srv
+network-manager: networkmanager.pac NetworkManager.srv NetworkManager-wait-online.srv
 sshd: ssh sshd.srv sshd.cfg
 smbd: smb smbd.srv nmbd.srv smbd.cfg
 nxserver: nxclient nxserver.srv
