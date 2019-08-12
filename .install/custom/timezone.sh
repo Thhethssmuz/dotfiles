@@ -15,9 +15,9 @@ order() {
 }
 
 install() {
-  timedatectl set-timezone Europe/Oslo
+  sudo timedatectl set-timezone Europe/Oslo
   if [[ "$(hostname)" != *-vm? ]]; then
-    timedatectl set-ntp true
+    sudo timedatectl set-ntp true
   fi
 }
 
