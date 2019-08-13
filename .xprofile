@@ -43,12 +43,6 @@ if [ "$(hostname)" = "archbox" ]; then
   xrandr --output HDMI-0 --mode 1920x1080 --rate 60.00 --pos 0x0
   xrandr --output DVI-I-1 --mode 1920x1080 --rate 60.00 --pos 3840x0
 
-elif [[ "$(hostname)" = "sia-10" ]]; then
-
-  xrandr --output VGA-1-1 --mode 1920x1200
-  xrandr --output DP-1.1 --mode 1920x1200 --primary
-  xrandr --output DP-1.2 --mode 1920x1200
-
 elif [[ "$(hostname)" = *-vmb ]]; then
 
   xrandr --output VGA-1 --auto
