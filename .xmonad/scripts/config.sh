@@ -51,13 +51,22 @@ COLOR15="#EEEEEC"    # bright white
 # height of the status bar
 HEIGHT=22
 
-# width of the menu parts
-WIDTH_LEFT=720
-WIDTH_MIDDLE=480
-WIDTH_RIGHT=720
-
 # space between the status bar and its menus
 SPACE=20
 
 # screen where the menu shall appear
-SCREEN=1
+SCREEN="$([[ "$(hostname)" = "sia-11" ]] && echo "0" || echo "1")"
+
+# get screen res
+if [ "$SCREEN" == '0' ]; then
+  RES="$(xdpyinfo | grep dimensions | awk '{print $2}')"
+else
+  RES="$(xrandr | grep -w connected | awk -F'[ +]' '{print $3}' | head -n"$SCREEN" | tail -n1)"
+fi
+RESX="$(awk -F'x' '{print $1}' <<< "$RES")"
+RESY="$(awk -F'x' '{print $2}' <<< "$RES")"
+
+# width of the menu parts
+WIDTH_LEFT="$((RESX / 8 * 3))"
+WIDTH_MIDDLE="$((RESX / 8 * 2))"
+WIDTH_RIGHT="$((RESX / 8 * 3))"
