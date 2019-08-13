@@ -230,7 +230,7 @@ sublime-text: sublime-text-dev.aur package-control.src
 thunar: thunar.pac
 thunderbird: thunderbird.pac
 transmission: transmission-gtk.pac
-virtualbox: virtualbox.pac
+virtualbox: virtualbox.pac virtualbox-host-modules-arch.pac
 vlc: vlc.pac
 weechat: weechat.pac
 
