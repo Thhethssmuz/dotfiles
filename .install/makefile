@@ -59,7 +59,7 @@ archbox: \
 
 archtop: \
 	base mesa input touchpad fs \
-	network network-manager wifi vpn dropbox \
+	network network-manager wifi dropbox \
 	audio desktop misc browsers \
 	evince gimp libreoffice musescore redshift sublime-text thunar virtualbox vlc weechat \
 	dev docker mkvm mysql
@@ -67,7 +67,7 @@ archtop: \
 sia-10: \
 	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
 	base nvidia input touchpad fs printer \
-	network network-manager sshd nxserver remmina vpn \
+	network network-manager sshd nxserver remmina \
 	audio desktop compton misc browsers \
 	evince gimp libreoffice sublime-text thunar thunderbird virtualbox vlc weechat \
 	dev docker mkvm mysql
@@ -75,7 +75,7 @@ sia-10: \
 sia-11: \
 	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
 	base nvidia input fs mouse-accel \
-	network networkd sshd nxserver vpn \
+	network networkd sshd nxserver \
 	audio desktop compton misc browsers \
 	evince gimp libreoffice sublime-text thunar thunderbird virtualbox vlc weechat \
 	dev docker mkvm mysql
@@ -147,7 +147,7 @@ smbd: smb smbd.srv nmbd.srv smbd.cfg
 nxserver: nxclient nxserver.srv
 dropbox: dropbox.aur dropbox-cli.aur dropbox.usr dropbox.src
 remmina: remmina.pac freerdp.pac remmina-plugin-rdesktop.aur
-vpn: badvpn.pac openconnect.pac python2-pip.pac screen.pac systemd-resolvconf.pac
+vpn: openconnect.pac
 wifi: iw.pac dialog.pac wpa_supplicant.pac
 
 
