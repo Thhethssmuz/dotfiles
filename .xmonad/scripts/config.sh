@@ -61,7 +61,7 @@ SCREEN="$([[ "$(hostname)" = "sia-11" ]] && echo "0" || echo "1")"
 if [ "$SCREEN" == '0' ]; then
   RES="$(xdpyinfo | grep dimensions | awk '{print $2}')"
 else
-  RES="$(xrandr | grep -w connected | awk -F'[ +]' '{print $3}' | head -n"$SCREEN" | tail -n1)"
+  RES="$(xrandr | grep -w connected | grep -o '[0-9]\+x[0-9]\+' | head -n"$SCREEN" | tail -n1)"
 fi
 RESX="$(awk -F'x' '{print $1}' <<< "$RES")"
 RESY="$(awk -F'x' '{print $2}' <<< "$RES")"
