@@ -87,7 +87,7 @@ sia-11: \
 
 virtual: \
 	base mesa input fs \
-	network-manager ssh sshd smb network-tools vpn \
+	networkd ssh sshd smb network-tools vpn \
 	desktop misc browsers \
 	sublime-text weechat \
 	dev
