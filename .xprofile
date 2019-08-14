@@ -45,7 +45,7 @@ if [ "$(hostname)" = "archbox" ]; then
 
 elif [[ "$(hostname)" = *-vmb ]]; then
 
-  xrandr --output VGA-1 --auto
+  VBoxClient --display
   VBoxClient --clipboard
 
 fi
