@@ -90,7 +90,7 @@ virtual: \
 	networkd ssh sshd smb network-tools vpn \
 	desktop misc browsers \
 	sublime-text weechat \
-	dev
+	dev docker
 
 %-vm: virtual
 	-
