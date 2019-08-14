@@ -140,7 +140,7 @@ smb: samba.pac
 nxclient: nomachine.aur
 network-tools: curl.pac bind-tools.pac gnu-netcat.pac httping.pac ngrep.pac rsync.pac tcpdump.pac traceroute.pac whois.pac wireshark-qt.pac wget.pac
 
-networkd: systemd-networkd.soc systemd-networkd.srv systemd-networkd-wait-online.srv
+networkd: systemd-networkd.soc systemd-networkd.srv systemd-networkd-wait-online.srv systemd-resolvconf.pac systemd-resolved.srv
 network-manager: networkmanager.pac NetworkManager.srv NetworkManager-wait-online.srv
 sshd: ssh sshd.srv sshd.cfg
 smbd: smb smbd.srv nmbd.srv smbd.cfg
