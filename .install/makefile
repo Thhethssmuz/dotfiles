@@ -249,7 +249,7 @@ js: nodejs.pac npm.pac eslint.npm
 latex: texlive-most.pag
 pdf: latex pandoc.pac evince # ppp
 json: jq.pac jshon.pac json.npm
-dev-tools: git make.pac the_silver_searcher.pac
+dev-tools: git make.pac testssl.sh.pac the_silver_searcher.pac
 
 mkvm: archiso.pac
 docker: docker.pac docker.srv loop.mod
