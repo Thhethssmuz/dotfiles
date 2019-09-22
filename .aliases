@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # navigation
@@ -39,4 +38,4 @@ alias ydl='youtube-dl --extract-audio --audio-format mp3'
 alias sudo='sudo '
 alias nautilus='nautilus --no-desktop'
 alias mutt='neomutt'
-alias chromium='chromium --proxy-pac-url="data:application/x-javascript-config;base64,$(base64 -w0 $HOME/.ssh/proxy.pac)"'
+alias chromium='chromium --proxy-pac-url="$(~/.ssh/genpac)"'
