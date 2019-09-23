@@ -9,4 +9,4 @@ Target = *
 Description = Recompiling xmonad with ...
 When = PostTransaction
 Depends = xmonad
-Exec = ghc --make "$USERHOME/.xmonad/xmonad.hs" -threaded -i"$USERHOME/.xmonad/lib" -dynamic -fforce-recomp -o "$USERHOME/.xmonad/xmonad-x86_64-linux"
+Exec = sudo -u "$USERNAME" ghc --make "$USERHOME/.xmonad/xmonad.hs" -threaded -i"$USERHOME/.xmonad/lib" -dynamic -fforce-recomp -o "$USERHOME/.xmonad/xmonad-x86_64-linux"
