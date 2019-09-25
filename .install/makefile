@@ -110,11 +110,12 @@ virtual: \
 #
 
 base: dbus pacman systemd secret -.mnt boot.mnt keymap.src timezone.src
+gpg: gnupg.pac gpg-agent.usc gpg-agent-browser.usc gpg-agent-extra.usc gpg-agent-ssh.usc
 
 dbus: dbus.pac
 pacman: pacman.pac pacman-contrib.pac reflector.pac mirrorupgrade.cfg
 systemd: logind.cfg
-secret: gnupg.pac haveged.pac keychain.pac pass.pac ssh
+secret: gpg haveged.pac keychain.pac pass.pac ssh
 
 
 #
