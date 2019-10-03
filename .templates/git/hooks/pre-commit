@@ -60,8 +60,8 @@ check "*" git check
 # run all staged .js files through eslint
 check "*\.js" eslint
 
-# run all staged .json files through json --validate
-check "*\.json" json -qnf
+# run all staged .json files through jq
+check "*\.json" jq empty
 
 # run all staged .sh files through shellcheck
 check "*\.sh" shellcheck -x
