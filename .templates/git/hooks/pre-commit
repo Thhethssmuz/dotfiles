@@ -3,7 +3,7 @@
 FAIL=false
 
 check() {
-  FILES=$(git diff --cached --name-only --diff-filter=ACM | egrep "$1$")
+  FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E "$1$")
 
   if [ -z "$FILES" ]; then
     return 0;
@@ -16,8 +16,7 @@ check() {
   fi
 
   while read -r FILE; do
-    "${@:2}" "$FILE" >/dev/null 2>&1
-    if [ $? != 0 ]; then
+    if ! "${@:2}" "$FILE" >/dev/null 2>&1; then
       echo -e "\e[1m$2\e[0m reported errors in \e[3;31m$FILE\e[0m"
       FAIL=true
     fi
