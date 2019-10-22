@@ -6,7 +6,7 @@ Type = Package
 Target = *
 
 [Action]
-Description = Recompiling xmonad with ...
+Description = Recompiling xmonad with threaded
 When = PostTransaction
 Depends = xmonad
-Exec = sudo -u "$USERNAME" ghc --make "$USERHOME/.xmonad/xmonad.hs" -threaded -i"$USERHOME/.xmonad/lib" -dynamic -fforce-recomp -o "$USERHOME/.xmonad/xmonad-x86_64-linux"
+Exec = /bin/bash -c 'sudo -u "$USERNAME" ghc --make "$USERHOME/.xmonad/xmonad.hs" -threaded -i"$USERHOME/.xmonad/lib" -dynamic -fforce-recomp -o "$USERHOME/.xmonad/xmonad-x86_64-linux"'
