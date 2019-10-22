@@ -109,12 +109,12 @@ virtual: \
 # Base
 #
 
-base: dbus pacman systemd secret -.mnt boot.mnt keymap.src timezone.src
-gpg: gnupg.pac gpg-agent.usc gpg-agent-browser.usc gpg-agent-extra.usc gpg-agent-ssh.usc
+base: base.pac dbus pacman systemd secret -.mnt boot.mnt keymap.src timezone.src
 
 dbus: dbus.pac
+gpg: gnupg.pac gpg-agent.usc gpg-agent-browser.usc gpg-agent-extra.usc gpg-agent-ssh.usc
 pacman: pacman.pac pacman-contrib.pac reflector.pac mirrorupgrade.cfg
-systemd: logind.cfg
+systemd: logind.cfg systemd.pac
 secret: gpg haveged.pac keychain.pac pass.pac ssh
 
 
@@ -196,9 +196,9 @@ fonts: gnu-free-fonts.pac gucharmap.pac ttf-dejavu-sans-mono-powerline-git.aur t
 gtk-theme: dconf.pac dconf.src elementary-icon-theme.pac arc-gtk-theme.pac lxappearance.pac
 ranger: ranger.pac highlight.pac
 terminals: alacritty.pac rxvt-unicode.pac xterm.pac
-terminal-tools: bc.pac calc.pac cmatrix.pac lolcat.pac lsb-release.pac nano.pac ncdu.pac pwgen.pac youtube-dl.pac zalgolize.npm
+terminal-tools: bc.pac calc.pac cmatrix.pac diffutils.pac less.pac lolcat.pac lsb-release.pac man-pages.pac nano.pac ncdu.pac pwgen.pac youtube-dl.pac zalgolize.npm
 hunspell: hunspell.pac hunspell-en_GB.pac hunspell-en_US.pac # hunspell-no.src
-archive-tools: atool.pac unrar.pac unzip.pac zip.pac p7zip.pac
+archive-tools: atool.pac tar.pac unrar.pac unzip.pac zip.pac p7zip.pac
 image-tools: imagemagick.pac scrot.pac gimp.pac sxiv.pac
 sys-info: lshw.pac lsof.pac
 
