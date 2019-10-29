@@ -11,7 +11,7 @@ ignore() {
 
 
 check-updates() {
-  checkupdates | sed 's/^/pac /'
+  checkupdates | sed 's/^/pac /' || :
 }
 
 update() {
