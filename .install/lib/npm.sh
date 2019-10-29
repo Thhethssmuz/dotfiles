@@ -6,7 +6,7 @@ set -euo pipefail
 
 
 list() {
-  if [ -d /usr/lib/node_modules ]; then
+  if [ -d "$USERHOME"/.local/lib/node_modules ]; then
     find "$USERHOME"/.local/lib/node_modules -mindepth 1 -maxdepth 1 -type d -print0 | \
       xargs --null basename -a | sed 's/$/\.npm/'
   fi
