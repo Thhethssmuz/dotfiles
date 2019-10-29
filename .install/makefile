@@ -64,14 +64,6 @@ archtop: \
 	evince gimp libreoffice musescore redshift sublime-text thunar virtualbox vlc weechat \
 	dev docker mkvm mysql
 
-sia-10: \
-	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
-	base nvidia input touchpad fs printer \
-	network network-manager sshd nxserver remmina \
-	audio desktop compton misc browsers \
-	evince gimp libreoffice sublime-text thunar thunderbird virtualbox vlc weechat \
-	dev docker mkvm mysql
-
 sia-11: \
 	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
 	base nvidia input fs mouse-accel \
