@@ -101,7 +101,7 @@ virtual: \
 # Base
 #
 
-base: base.pac linux-firmware.pac dbus pacman systemd secret -.mnt boot.mnt keymap.src timezone.src
+base: base.pac linux.pac linux-firmware.pac dbus pacman systemd secret -.mnt boot.mnt keymap.src timezone.src
 
 dbus: dbus.pac
 gpg: gnupg.pac gpg-agent.usc gpg-agent-browser.usc gpg-agent-extra.usc gpg-agent-ssh.usc
