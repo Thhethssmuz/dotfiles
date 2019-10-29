@@ -4,7 +4,10 @@
     {
       "name": "Run",
       "cmd": ["eslint", "$file"],
-      "file_regex": "^([^\\s]+\\.js)$",
+       "env": {
+        "PATH": "/usr/local/sbin:/usr/local/bin:/usr/bin:$HOME/.local/bin"
+      },
+     "file_regex": "^([^\\s]+\\.js)$",
       "line_regex": "^\\s*(\\d+):(\\d+)\\s*(.*)$"
     },
     {
