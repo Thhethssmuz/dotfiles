@@ -62,7 +62,7 @@ archtop: \
 	network network-manager wifi dropbox \
 	audio desktop misc browsers \
 	evince gimp libreoffice musescore redshift sublime-text thunar virtualbox vlc weechat \
-	dev docker mkvm mysql
+	dev docker mkvm mysql sqlite
 
 sia-11: \
 	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
@@ -70,7 +70,7 @@ sia-11: \
 	network networkd sshd nxserver \
 	audio desktop compton misc browsers \
 	evince gimp libreoffice sublime-text thunar thunderbird virtualbox vlc weechat \
-	dev docker mkvm mysql
+	dev docker mkvm mysql sqlite
 
 
 #
@@ -247,6 +247,7 @@ dev-tools: git make.pac testssl.sh.pac the_silver_searcher.pac
 mkvm: archiso.pac
 docker: docker.pac docker.srv loop.mod
 mysql: mariadb.pac mariadb.srv mysqld.srv
+sqlite: sqlite.pac sqlite3.npm
 
 
 #
