@@ -196,7 +196,7 @@ fonts: gnu-free-fonts.pac gucharmap.pac ttf-dejavu-sans-mono-powerline-git.aur t
 gtk-theme: dconf.pac dconf.src elementary-icon-theme.pac arc-gtk-theme.pac lxappearance.pac
 ranger: ranger.pac highlight.pac
 terminals: alacritty.pac rxvt-unicode.pac xterm.pac
-terminal-tools: bc.pac calc.pac cmatrix.pac diffutils.pac less.pac lolcat.pac lsb-release.pac man-pages.pac nano.pac ncdu.pac pwgen.pac youtube-dl.pac zalgolize.npm
+terminal-tools: bc.pac calc.pac diffutils.pac less.pac lsb-release.pac man-pages.pac nano.pac ncdu.pac pwgen.pac youtube-dl.pac
 hunspell: hunspell.pac hunspell-en_GB.pac hunspell-en_US.pac # hunspell-no.src
 archive-tools: atool.pac tar.pac unrar.pac unzip.pac zip.pac p7zip.pac
 image-tools: imagemagick.pac scrot.pac gimp.pac sxiv.pac
