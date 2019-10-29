@@ -101,7 +101,7 @@ virtual: \
 # Base
 #
 
-base: base.pac dbus pacman systemd secret -.mnt boot.mnt keymap.src timezone.src
+base: base.pac linux-firmware.pac dbus pacman systemd secret -.mnt boot.mnt keymap.src timezone.src
 
 dbus: dbus.pac
 gpg: gnupg.pac gpg-agent.usc gpg-agent-browser.usc gpg-agent-extra.usc gpg-agent-ssh.usc
@@ -188,7 +188,7 @@ fonts: gnu-free-fonts.pac gucharmap.pac ttf-dejavu-sans-mono-powerline-git.aur t
 gtk-theme: dconf.pac dconf.src elementary-icon-theme.pac arc-gtk-theme.pac lxappearance.pac
 ranger: ranger.pac highlight.pac
 terminals: alacritty.pac rxvt-unicode.pac xterm.pac
-terminal-tools: bc.pac calc.pac diffutils.pac less.pac lsb-release.pac man-pages.pac nano.pac ncdu.pac pwgen.pac youtube-dl.pac
+terminal-tools: bc.pac calc.pac diffutils.pac less.pac lsb-release.pac man-db.pac man-pages.pac nano.pac ncdu.pac pwgen.pac youtube-dl.pac
 hunspell: hunspell.pac hunspell-en_GB.pac hunspell-en_US.pac # hunspell-no.src
 archive-tools: atool.pac tar.pac unrar.pac unzip.pac zip.pac p7zip.pac
 image-tools: imagemagick.pac scrot.pac gimp.pac sxiv.pac
