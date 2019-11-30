@@ -50,7 +50,7 @@ iso:
 #
 
 archbox: \
-	media-lib.amt media-u.amt media-x.amt \
+	media-m.amt \
 	base nvidia input fs \
 	network network-manager sshd dropbox \
 	audio desktop compton misc browsers \
