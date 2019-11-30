@@ -172,7 +172,7 @@ xmonad: xmonad.pac xmonad-contrib.pac xmonadupgrade.cfg
 environment: dzen2.pac haskell-async.pac haskell-dbus.pac ghc-libs.pac hsetroot.pac status-bar-icons.src
 
 slim: slim.pac archlinux-themes-slim.pac slim.cfg
-compton: compton.pac
+compton: picom.pac
 
 
 #
