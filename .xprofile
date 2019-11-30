@@ -39,9 +39,10 @@ xautolock -locker "$HOME/.xmonad/scripts/system.sh --lock" -time 30 &
 # Hardware settings
 if [ "$(hostname)" = "archbox" ]; then
 
-  xrandr --output DP-2 --mode 1920x1080 --rate 60.00 --pos 1920x0 --primary
-  xrandr --output HDMI-0 --mode 1920x1080 --rate 60.00 --pos 0x0
-  xrandr --output DVI-I-1 --mode 1920x1080 --rate 60.00 --pos 3840x0
+  :
+  #xrandr --output DP-2 --mode 1920x1080 --rate 60.00 --pos 1920x0 --primary
+  #xrandr --output HDMI-0 --mode 1920x1080 --rate 60.00 --pos 0x0
+  #xrandr --output DVI-I-1 --mode 1920x1080 --rate 60.00 --pos 3840x0
 
 elif [[ "$(hostname)" = *-vmb ]]; then
 
