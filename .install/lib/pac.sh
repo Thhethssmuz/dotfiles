@@ -58,6 +58,10 @@ status() {
   while read -r line; do
     echo "$line.pac/remove-orphans/info/Orphaned"
   done < <(pacman -Qtdnq || exit)
+
+  if [ "$(du -d0 /var/cache/pacman/ | awk '{print $1}')" -gt 15728640 ]; then
+    echo "pacman-cache//error/$(du -hd0 /var/cache/pacman/ | awk '{print $1}')"
+  fi
 }
 
 "$@"
