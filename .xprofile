@@ -27,11 +27,11 @@ xset b off
 # Turn off screen saver
 xset s off
 
-# Blank the screen after 25 minutes of inactivity.
-xset dpms 1500 1500 1500
+# Blank the screen after 60 minutes of inactivity.
+xset dpms 3600 3600 3600
 
 # Lock screen after 30
-xautolock -locker "$HOME/.xmonad/scripts/system.sh --lock" -time 30 &
+xautolock -locker slock -time 30 &
 
 # Start status bars
 ~/.xmonad/scripts/status-bar.sh &
