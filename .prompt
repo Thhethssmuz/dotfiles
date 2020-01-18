@@ -49,7 +49,13 @@ function __promptline_cwd {
   local git_match=1
   local git_matched=0
   if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
-    git_root_dir=$(git rev-parse --show-toplevel)
+    git_root_dir="$(
+      while [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]] && \
+            [ "$(git rev-parse --show-toplevel)" != "$(realpath .)" ]; do
+        cd ..
+      done
+      pwd
+    )"
     git_root_dir=${git_root_dir/$HOME/\~}
     git_match=0
   fi
