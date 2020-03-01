@@ -72,6 +72,13 @@ sia-11: \
 	evince gimp libreoffice sublime-text thunar thunderbird virtualbox vlc weechat \
 	dev docker mkvm mysql sqlite
 
+broxy: \
+	media-dumptruck.amt \
+	base.pac linux dbus pacman systemd secret -.mnt boot.mnt timezone.src \
+	nvidia input fs ssh smb network-tools networkd sshd.srv \
+	xorg cinnamon lightdm \
+	audio misc browsers vlc
+
 
 #
 # Virtual Hosts
@@ -101,10 +108,11 @@ virtual: \
 # Base
 #
 
-base: base.pac linux.pac linux-firmware.pac dbus pacman systemd secret -.mnt boot.mnt keymap.src timezone.src
+base: base.pac linux dbus pacman systemd secret -.mnt boot.mnt keymap.src timezone.src
 
 dbus: dbus.pac
 gpg: gnupg.pac gpg-agent.usc gpg-agent-browser.usc gpg-agent-extra.usc gpg-agent-ssh.usc
+linux: linux.pac linux-firmware.pac
 pacman: pacman.pac pacman-contrib.pac reflector.pac mirrorupgrade.cfg
 systemd: logind.cfg systemd.pac
 secret: gpg haveged.pac keychain.pac pass.pac ssh
@@ -171,8 +179,10 @@ slock: slock.pac xautolock.pac
 xmonad: xmonad.pac xmonad-contrib.pac xmonadupgrade.cfg
 environment: dzen2.pac haskell-async.pac haskell-dbus.pac ghc-libs.pac hsetroot.pac status-bar-icons.src
 
-slim: slim.pac archlinux-themes-slim.pac slim.cfg
+cinnamon: cinnamon.pac
 compton: picom.pac
+lightdm: lightdm.pac lightdm-gtk-greeter.pac
+slim: slim.pac archlinux-themes-slim.pac slim.cfg
 
 
 #
