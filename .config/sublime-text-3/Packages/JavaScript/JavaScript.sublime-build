@@ -7,7 +7,7 @@
        "env": {
         "PATH": "/usr/local/sbin:/usr/local/bin:/usr/bin:$HOME/.local/bin"
       },
-     "file_regex": "^([^\\s]+\\.js)$",
+     "file_regex": "^([^\\s]+\\.[cm]?js)$",
       "line_regex": "^\\s*(\\d+):(\\d+)\\s*(.*)$"
     },
     {
