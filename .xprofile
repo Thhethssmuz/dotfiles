@@ -13,7 +13,7 @@ export WINIT_HIDPI_FACTOR=1
 
 # Set background image.
 if [ -e "$HOME/Pictures/wallpaper.jpg" ]; then
-  hsetroot -fill ~/Pictures/wallpaper.jpg &
+  hsetroot -root -fill ~/Pictures/wallpaper.jpg &
 else
   hsetroot -solid '#101010' &
 fi
