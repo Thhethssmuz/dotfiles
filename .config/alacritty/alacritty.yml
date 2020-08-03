@@ -11,6 +11,7 @@ window:
     y: 2
 
   decorations: none
+  dynamic_title: true
 
 scrolling:
   history: 10000
@@ -78,7 +79,7 @@ colors:
   #   cyan:    '0x66cccc'
   #   white:   '0xeeeeec'
 
-visual_bell:
+bell:
   animation: EaseOutExpo
   duration: 0
 
@@ -103,7 +104,6 @@ cursor:
   style: Block
   unfocused_hollow: true
 
-dynamic_title: true
 live_config_reload: true
 
 key_bindings:
