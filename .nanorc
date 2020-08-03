@@ -22,4 +22,5 @@ set tabstospaces
 
 
 # Syntax Highlighting
-include /usr/share/nano/*
+include "/usr/share/nano/*.nanorc"
+include "/usr/share/nano/extra/*.nanorc"
