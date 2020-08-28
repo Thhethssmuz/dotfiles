@@ -6,8 +6,9 @@ list() {
     --system --type automount \
     --no-pager --no-legend \
     --state active | \
+    awk '{print $1}' | \
     grep -v '^proc-' | \
-    sed 's/\.automount.*/\.amt/'
+    sed 's/\.automount/\.amt/'
 }
 
 ignore() {

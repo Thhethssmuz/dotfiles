@@ -6,11 +6,12 @@ list() {
     --system --type mount \
     --no-pager --no-legend \
     --state active | \
+    awk '{print $1}' | \
     grep -v '^dev-' | \
     grep -v '^run-' | \
     grep -v '^sys-' | \
     grep -v '^tmp\.' | \
-    sed 's/\.mount.*/\.mnt/'
+    sed 's/\.mount/\.mnt/'
 }
 
 ignore() {
