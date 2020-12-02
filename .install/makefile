@@ -194,7 +194,7 @@ misc: home aur-helper x-tools fonts gtk-theme ranger terminals terminal-tools hu
 home: xdg-user-dirs.pac xdg-user-dirs-update.usr dotfiles.git .gnupg.git .password-store.git .ssh.git
 aur-helper: curl.pac jshon.pac wget.pac apacman.src apacman.aur expac.pac
 x-tools: numlockx.pac xclip.pac xdotool.pac xorg-xev.pac xorg-xprop.pac xorg-xwininfo.pac xsel.pac
-fonts: gnu-free-fonts.pac gucharmap.pac ttf-dejavu-sans-mono-powerline-git.aur ttf-dejavu.pac ttf-droid.pac ttf-font-awesome.pac ttf-ionicons.pac ttf-liberation.pac ttf-linux-libertine.pac ttf-opensans.pac ttf-ubuntu-font-family.pac
+fonts: gnu-free-fonts.pac gucharmap.pac ttf-dejavu-sans-mono-powerline-git.aur ttf-dejavu.pac ttf-droid.pac ttf-font-awesome.pac ttf-ionicons.pac ttf-liberation.pac ttf-linux-libertine.pac ttf-opensans.pac ttf-ubuntu-font-family.pac noto-fonts.pac noto-fonts-emoji.pac
 gtk-theme: dconf.pac dconf.src elementary-icon-theme.pac arc-gtk-theme.pac lxappearance.pac
 ranger: ranger.pac highlight.pac
 terminals: alacritty.pac rxvt-unicode.pac xterm.pac
