@@ -228,7 +228,7 @@ musescore: midi musescore.pac
 kvm: qemu.pac ovmf.pac
 reaper: reaper-bin.aur carla.pac
 redshift: redshift.pac redshift.cfg redshift.usr
-steam: steam.pac steam-fonts.aur steam-native-runtime.pac
+steam: steam.pac steam-fonts.aur
 sublime-text: sublime-text-dev.aur package-control.src
 thunar: thunar.pac
 thunderbird: thunderbird.pac
