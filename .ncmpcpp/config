@@ -29,10 +29,8 @@ state_flags_color                  = "yellow"
 main_window_color                  = "white"
 color1                             = "default"
 color2                             = "green"
-main_window_highlight_color        = "yellow"
 progressbar_color                  = "yellow"
 statusbar_color                    = "black"
-active_column_color                = "red"
 
 clock_display_seconds              = "no"
 
