@@ -115,7 +115,7 @@ gpg: gnupg.pac gpg-agent.usc gpg-agent-browser.usc gpg-agent-extra.usc gpg-agent
 linux: linux.pac linux-firmware.pac
 pacman: pacman.pac pacman-contrib.pac reflector.pac mirrorupgrade.cfg
 systemd: logind.cfg systemd.pac
-secret: gpg haveged.pac keychain.pac pass.pac ssh
+secret: gpg haveged.pac keychain.pac pass.pac pass-otp.pac ssh
 
 
 #
