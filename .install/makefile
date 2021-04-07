@@ -53,14 +53,14 @@ archbox: \
 	media-m.amt \
 	base nvidia input fs \
 	network network-manager sshd dropbox \
-	audio desktop compton misc browsers \
-	blender evince gimp libreoffice musescore reaper redshift steam sublime-text thunar virtualbox vlc weechat \
+	audio pipewire pulse-tools desktop compton misc browsers \
+	blender discord evince gimp libreoffice musescore reaper redshift signal steam sublime-text thunar virtualbox vlc weechat \
 	dev docker mkvm
 
 archtop: \
 	base mesa input touchpad fs \
 	network network-manager wifi dropbox \
-	audio desktop misc browsers \
+	audio pulse pulse-tools desktop misc browsers \
 	evince gimp libreoffice musescore redshift sublime-text thunar virtualbox vlc weechat \
 	dev docker mkvm mysql sqlite
 
@@ -68,7 +68,7 @@ sia-11: \
 	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
 	base nvidia input fs mouse-accel \
 	network networkd sshd nxserver \
-	audio desktop compton misc browsers \
+	audio pulse pulse-tools desktop compton misc browsers \
 	evince gimp libreoffice sublime-text thunar thunderbird virtualbox vlc weechat \
 	dev docker mkvm mysql sqlite
 
@@ -77,7 +77,7 @@ broxy: \
 	base.pac linux dbus pacman systemd secret -.mnt boot.mnt timezone.src \
 	nvidia input fs ssh smb network-tools networkd sshd.srv \
 	xorg cinnamon lightdm \
-	audio misc browsers vlc
+	audio pulse pulse-tools misc browsers vlc
 
 
 #
@@ -156,10 +156,12 @@ wifi: iw.pac dialog.pac wpa_supplicant.pac
 # Audio
 #
 
-audio: alsa pulse midi mpd mpc espeak audio-tools
+audio: alsa midi mpd mpc espeak audio-tools
+pulse: pulseaudio-alsa.pac pulseaudio.usc
+pipewire: pipewire.pac pipewire-alsa.pac pipewire-pulse.pac pipewire-jack.pac pipewire.usc pipewire-pulse.usc pipewire-media-session.usr
 
 alsa: alsa-utils.pac
-pulse: pulseaudio-alsa.pac pavucontrol.pac pulseaudio.usc
+pulse-tools: pavucontrol.pac pulseeffects.pac
 midi: timidity++.pac freepats-general-midi.pac
 mpd: mpd.pac mpd.usr
 mpc: mpc.pac ncmpcpp.pac
@@ -171,7 +173,7 @@ audio-tools: id3v2.pac
 # Desktop
 #
 
-desktop: xorg lxdm slock xmonad environment
+desktop: xorg slock xmonad environment
 
 xorg: xorg-server.pac xorg-xinit.pac xorg-apps.pag
 lxdm: lxdm.pac archlinux-lxdm-theme-full.aur lxdm.cfg lxdm.srv
@@ -199,7 +201,7 @@ gtk-theme: dconf.pac dconf.src elementary-icon-theme.pac arc-gtk-theme.pac lxapp
 ranger: ranger.pac highlight.pac
 terminals: alacritty.pac rxvt-unicode.pac xterm.pac
 terminal-tools: bc.pac calc.pac diffutils.pac less.pac lsb-release.pac man-db.pac man-pages.pac nano.pac ncdu.pac pwgen.pac youtube-dl.pac
-hunspell: hunspell.pac hunspell-en_GB.pac hunspell-en_US.pac # hunspell-no.src
+hunspell: hunspell.pac hunspell-en_gb.pac hunspell-en_us.pac # hunspell-no.src
 archive-tools: atool.pac tar.pac unrar.pac unzip.pac zip.pac p7zip.pac
 image-tools: imagemagick.pac scrot.pac gimp.pac sxiv.pac
 sys-info: lshw.pac lsof.pac
@@ -221,6 +223,7 @@ opera: opera.pac
 #
 
 blender: blender.pac
+discord: discord.pac
 evince: evince.pac
 gimp: gimp.pac
 libreoffice: libreoffice-fresh.pac
@@ -228,6 +231,7 @@ musescore: midi musescore.pac
 kvm: qemu.pac ovmf.pac
 reaper: reaper-bin.aur carla.pac
 redshift: redshift.pac redshift.cfg redshift.usr
+signal: signal-desktop.pac
 steam: steam.pac steam-fonts.aur
 sublime-text: sublime-text-dev.aur package-control.src
 thunar: thunar.pac
@@ -256,6 +260,7 @@ dev-tools: git make.pac testssl.sh.pac the_silver_searcher.pac
 
 mkvm: archiso.pac
 docker: docker.pac docker.srv loop.mod
+k3s: k3s-bin.aur kubectl.pac helm.pac
 mysql: mariadb.pac mariadb.srv mysqld.srv
 sqlite: sqlite.pac sqlite3.npm
 
