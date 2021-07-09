@@ -521,7 +521,7 @@ contexts:
     - include: fenced-xml
     - include: fenced-diff
     - include: fenced-perl
-    - include: fenced-php
+    # - include: fenced-php
     - include: fenced-css
     - include: fenced-less
     - include: fenced-java
@@ -644,13 +644,13 @@ contexts:
         - match: ^(\1)\n
           pop: true
         - include: scope:source.perl
-  fenced-php:
-    - match: '^(\s*[`~]{3,})(?=(php|{.*?\.(php)\b.*?})\s*$)'
-      push:
-        - meta_scope: markup.raw.block.markdown markup.raw.block.fenced.markdown
-        - match: ^(\1)\n
-          pop: true
-        - include: scope:source.php
+  # fenced-php:
+  #   - match: '^(\s*[`~]{3,})(?=(php|{.*?\.(php)\b.*?})\s*$)'
+  #     push:
+  #       - meta_scope: markup.raw.block.markdown markup.raw.block.fenced.markdown
+  #       - match: ^(\1)\n
+  #         pop: true
+  #       - include: scope:source.php
   fenced-python:
     - match: '^(\s*[`~]{3,})(?=(py|python|{.*?\.(py|python)\b.*?})\s*$)'
       push:
