@@ -13,7 +13,7 @@ $(error bad execution directory)
 endif
 
 .PHONY: all status check-updates update install explicit remove-orphans iso
-.PHONY: archbox archtop sia-10 virtual %-vmk %-vmb %-vmw
+.PHONY: archbox archtop sia-11 virtual %-vmk %-vmb %-vmw
 .ONESHELL:
 
 
@@ -67,7 +67,7 @@ archtop: \
 sia-11: \
 	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
 	base nvidia input fs mouse-accel \
-	network networkd sshd nxserver \
+	network networkd sshd nxserver remmina \
 	audio pulse pulse-tools desktop compton misc browsers \
 	evince gimp libreoffice sublime-text thunar thunderbird virtualbox vlc weechat \
 	dev docker mkvm mysql sqlite
@@ -147,7 +147,7 @@ sshd: ssh sshd.srv sshd.cfg
 smbd: smb smbd.srv nmbd.srv smbd.cfg
 nxserver: nxclient nxserver.srv
 dropbox: dropbox.aur dropbox-cli.aur dropbox.usr dropbox.src
-remmina: remmina.pac freerdp.pac remmina-plugin-rdesktop.aur
+remmina: remmina.pac freerdp.pac
 vpn: openconnect.pac
 wifi: iw.pac dialog.pac wpa_supplicant.pac
 
