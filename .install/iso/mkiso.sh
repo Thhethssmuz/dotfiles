@@ -5,6 +5,7 @@
 
 # Create temporary build directory
 TMPDIR="$(mktemp -d /tmp/archlive.XXXXXXXX)"
+ISODIR="$(mktemp -d /tmp/archiso.XXXXXXXX)"
 
 # copy the base archiso
 cp -r /usr/share/archiso/configs/releng/* "$TMPDIR"
@@ -36,17 +37,22 @@ case "$PROFILE" in
 esac
 
 # set the live shell to bash not zsh
-sed -i 's/zsh/bash/' "$TMPDIR"/airootfs/root/customize_airootfs.sh
+# sed -i 's/zsh/bash/' "$TMPDIR"/airootfs/root/customize_airootfs.sh
+sed -i 's/zsh/bash/' "$TMPDIR"/airootfs/etc/passwd
 
 # automatically source the live script when starting up the live image
-echo 'echo "bash live.sh" >> /root/.bashrc' \
-  >> "$TMPDIR"/airootfs/root/customize_airootfs.sh
+# echo 'echo "bash live.sh" >> /root/.bashrc' \
+#   >> "$TMPDIR"/airootfs/root/customize_airootfs.sh
 
 # build the image
-mkdir -p "$TMPDIR"/out/
-( cd "$TMPDIR" && sudo ./build.sh -v )
+sudo mkarchiso -v -w "$ISODIR" -o . "$TMPDIR"
 
 # copy out and clean up
-mv "$TMPDIR"/out/archlinux-*-x86_64.iso \
-  "./archlinux-$(date +%F)-x86_64.$HOSTNAME.iso"
 sudo rm -rf "$TMPDIR"
+
+if findmnt | grep "$ISODIR"; then
+  echo "mounts still present in build directory!"
+  exit 1
+else
+  sudo rm -rf "$ISODIR"
+fi
