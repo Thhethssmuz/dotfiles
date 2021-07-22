@@ -59,8 +59,8 @@ archbox: \
 
 archtop: \
 	base mesa input touchpad fs \
-	network network-manager wifi dropbox \
-	audio pulse pulse-tools desktop misc browsers \
+	network networkd wifi dropbox \
+	audio pipewire pulse-tools desktop misc browsers \
 	evince gimp libreoffice musescore redshift sublime-text thunar virtualbox vlc weechat \
 	dev docker mkvm mysql sqlite
 
@@ -149,7 +149,7 @@ nxserver: nxclient nxserver.srv
 dropbox: dropbox.aur dropbox-cli.aur dropbox.usr dropbox.src
 remmina: remmina.pac freerdp.pac
 vpn: openconnect.pac
-wifi: iw.pac dialog.pac wpa_supplicant.pac
+wifi: iwd.pac iwd.srv
 
 
 #
