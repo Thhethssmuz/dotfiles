@@ -27,7 +27,8 @@ echo "KEYMAP=dvorak" > /etc/vconsole.conf
 if ! grep '^HOOKS=.*encrypt' /etc/mkinitcpio.conf; then
   sed -i '/^HOOKS=/ s/filesystem/keymap\ encrypt\ lvm2\ resume\ filesystem/' /etc/mkinitcpio.conf
 fi
-pacman -S --noconfirm linux
+
+pacman -S --noconfirm linux linux-firmware iwd lvm2
 
 # configure systemd boot
 bootctl --path=/boot install
@@ -36,8 +37,10 @@ bootctl --path=/boot install
 cat <<EOF > /boot/loader/entries/lvmluks.conf
 title Arch Linux
 linux /vmlinuz-linux
+#initrd /intel-ucode.img
+#initrd /amd-ucode.img
 initrd /initramfs-linux.img
-options cryptdevice=${DISK}2:vgroup resume=/dev/mapper/vgroup-swap root=/dev/mapper/vgroup-root quiet rw
+options cryptdevice=${DISK}2:waifu resume=/dev/mapper/waifu-swap root=/dev/mapper/waifu-root quiet rw
 EOF
 
 # bootloader conf

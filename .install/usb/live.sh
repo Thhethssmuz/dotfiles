@@ -36,34 +36,43 @@ cryptsetup luksOpen "${DISK}2" lvm
 pvcreate /dev/mapper/lvm
 
 # create volume group from physical volume
-vgcreate vgroup /dev/mapper/lvm
+vgcreate waifu /dev/mapper/lvm
 
 # create logical partitions on the volume group
 if [ -n "$SWAP" ]; then
-  lvcreate -L "$SWAP" -n swap vgroup
+  lvcreate -L "$SWAP" -n swap waifu
 fi
-lvcreate -l 100%free -n root vgroup
+lvcreate -l 100%free -n root waifu
 
 # create filesystems
 mkfs.fat -F32 "${DISK}1"
-mkfs.ext4 /dev/mapper/vgroup-root
+mkfs.ext4 /dev/mapper/waifu-root
 if [ -n "$SWAP" ]; then
-  mkswap /dev/mapper/vgroup-swap
+  mkswap /dev/mapper/waifu-swap
 fi
 
 # mount filesystems
 mkdir -p /mnt/arch
-mount /dev/mapper/vgroup-root /mnt/arch
+mount /dev/mapper/waifu-root /mnt/arch
 mkdir -p /mnt/arch/boot
 mount "${DISK}1" /mnt/arch/boot
 if [ -n "$SWAP" ]; then
-  swapon /dev/mapper/vgroup-swap
+  swapon /dev/mapper/waifu-swap
 fi
 
 # mount encrypted partition on usb
 cryptsetup luksOpen "$(blkid -U "$(cat crypton.uuid)")" crypton
 mkdir -p /mnt/crypton
 mount /dev/mapper/crypton /mnt/crypton
+
+# select mirrors
+reflector \
+  --protocol https \
+  --country Norway \
+  --country Sweden \
+  --country Denmark \
+  --country 'United Kingdom' \
+  --save /etc/pacman.d/mirrorlist
 
 # bootstrap
 pacstrap /mnt/arch base base-devel
@@ -81,9 +90,9 @@ arch-chroot /mnt/arch /root/chroot.sh "$DISK" "$HOSTNAME"
 umount -R /mnt/arch
 umount /mnt/crypton
 if [ -n "$SWAP" ]; then
-  swapoff /dev/mapper/vgroup-swap
+  swapoff /dev/mapper/waifu-swap
 fi
-vgchange -a n vgroup
+vgchange -a n waifu
 cryptsetup close lvm
 cryptsetup close crypton
 

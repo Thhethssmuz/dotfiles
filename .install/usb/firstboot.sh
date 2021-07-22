@@ -35,11 +35,8 @@ passwd
 useradd -m -g users -G audio,games,rfkill,uucp,video,wheel -s /bin/bash "$USERNAME"
 passwd "$USERNAME"
 
-# install ssh
-pacman -S --noconfirm openssh
-
-# install git
-pacman -S --noconfirm git
+# install ssh and git
+pacman -S --noconfirm git openssh
 
 # copy private to home and clean up in root
 mv /root/crypton/{.gnupg,.ssh,.password-store} "/home/$USERNAME"
@@ -60,6 +57,8 @@ su "$USERNAME" -l << EOF
   # decrypt private repos (prompts for a whole lot of passwords...)
   ~/.gnupg/import.sh
   ~/.ssh/decrypt_private.sh
+
+  # ...you must enable gpg-agent ssh-agent emulation before cloning
 
   # clone dotfiles
   git clone git@github.com:Thhethssmuz/dotfiles.git tmp
