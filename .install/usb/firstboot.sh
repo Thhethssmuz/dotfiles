@@ -1,13 +1,12 @@
 #!/bin/bash
 set -euo pipefail
 
-dhcpcd
+if ! ping google.com -c 1; then
+  echo "you must configure the network before running the firstboot script!"
+  exit 1
+fi
 
 source user-prompt.sh
-
-echo "give dhcpcd some time..."
-sleep 5
-ping google.com -c 1 || source ip-prompt.sh
 
 # in case something goes wrong
 set -x
@@ -30,9 +29,9 @@ pacman -S --noconfirm  sudo
 sed -i '/^# %wheel ALL=(ALL) ALL$/ s/^# //' /etc/sudoers
 visudo -cf /etc/sudoers
 
-# set password for root and new user
-passwd
+# create new user and set password
 useradd -m -g users -G audio,games,rfkill,uucp,video,wheel -s /bin/bash "$USERNAME"
+echo "Set user password for ${USERNAME}"
 passwd "$USERNAME"
 
 # install ssh and git
@@ -54,11 +53,15 @@ su "$USERNAME" -l << EOF
   # start the gpg-agent with curses support
   gpg-agent --daemon --pinentry-program /usr/bin/pinentry-curses
 
+  # SSH Agent -> GPG
+  export GPG_TTY="\$(tty)"
+  unset SSH_AGENT_PID
+  if [ "\${gnupg_SSH_AUTH_SOCK_by:-0}" -ne \$\$ ]; then
+    export SSH_AUTH_SOCK="\$(gpgconf --list-dirs agent-ssh-socket)"
+  fi
+
   # decrypt private repos (prompts for a whole lot of passwords...)
   ~/.gnupg/import.sh
-  ~/.ssh/decrypt_private.sh
-
-  # ...you must enable gpg-agent ssh-agent emulation before cloning
 
   # clone dotfiles
   git clone git@github.com:Thhethssmuz/dotfiles.git tmp

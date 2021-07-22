@@ -10,13 +10,15 @@ ISODIR="$(mktemp -d /tmp/archiso.XXXXXXXX)"
 # copy the base archiso
 cp -r /usr/share/archiso/configs/releng/* "$TMPDIR"
 
-# create folder for personal install scripts
-mkdir -p "$TMPDIR"/airootfs/etc/skel
+# create root directory if it does not already exist, and clear it of junk if it
+# does... there is likely some zsh crap there and/or other "helpful" scripts :/
+mkdir -p "$TMPDIR"/airootfs/root
+rm -rf "$TMPDIR"/airootfs/root/*
 
 # copy personal install scripts to the live image
 case "$PROFILE" in
-  usb)     cp ~/.install/usb/* "$TMPDIR"/airootfs/etc/skel/ ;;
-  vm[kbw]) cp ~/.install/vm/* "$TMPDIR"/airootfs/etc/skel/  ;;
+  usb)     cp ~/.install/usb/* "$TMPDIR"/airootfs/root/ ;;
+  vm[kbw]) cp ~/.install/vm/* "$TMPDIR"/airootfs/root/  ;;
   *)       echo "unrecognised profile \`$PROFILE'"; exit 1 ;;
 esac
 
@@ -24,7 +26,7 @@ esac
 case "$PROFILE" in
   usb) ;;
   vm[kbw])
-    for FILE in "$TMPDIR"/airootfs/etc/skel/{live,chroot,firstboot}.sh; do
+    for FILE in "$TMPDIR"/airootfs/root/{live,chroot,firstboot}.sh; do
       sed -i "s|\$DISC|$DISC|g" "$FILE"
       sed -i "s|\$HOSTNAME|$HOSTNAME|g" "$FILE"
       sed -i "s|\$USERNAME|$USERNAME|g" "$FILE"
@@ -37,12 +39,10 @@ case "$PROFILE" in
 esac
 
 # set the live shell to bash not zsh
-# sed -i 's/zsh/bash/' "$TMPDIR"/airootfs/root/customize_airootfs.sh
 sed -i 's/zsh/bash/' "$TMPDIR"/airootfs/etc/passwd
 
-# automatically source the live script when starting up the live image
-# echo 'echo "bash live.sh" >> /root/.bashrc' \
-#   >> "$TMPDIR"/airootfs/root/customize_airootfs.sh
+# set keyboard layout in live environment
+echo 'KEYMAP=dvorak' > "$TMPDIR"/airootfs/etc/vconsole.conf
 
 # build the image
 sudo mkarchiso -v -w "$ISODIR" -o . "$TMPDIR"

@@ -6,11 +6,12 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-loadkeys dvorak
-dhcpcd
+if ! ping google.com -c 1; then
+  echo "you must configure the network before running the live script!"
+  exit 1
+fi
 
 source live-prompt.sh
-ping google.com -c 1 || source ip-prompt.sh
 
 echo -e "\e[31mWARNING: this will overwrite the disk ${DISK}\e[0m"
 echo -e "\e[31mThis is a $(lsblk "$DISK" -ldn | awk '{print $4}') disk\e[0m"
@@ -29,8 +30,8 @@ sgdisk \
 
 # encrypt main partition
 cryptsetup -v --cipher aes-xts-plain64 --key-size 512 --hash sha512 \
-  --use-random luksFormat "${DISK}2"
-cryptsetup luksOpen "${DISK}2" lvm
+  --use-random luksFormat "${PARTITION2}"
+cryptsetup luksOpen "${PARTITION2}" lvm
 
 # create physical volume on top of luks
 pvcreate /dev/mapper/lvm
@@ -45,7 +46,7 @@ fi
 lvcreate -l 100%free -n root waifu
 
 # create filesystems
-mkfs.fat -F32 "${DISK}1"
+mkfs.fat -F32 "${PARTITION1}"
 mkfs.ext4 /dev/mapper/waifu-root
 if [ -n "$SWAP" ]; then
   mkswap /dev/mapper/waifu-swap
@@ -55,7 +56,7 @@ fi
 mkdir -p /mnt/arch
 mount /dev/mapper/waifu-root /mnt/arch
 mkdir -p /mnt/arch/boot
-mount "${DISK}1" /mnt/arch/boot
+mount "${PARTITION1}" /mnt/arch/boot
 if [ -n "$SWAP" ]; then
   swapon /dev/mapper/waifu-swap
 fi
@@ -84,7 +85,7 @@ cp -r /mnt/crypton/{.gnupg,.ssh,.password-store} /mnt/arch/root/crypton
 cp ./*.sh /mnt/arch/root
 
 # chroot
-arch-chroot /mnt/arch /root/chroot.sh "$DISK" "$HOSTNAME"
+arch-chroot /mnt/arch /root/chroot.sh "$PARTITION2" "$CPU_PROFILE" "$HOSTNAME"
 
 # clean up
 umount -R /mnt/arch

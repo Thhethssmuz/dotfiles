@@ -1,8 +1,9 @@
 #!/bin/bash
 set -exuo pipefail
 
-DISK="$1"
-HOSTNAME="$2"
+PARTITION2="$1"
+CPU_PROFILE="$2"
+HOSTNAME="$3"
 
 # generate locales
 cat <<EOF > /etc/locale.gen
@@ -23,6 +24,9 @@ hwclock --systohc --utc
 
 echo "KEYMAP=dvorak" > /etc/vconsole.conf
 
+echo "Set root password"
+passwd
+
 # add mkinitcpio hooks
 if ! grep '^HOOKS=.*encrypt' /etc/mkinitcpio.conf; then
   sed -i '/^HOOKS=/ s/filesystem/keymap\ encrypt\ lvm2\ resume\ filesystem/' /etc/mkinitcpio.conf
@@ -37,10 +41,10 @@ bootctl --path=/boot install
 cat <<EOF > /boot/loader/entries/lvmluks.conf
 title Arch Linux
 linux /vmlinuz-linux
-#initrd /intel-ucode.img
-#initrd /amd-ucode.img
+$([ "$CPU_PROFILE" != "intel" ] && echo '#' || echo '')initrd /intel-ucode.img
+$([ "$CPU_PROFILE" != "amd" ] && echo '#' || echo '')initrd /amd-ucode.img
 initrd /initramfs-linux.img
-options cryptdevice=${DISK}2:waifu resume=/dev/mapper/waifu-swap root=/dev/mapper/waifu-root quiet rw
+options cryptdevice=${PARTITION2}:waifu resume=/dev/mapper/waifu-swap root=/dev/mapper/waifu-root quiet rw
 EOF
 
 # bootloader conf
