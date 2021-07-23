@@ -11,7 +11,7 @@ install() {
   tar xvzf apacman.tar.gz
   cd apacman
   makepkg
-  sudo pacman -U --noconfirm apacman-*.pkg.tar.xz
+  sudo pacman -U --noconfirm apacman-*.pkg.tar.zst
   cd ~
   rm -rf apacman apacman.tar.gz
 }

@@ -9,8 +9,8 @@ order() {
 
 install() {
   mkdir -p "$PKGDIR"
-  cd "$PKGDIR"
-  curl -O "https://packagecontrol.io/Package Control.sublime-package"
+  curl "https://packagecontrol.io/Package%20Control.sublime-package" \
+    --output - > "$PKGDIR/Package Control.sublime-package"
 }
 
 remove() {

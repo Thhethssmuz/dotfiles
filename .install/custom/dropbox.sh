@@ -24,7 +24,7 @@ status() {
   fi
 
   # shellcheck disable=SC2012
-  if ! [ "$(ls -ld ~/.dropbox-dist | cut -c-10)" = "d---------" ]; then
+  if ! [ -d "$HOME/.dropbox-dist" ] || ! [ "$(ls -ld "$HOME"/.dropbox-dist | cut -c-10)" = "d---------" ]; then
     echo "dropbox.src/install/error/Auto update not disabled"
   fi
 }

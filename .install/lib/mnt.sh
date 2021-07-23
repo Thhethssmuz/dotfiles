@@ -8,6 +8,7 @@ list() {
     --state active | \
     awk '{print $1}' | \
     grep -v '^dev-' | \
+    grep -v '^proc-' | \
     grep -v '^run-' | \
     grep -v '^sys-' | \
     grep -v '^tmp\.' | \

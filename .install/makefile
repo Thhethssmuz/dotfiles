@@ -58,7 +58,7 @@ archbox: \
 	dev docker mkvm
 
 archtop: \
-	base mesa input touchpad fs \
+	base intel-ucode.pac mesa input touchpad fs \
 	network networkd wifi dropbox \
 	audio pipewire pulse-tools desktop misc browsers \
 	evince gimp libreoffice musescore redshift sublime-text thunar virtualbox vlc weechat \
@@ -115,7 +115,7 @@ gpg: gnupg.pac gpg-agent.usc gpg-agent-browser.usc gpg-agent-extra.usc gpg-agent
 linux: linux.pac linux-firmware.pac
 pacman: pacman.pac pacman-contrib.pac reflector.pac mirrorupgrade.cfg
 systemd: logind.cfg systemd.pac
-secret: gpg haveged.pac keychain.pac pass.pac pass-otp.pac ssh
+secret: gpg haveged.pac keychain.pac lvm2.pac pass.pac pass-otp.pac ssh
 
 
 #
@@ -139,9 +139,9 @@ network: ssh smb nxclient network-tools
 ssh: openssh.pac sshfs.pac
 smb: samba.pac
 nxclient: nomachine.aur
-network-tools: curl.pac gnu-netcat.pac httping.pac ngrep.pac rsync.pac tcpdump.pac traceroute.pac whois.pac wireshark-qt.pac wget.pac
+network-tools: curl.pac gnu-netcat.pac httping.pac inetutils.pac ngrep.pac rsync.pac tcpdump.pac traceroute.pac whois.pac wireshark-qt.pac wget.pac
 
-networkd: systemd-networkd.soc systemd-networkd.srv systemd-networkd-wait-online.srv systemd-resolvconf.pac systemd-resolved.srv
+networkd: systemd-networkd.soc systemd-networkd.srv systemd-networkd-wait-online.srv systemd-resolvconf.pac systemd-resolved.srv systemd-resolv-stub.src
 network-manager: networkmanager.pac NetworkManager.srv NetworkManager-wait-online.srv
 sshd: ssh sshd.srv sshd.cfg
 smbd: smb smbd.srv nmbd.srv smbd.cfg
@@ -161,7 +161,7 @@ pulse: pulseaudio-alsa.pac pulseaudio.usc
 pipewire: pipewire.pac pipewire-alsa.pac pipewire-pulse.pac pipewire-jack.pac pipewire.usc pipewire-pulse.usc pipewire-media-session.usr
 
 alsa: alsa-utils.pac
-pulse-tools: pavucontrol.pac pulseeffects.pac
+pulse-tools: pavucontrol.pac
 midi: timidity++.pac freepats-general-midi.pac
 mpd: mpd.pac mpd.usr
 mpc: mpc.pac ncmpcpp.pac
@@ -261,7 +261,7 @@ dev-tools: git make.pac testssl.sh.pac the_silver_searcher.pac
 mkvm: archiso.pac
 docker: docker.pac docker.srv loop.mod
 k3s: k3s-bin.aur kubectl.pac helm.pac
-mysql: mariadb.pac mariadb.srv mysqld.srv
+mysql: mariadb.pac mariadb.srv
 sqlite: sqlite.pac sqlite3.npm
 
 
