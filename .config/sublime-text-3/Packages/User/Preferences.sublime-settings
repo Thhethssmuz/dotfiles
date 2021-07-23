@@ -30,6 +30,7 @@
 	"ignored_packages":
 	[
 		"Markdown",
+		"Rust",
 		"Vintage",
 	],
 	"ignored_words":
@@ -47,7 +48,7 @@
   "show_errors_inline": false,
 	"spell_check": true,
 	"tab_size": 2,
-	"theme": "Cyanide.sublime-theme",
+	"theme": "Adaptive.sublime-theme",
 	"translate_tabs_to_spaces": true,
 	"trim_trailing_white_space_on_save": true,
 	"update_check": false,
