@@ -9,7 +9,7 @@ unset nowrap
 unset regexp
 
 # Use smooth scrolling by default.
-set smooth
+# set smooth
 
 # Use spelling checker "hunspell" instead of the built-in one.
 set speller "hunspell"
