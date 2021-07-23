@@ -79,6 +79,9 @@
 !.config/mpd
 !.config/mpd/mpd.conf
 
+# jack audio
+.jackdrc
+
 # nano
 !.nanorc
 
