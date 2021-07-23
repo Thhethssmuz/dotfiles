@@ -10,8 +10,7 @@ ISODIR="$(mktemp -d /tmp/archiso.XXXXXXXX)"
 # copy the base archiso
 cp -r /usr/share/archiso/configs/releng/* "$TMPDIR"
 
-# create root directory if it does not already exist, and clear it of junk if it
-# does... there is likely some zsh crap there and/or other "helpful" scripts :/
+# create root directory if it does not already exist
 mkdir -p "$TMPDIR"/airootfs/root
 rm -rf "$TMPDIR"/airootfs/root/*
 
@@ -38,8 +37,22 @@ case "$PROFILE" in
     exit 1 ;;
 esac
 
+# set file permissions for personal install scripts
+for FILE in ~/.install/{usb,vm}/*.sh; do basename "$FILE"; done | \
+  sort -u |
+  while read -r BASE; do
+    if [ -f "$TMPDIR"/airootfs/root/"$BASE" ]; then
+      sed -i \
+        "s/file_permissions=(/file_permissions=(\n  [\"\/root\/${BASE}\"]=\"0:0:755\"/" \
+        "$TMPDIR"/profiledef.sh
+    fi
+  done
+
 # set the live shell to bash not zsh
 sed -i 's/zsh/bash/' "$TMPDIR"/airootfs/etc/passwd
+
+# and add bash-completion package to the live environment
+echo "bash-completion" >> "$TMPDIR"/packages.x86_64
 
 # set keyboard layout in live environment
 echo 'KEYMAP=dvorak' > "$TMPDIR"/airootfs/etc/vconsole.conf
@@ -49,7 +62,6 @@ sudo mkarchiso -v -w "$ISODIR" -o . "$TMPDIR"
 
 # copy out and clean up
 sudo rm -rf "$TMPDIR"
-
 if findmnt | grep "$ISODIR"; then
   echo "mounts still present in build directory!"
   exit 1

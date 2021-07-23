@@ -76,7 +76,7 @@ reflector \
   --save /etc/pacman.d/mirrorlist
 
 # bootstrap
-pacstrap /mnt/arch base base-devel
+pacstrap /mnt/arch base base-devel linux linux-firmware
 genfstab -U -p /mnt/arch >> /mnt/arch/etc/fstab
 
 # copy

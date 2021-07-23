@@ -58,39 +58,34 @@ install_live_image() {
 
   set -x
 
-  # format file-systems
+  # format file-system
   sudo mkfs.fat -F32 "${DISK}1"
 
-  # mount boot drive and arch iso image and copy over iso contents to the live
-  # partition
-  mkdir -p "$TMP"/{iso,usb}
-  sudo mount -o loop "$ISO" "$TMP"/iso
+  # mount boot drive and copy over iso contents to the live partition
+  mkdir -p "$TMP"/usb
   sudo mount "${DISK}1" "$TMP"/usb
-  sudo cp -a "$TMP"/iso/* "$TMP"/usb
+  sudo bsdtar -x -f "$ISO" -C "$TMP"/usb
   sync
-  sudo umount "$TMP"/iso
 
   # get the partitions UUIDs
-  ARCH_UUID=$(blkid -o value -s UUID "${DISK}1")
-  CRYPTON_UUID=$(blkid -o value -s UUID "${DISK}2")
-  DUMP_UUID=$(blkid -o value -s UUID "${DISK}3")
+  ARCH_UUID=$(sudo blkid -o value -s UUID "$DISK"1)
+  CRYPTON_UUID=$(sudo blkid -o value -s UUID "$DISK"2)
+  DUMP_UUID=$(sudo blkid -o value -s UUID "$DISK"3)
 
   # set the boot UUID in the live arch boot configs by replacing the setting
   # `archisolabel=<...>` with `archisodevice=/dev/disk/by-uuid/<UUID>`
-  for file in "$TMP"/usb/{arch/boot/syslinux/archiso_sys{32,64}.cfg,loader/entries/archiso-x86_64.conf}; do
+  for file in "$TMP"/usb/loader/entries/*.conf; do
     sudo sed -i "s/archisolabel=.*$/archisodevice=\/dev\/disk\/by-uuid\/$ARCH_UUID/" "$file"
   done
 
-  # install syslinux to the live partition
-  sudo cp -r /usr/lib/syslinux/bios/*.c32 "$TMP"/usb/arch/boot/syslinux
-  sudo extlinux --install "$TMP"/usb/arch/boot/syslinux
-
-  # inject install scripts to device
-  # for future reference: https://wiki.archlinux.org/index.php/Remastering_the_Install_ISO#Customization
-  for arch in "$TMP"/usb/arch/{i686,x86_64}; do
+  # inject uuid files ++ to device
+  for arch in "$TMP"/usb/arch/x86_64; do
     sudo unsquashfs -dest "$TMP"/squashfs-root "$arch/airootfs.sfs"
 
-    sudo cp "$USB"/*.sh "$TMP"/squashfs-root/root
+    # .bashrc seams to be deleted by archiso script :/
+    # for now just inject it again here...
+    sudo cp "$USB"/.bashrc "$TMP"/squashfs-root/root/
+
     sudo bash -c "echo '$ARCH_UUID' > $TMP/squashfs-root/root/arch.uuid"
     sudo bash -c "echo '$CRYPTON_UUID' > $TMP/squashfs-root/root/crypton.uuid"
     sudo bash -c "echo '$DUMP_UUID' > $TMP/squashfs-root/root/dump.uuid"
@@ -98,17 +93,17 @@ install_live_image() {
     sudo rm "$arch/airootfs.sfs"
     sudo mksquashfs "$TMP"/squashfs-root "$arch/airootfs.sfs"
     sudo rm -rf "$TMP"/squashfs-root
-    ( cd "$arch" && sudo bash -c "md5sum airootfs.sfs > airootfs.md5" )
+    ( cd "$arch" && sudo bash -c "sha512sum airootfs.sfs > airootfs.sha512" )
   done
 
   # mark the partition as bootable
   sync
   sudo umount "$TMP"/usb
-  sudo sgdisk "$DISK" --attributes=1:set:2
-  sudo dd bs=440 conv=notrunc count=1 if=/usr/lib/syslinux/bios/gptmbr.bin of="$DISK"
+  sudo syslinux --directory syslinux --install "$DISK"1
+  sudo dd bs=440 count=1 conv=notrunc if=/usr/lib/syslinux/bios/gptmbr.bin of="$DISK"
 
   sync
-  sudo rm -rf "$TMP"/{iso,usb}
+  sudo rm -rf "$TMP"/usb
 }
 
 

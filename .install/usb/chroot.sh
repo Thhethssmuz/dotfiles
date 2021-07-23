@@ -27,12 +27,20 @@ echo "KEYMAP=dvorak" > /etc/vconsole.conf
 echo "Set root password"
 passwd
 
+# install lvm2 before we run mkinitcpio
+pacman -S --noconfirm iwd inetutils lvm2
+
 # add mkinitcpio hooks
 if ! grep '^HOOKS=.*encrypt' /etc/mkinitcpio.conf; then
   sed -i '/^HOOKS=/ s/filesystem/keymap\ encrypt\ lvm2\ resume\ filesystem/' /etc/mkinitcpio.conf
 fi
+mkinitcpio -P
 
-pacman -S --noconfirm linux linux-firmware iwd lvm2
+if [ "$CPU_PROFILE" = "intel" ]; then
+  pacman -S intel-ucode
+else if [ "$CPU_PROFILE" = "amd" ]; then
+  pacman -S amd-ucode
+fi
 
 # configure systemd boot
 bootctl --path=/boot install
