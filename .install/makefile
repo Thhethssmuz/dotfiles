@@ -68,7 +68,7 @@ sia-11: \
 	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
 	base nvidia input fs mouse-accel \
 	network networkd sshd nxserver remmina \
-	audio pulse pulse-tools desktop compton misc browsers \
+	audio pipewire pulse-tools desktop compton misc browsers \
 	evince gimp libreoffice sublime-text thunar thunderbird virtualbox vlc weechat \
 	dev docker mkvm mysql sqlite
 
