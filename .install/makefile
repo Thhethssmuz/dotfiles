@@ -252,7 +252,7 @@ bash: bash-completion.pac shellcheck.pac
 cpp: clang.pac make.pac cmake.pac ninja.pac gdb.pac
 git: git.pac tig.pac
 haskell: ghc.pac stack.pac ncurses5-compat-libs.aur
-js: nodejs.pac npm.pac eslint.npm
+js: nodejs.pac npm.pac eslint.npm prettier.npm
 latex: texlive-most.pag
 pdf: latex pandoc.pac evince # ppp
 json: jq.pac jshon.pac
