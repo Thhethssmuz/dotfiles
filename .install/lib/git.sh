@@ -57,7 +57,7 @@ prompt() {
 
   cmd="cd \"$dir\" && . ~/.prompt && space=' ' __promptline_git"
 
-  if prompt="$(sudo -u "$USERNAME" -i bash <<< "$cmd")"; then
+  if prompt="$(sudo -u "$USERNAME" bash <<< "$cmd")"; then
     echo "$1//error/$prompt"
   elif [ "$prompt" != " master ✔" ]; then
     echo "$1//success/$prompt"
