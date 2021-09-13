@@ -4,12 +4,13 @@
   { "keys": ["ctrl+b"], "command": "build", "args": {"variant": "Build"} },
   { "keys": ["f7"], "command": "build", "args": {"variant": "Run"} },
 
-  { "keys": ["f7"], "command": "clang_format",
+  { "keys": ["f8"], "command": "clang_format",
       "context":
       [
           {"key": "selector", "operator": "equal", "operand": "source.c++"}
       ],
   },
+  { "keys": ["f8"], "command": "js_prettier" },
 
   { "keys": ["ctrl+shift+7"], "command": "toggle_comment", "args": { "block": false } },
 
