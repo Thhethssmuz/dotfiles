@@ -16,7 +16,7 @@
 	"line_padding_top": 2,
 	"mde.distraction_free_mode":
 	{
-		"mde.keep_centered": true
+		"mde.keep_centered": true,
 	},
 	"mde.keep_centered": false,
 	"mde.list_indent_auto_switch_bullet": true,
@@ -34,5 +34,5 @@
 	"translate_tabs_to_spaces": true,
 	"trim_trailing_white_space_on_save": true,
 	"word_wrap": true,
-	"wrap_width": 80
+	"wrap_width": 80,
 }
