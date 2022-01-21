@@ -9,7 +9,7 @@ list() {
     "XDG_RUNTIME_DIR=\"/run/user/\$(id -u)\"" \
     "systemctl list-unit-files --user --type socket" \
     "--no-pager --no-legend --state enabled" | \
-    sudo -u "$USERNAME" -i bash | \
+    sudo -u "$USERNAME" -s | \
     sed 's/\.socket.*/\.usc/'
 }
 

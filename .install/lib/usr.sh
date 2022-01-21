@@ -9,7 +9,7 @@ list() {
     "XDG_RUNTIME_DIR=\"/run/user/\$(id -u)\"" \
     "systemctl list-unit-files --user --type service" \
     "--no-pager --no-legend --state enabled" | \
-    sudo -u "$USERNAME" -i bash | \
+    sudo -Hu "$USERNAME" -s | \
     sed 's/\.service.*/\.usr/'
 }
 
