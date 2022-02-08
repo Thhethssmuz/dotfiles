@@ -35,57 +35,72 @@ function __promptline_host {
   fi
 }
 
-function __promptline_cwd {
-  local dir_limit="3"
-  local truncation="⋯"
-  local part_count=0
-  local formatted_cwd=""
-  local dir_sep="  "
-  local tilde="~"
+function __promptline_cwd_fs_highlight {
+  local fs_root_dir
+  case "$(df --output=fstype $(pwd) | tail -1)" in
+    fuse.sshfs) fs_root_dir="$(df --output=target $(pwd) | tail -1)" ;;
+    *) ;;
+  esac
+  echo "${fs_root_dir/#$HOME/\~}"
+}
 
-  local cwd="${PWD/#$HOME/$tilde}"
-
+function __promptline_cwd_git_highlight {
   local git_root_dir
-  local git_match=1
-  local git_matched=0
-  if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
-    git_root_dir="$(
+  git_root_dir="$(
+    if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]]; then
       while [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]] && \
             [ "$(git rev-parse --show-toplevel)" != "$(realpath .)" ]; do
         cd ..
       done
       pwd
-    )"
-    git_root_dir=${git_root_dir/$HOME/\~}
-    git_match=0
-  fi
+    fi
+  )"
+  echo "${git_root_dir/#$HOME/\~}"
+}
+
+function __promptline_cwd {
+  local dir_limit="3"
+  local truncation="⋯"
+  local part_count=0
+  local isFirst=1
+  local isFirstSkip=1
+  local formatted_cwd=""
+  local dir_sep="  "
+
+  local cwd="${PWD/#$HOME/\~}"
 
   while true; do
     local part="${cwd##*/}"
-    local last
     [ "$part" == "" ] && part="/"
-    [ "$cwd" == "$part" ] && last=1 || last=0
 
-    if [ $git_match ] && [ "$cwd" == "$git_root_dir" ]; then
+    local isFs isGit isHighlight isLong isFirstSkip isLast
+    [ "$cwd" == "$fs_highlight" ] && isFs=1 || isFs=0
+    [ "$cwd" == "$git_highlight" ] && isGit=1 || isGit=0
+    [ "$((isFs + isGit))" -gt 0 ] && isHighlight=1 || isHighlight=0
+    [ ! "$part_count" -lt "$dir_limit" ] && isLong=1 || isLong=0
+    [ "$cwd" == "$part" ] && isLast=1 || isLast=0
+
+    if [ "$isFs" == 1 ]; then
+      part=$(__promptline_wrap "$part" "${bold}${fs_fg}" "${cwd_fg}${reset_bold}")
+    fi
+    if [ "$isGit" == 1 ]; then
       part=$(__promptline_wrap "$part" "${bold}${git_fg}" "${cwd_fg}${reset_bold}")
-      git_match=1
-      git_matched=1
     fi
 
-    case "${git_match}${git_matched}$((part_count >= dir_limit))$((part_count == dir_limit))${last}" in
-      ??000) formatted_cwd="${dir_sep}${part}${formatted_cwd}" ;;
-      00100) ;;
-      00110) formatted_cwd="${dir_sep}${truncation}${formatted_cwd}" ;;
-      1???1) formatted_cwd="${part}${formatted_cwd}" ; break ;;
-      10110) formatted_cwd="${truncation}${formatted_cwd}"; break ;;
-      111?0) formatted_cwd="${truncation}${dir_sep}${part}${formatted_cwd}"; break ;;
-      *)     break ;; # this shouldn't happen, but just in case; don't go into an infinite loop
+    case "${isHighlight}${isLong}${isFirstSkip}${isFirst}" in
+      010?) ;;
+      0110) formatted_cwd="${truncation}${dir_sep}${formatted_cwd}"; isFirstSkip=0 ;;
+      0111) formatted_cwd="${truncation}${formatted_cwd}"; isFirstSkip=0 ;;
+      ???1) formatted_cwd="${part}${formatted_cwd}"; isFirstSkip=1 ;;
+      ???0) formatted_cwd="${part}${dir_sep}${formatted_cwd}"; isFirstSkip=1 ;;
+      *) echo "debug" ; break ;;
     esac
 
+    [ "$isLast" == 1 ] && break
+    isFirst=0
     cwd="${cwd%/*}"
     [ "$cwd" == "" ] && cwd="/"
     part_count=$((part_count+1))
-    git_matched=0
   done
 
   printf "%s" "$formatted_cwd"
@@ -165,12 +180,18 @@ function __promptline_ps1 {
   local suffix
   local is_empty=1
 
+  local fs_highlight git_highlight
+  fs_highlight="$(__promptline_cwd_fs_highlight)"
+
   local warn_content host_content cwd_content git_content
 
-  if git_content="$(__promptline_git)"; then
-    git_fg="$git_dirty_fg"
-  else
-    git_fg="$git_clean_fg"
+  if [ -z "$fs_highlight" ]; then
+    git_highlight="$(__promptline_cwd_git_highlight)"
+    if git_content="$(__promptline_git)"; then
+      git_fg="$git_dirty_fg"
+    else
+      git_fg="$git_clean_fg"
+    fi
   fi
   cwd_content="$(__promptline_cwd)"
   host_content="$(__promptline_host)"
@@ -238,6 +259,9 @@ function __promptline {
 
   # cwd segment colours
   local cwd_fg="${wrap}37${end_wrap}"
+
+  # fs segment colours
+  local fs_fg="${wrap}35${end_wrap}"
 
   # git segment colours
   local git_fg=""
