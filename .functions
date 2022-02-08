@@ -19,7 +19,7 @@ gl() {
       [ -d "$dir" ] || exit
       cd "$dir" 2>/dev/null || exit
       [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]] || exit
-      [ "$(git rev-parse --show-toplevel)" == "$(pwd)" ] || exit
+      [ "$(git rev-parse --show-cdup)" == "" ] || exit
 
       local space=" " bold="[1m" reset_bold="[22m" content git_fg
       content="$(__promptline_git)" && git_fg="[31m" || git_fg="[32m"
