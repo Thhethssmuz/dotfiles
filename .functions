@@ -30,26 +30,6 @@ gl() {
        4< <(ls -Ahl --group-directories-first --color=always | tail -n+2)
 }
 
-# shellcheck disable=SC2034
-gt() {
-  while read -r dir <&3; do
-    read -r line <&4
-    printf "%s" "$line"
-    (
-      [ -d "$dir" ] || exit
-      cd "$dir" 2>/dev/null || exit
-      [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]] || exit
-      [ "$(git rev-parse --show-toplevel)" == "$(pwd)" ] || exit
-
-      local space=" " bold="[1m" reset_bold="[22m" content git_fg
-      content="$(__promptline_git)" && git_fg="[31m" || git_fg="[32m"
-      __promptline_wrap "$content" "${space}${git_fg}" "[0m"
-    )
-    echo
-  done 3< <(tree -a --dirsfirst -L $1 -f | awk '{print $NF}' | sed -r 's/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g') \
-       4< <(tree -a --dirsfirst -L $1 -C)
-}
-
 # -- Misc ---------------------------------------------------------------------
 
 kill-tabs() { pkill -u "$USER" -f "chromium.*--type=renderer"; }
