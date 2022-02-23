@@ -37,7 +37,7 @@ function __promptline_host {
 
 function __promptline_cwd_fs_highlight {
   local fs_root_dir
-  case "$(df --output=fstype $(pwd) | tail -1)" in
+  case "$(df --output=fstype "$(pwd)" | tail -1)" in
     fuse.sshfs) fs_root_dir="$(df --output=target $(pwd) | tail -1)" ;;
     *) ;;
   esac
