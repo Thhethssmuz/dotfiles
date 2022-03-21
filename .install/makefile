@@ -51,7 +51,7 @@ iso:
 
 archbox: \
 	media-m.amt \
-	base nvidia input fs \
+	base nvidia input fs mouse-accel \
 	network network-manager sshd dropbox \
 	audio pipewire pulse-tools desktop compton misc browsers \
 	blender discord evince gimp libreoffice musescore reaper redshift signal steam sublime-text thunar virtualbox vlc weechat \
