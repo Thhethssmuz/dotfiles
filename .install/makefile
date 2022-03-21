@@ -179,12 +179,13 @@ xorg: xorg-server.pac xorg-xinit.pac xorg-apps.pag
 lxdm: lxdm.pac archlinux-lxdm-theme-full.aur lxdm.cfg lxdm.srv
 slock: slock.pac xautolock.pac
 xmonad: xmonad.pac xmonad-contrib.pac xmonadupgrade.cfg
-environment: dzen2.pac haskell-async.pac haskell-dbus.pac ghc-libs.pac hsetroot.pac status-bar-icons.src
+environment: dzen2.pac haskell-async.pac haskell-dbus.pac ghc-libs.pac hsetroot.pac tesseract status-bar-icons.src
 
 cinnamon: cinnamon.pac
 compton: picom.pac
 lightdm: lightdm.pac lightdm-gtk-greeter.pac
 slim: slim.pac archlinux-themes-slim.pac slim.cfg
+tesseract: tesseract.pac tesseract-data-eng.pac tesseract-data-nor.pac
 
 
 #
