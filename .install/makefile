@@ -158,7 +158,7 @@ wifi: iwd.pac iwd.srv
 
 audio: alsa midi mpd mpc espeak audio-tools
 pulse: pulseaudio-alsa.pac pulseaudio.usc
-pipewire: pipewire.pac pipewire-alsa.pac pipewire-pulse.pac pipewire-jack.pac pipewire.usc pipewire-pulse.usc pipewire-media-session.usr
+pipewire: pipewire.pac pipewire-alsa.pac pipewire-pulse.pac pipewire-jack.pac pipewire.usc pipewire-pulse.usc wireplumber.pac wireplumber.usr
 
 alsa: alsa-utils.pac
 pulse-tools: pavucontrol.pac

@@ -11,16 +11,13 @@ source ~/.xmonad/scripts/config.sh
 ###############################################################################
 
 get_current_volume() {
-  local mixer
-  local muted
-
-  mixer=$(amixer -D pipewire get Master | grep 'Front Left:')
-  muted=$(echo "$mixer" | grep -o '\[on\]')
-
-  if [ "$muted" == "" ]; then
-    echo "0"
+  if [ "$(pactl get-sink-mute @DEFAULT_SINK@)" = "Mute: yes" ]; then
+    echo '0'
   else
-    echo "$mixer" | sed 's/.*\[\([0-9\+\)\(\.[0-9]\+\)\?%.*/\1/'
+    pactl get-sink-volume @DEFAULT_SINK@ | \
+      grep -o '[0-9]\+%' | \
+      head -n1 | \
+      sed 's/%//'
   fi
 }
 
@@ -112,7 +109,7 @@ volume_notification() {
 ###############################################################################
 
 increase_volume() {
-  amixer -D pipewire -q set Master 3277+
+  pactl set-sink-volume @DEFAULT_SINK@ +10%
   volume_notification
 }
 
@@ -124,7 +121,7 @@ increase_volume() {
 ###############################################################################
 
 decrease_volume() {
-  amixer -D pipewire -q set Master 3277-
+  pactl set-sink-volume @DEFAULT_SINK@ -10%
   volume_notification
 }
 
@@ -136,7 +133,7 @@ decrease_volume() {
 ###############################################################################
 
 toggle_mute() {
-  amixer -D pipewire -q set Master toggle
+  pactl set-sink-mute @DEFAULT_SINK@ toggle
   volume_notification
 }
 
