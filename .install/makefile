@@ -263,7 +263,7 @@ mkvm: archiso.pac
 docker: docker.pac docker.srv loop.mod
 k3s: k3s-bin.aur kubectl.pac helm.pac
 mysql: mariadb.pac mariadb.srv
-sqlite: sqlite.pac sqlite3.npm
+sqlite: sqlite.pac
 
 
 #
