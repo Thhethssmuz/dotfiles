@@ -65,15 +65,15 @@ status() {
       if [ -f "$path" ]; then
 
         if ! render "$tmpl" | diff "$path" - >/dev/null 2>&1; then
-          echo "$line/install/error/Changed"
+          echo -e "$line\x1einstall\x1eerror\x1eChanged"
         fi
 
       else
-        echo "$line/install/error/Missing"
+        echo -e "$line\x1einstall\x1eerror\x1eMissing"
       fi
 
     else
-      echo "$line//error/Missing template"
+      echo -e "$line\x1e\x1eerror\x1eMissing template"
     fi
   done
 }

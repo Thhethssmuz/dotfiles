@@ -54,7 +54,7 @@ teeall() {
 }
 
 filter() {
-  teeall status | while IFS='/' read -r entity targets _ _; do
+  teeall status | while IFS=$'\x1e' read -r entity targets _ _; do
     if [[ "$targets" == *"$1"* ]]; then
       echo "$entity"
     fi
@@ -85,7 +85,7 @@ remove-orphans() {
 
 
 status() {
-  teeall status | while IFS='/' read -r entity _ level message; do
+  teeall status | while IFS=$'\x1e' read -r entity _ level message; do
     case "$level" in
       success) echo -e "$entity \\e[1;32m$message\\e[0m" ;;
       info)    echo -e "$entity \\e[1;35m$message\\e[0m" ;;

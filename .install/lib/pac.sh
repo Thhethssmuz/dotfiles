@@ -44,23 +44,23 @@ status() {
           ;;
         /*)
           if pacman -Qn "${line:1: -4}" >/dev/null 2>&1; then
-            echo "${line:1}/explicit/info/Installed but not explicitly"
+            echo -e "${line:1}\x1eexplicit\x1einfo\x1eInstalled but not explicitly"
           else
-            echo "${line:1}/install/error/Not installed"
+            echo -e "${line:1}\x1einstall\x1eerror\x1eNot installed"
           fi
           ;;
         *)
-          echo "$line//warn/Unprovisioned"
+          echo -e "$line\x1e\x1ewarn\x1eUnprovisioned"
           ;;
       esac
     done
 
   while read -r line; do
-    echo "$line.pac/remove-orphans/info/Orphaned"
+    echo -e "$line.pac\x1eremove-orphans\x1einfo\x1eOrphaned"
   done < <(pacman -Qtdnq || exit)
 
   if [ "$(du -d0 /var/cache/pacman/ | awk '{print $1}')" -gt 15728640 ]; then
-    echo "pacman-cache//error/$(du -hd0 /var/cache/pacman/ | awk '{print $1}')"
+    echo -e "pacman-cache\x1e\x1eerror\x1e$(du -hd0 /var/cache/pacman/ | awk '{print $1}')"
   fi
 }
 

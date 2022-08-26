@@ -43,8 +43,8 @@ status() {
     while read -r line; do
       case "$line" in
         /)  ;;
-        /*) echo "${line:1}/install/error/Not enabled" ;;
-        *)  echo "$line//warn/Unrecognised" ;;
+        /*) echo -e "${line:1}\x1einstall\x1eerror\x1eNot enabled" ;;
+        *)  echo -e "$line\x1e\x1ewarn\x1eUnrecognised" ;;
       esac
     done
 }

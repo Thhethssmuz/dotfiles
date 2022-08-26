@@ -54,19 +54,19 @@ status() {
           ;;
         /*)
           if pacman -Qm "${line:1: -4}" >/dev/null 2>&1; then
-            echo "${line:1}/explicit/info/Installed but not explicitly"
+            echo -e "${line:1}\x1eexplicit\x1einfo\x1eInstalled but not explicitly"
           else
-            echo "${line:1}/install/error/Not installed"
+            echo -e "${line:1}\x1einstall\x1eerror\x1eNot installed"
           fi
           ;;
         *)
-          echo "$line//warn/Unprovisioned"
+          echo -e "$line\x1e\x1ewarn\x1eUnprovisioned"
           ;;
       esac
     done
 
   while read -r line; do
-    echo "$line.aur/remove-orphans/info/Orphaned"
+    echo -e "$line.aur\x1eremove-orphans\x1einfo\x1eOrphaned"
   done < <(pacman -Qtdmq || exit)
 }
 

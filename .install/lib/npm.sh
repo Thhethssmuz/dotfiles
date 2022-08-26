@@ -7,8 +7,10 @@ set -euo pipefail
 
 list() {
   if [ -d "$USERHOME"/.local/lib/node_modules ]; then
-    find "$USERHOME"/.local/lib/node_modules -mindepth 1 -maxdepth 1 -type d -print0 | \
-      xargs --null basename -a | sed 's/$/\.npm/'
+    find "$USERHOME"/.local/lib/node_modules/{,@*/} -mindepth 1 -maxdepth 1 -type d | \
+      grep -v "@[^/]*$" | \
+      sed "s|$USERHOME/.local/lib/node_modules/||" | \
+      sed 's/$/\.npm/'
   fi
 }
 
@@ -47,8 +49,8 @@ status() {
     while read -r line; do
       case "$line" in
         /)  ;;
-        /*) echo "${line:1}/install/error/Not installed" ;;
-        *)  echo "$line//warn/Unprovisioned" ;;
+        /*) echo -e "${line:1}\x1einstall\x1eerror\x1eNot installed" ;;
+        *)  echo -e "$line\x1e\x1ewarn\x1eUnprovisioned" ;;
       esac
     done
 }

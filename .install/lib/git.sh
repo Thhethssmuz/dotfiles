@@ -58,9 +58,9 @@ prompt() {
   cmd="cd \"$dir\" && . ~/.prompt && space=' ' __promptline_git"
 
   if prompt="$(sudo -u "$USERNAME" bash <<< "$cmd")"; then
-    echo "$1//error/$prompt"
+    echo -e "$1\x1e\x1eerror\x1e$prompt"
   elif [ "$prompt" != " master ✔" ]; then
-    echo "$1//success/$prompt"
+    echo -e "$1\x1e\x1esuccess\x1e$prompt"
   fi
 }
 
@@ -71,8 +71,8 @@ status() {
       case "$line" in
         /)   ;;
         //*) prompt "${line:2}" ;;
-        /*)  echo "${line:1}//error/Not installed" ;;
-        *)   echo "${line}//warn/Unprovisioned"; prompt "${line}" ;;
+        /*)  echo -e "${line:1}\x1e\x1eerror\x1eNot installed" ;;
+        *)   echo -e "${line}\x1e\x1ewarn\x1eUnprovisioned"; prompt "${line}" ;;
       esac
     done
 }
