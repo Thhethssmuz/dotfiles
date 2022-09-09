@@ -6,10 +6,10 @@ set -euo pipefail
 
 
 list() {
-  if [ -d "$USERHOME"/.local/lib/node_modules ]; then
-    find "$USERHOME"/.local/lib/node_modules/{,@*/} -mindepth 1 -maxdepth 1 -type d | \
-      grep -v "@[^/]*$" | \
+  if [ -d "$USERHOME"/.local/lib/node_modules/ ]; then
+    find "$USERHOME"/.local/lib/node_modules/ -mindepth 1 -maxdepth 2 -type d | \
       sed "s|$USERHOME/.local/lib/node_modules/||" | \
+      grep "^\(@[^\/]*\/\)\?[^@][^/]*$" | \
       sed 's/$/\.npm/'
   fi
 }
