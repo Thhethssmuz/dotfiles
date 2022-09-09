@@ -14,7 +14,7 @@ import System.FilePath.Posix
 import XMonad
 import XMonad.Prompt
 import XMonad.Core
-import XMonad.Util.Run
+import XMonad.Util.Run hiding (getInput)
 
 -------------------------------------------------------------------------------
 -- Calc
