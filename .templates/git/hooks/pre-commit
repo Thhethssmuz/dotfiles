@@ -55,16 +55,16 @@ fi
 
 # run all staged files through git diff --check
 # catches whitespace errors and leftover conflict markers
-check "*" git check
+check ".*" git check
 
 # run all staged .js files through eslint
-check "*\.js" eslint
+check ".*\.js" eslint
 
 # run all staged .json files through jq
-check "*\.json" jq empty
+check ".*\.json" jq empty
 
 # run all staged .sh files through shellcheck
-check "*\.sh" shellcheck -x
+check ".*\.sh" shellcheck -x
 
 if $FAIL; then
   echo "fix errors and try again or commit with --no-verify to ignore errors"

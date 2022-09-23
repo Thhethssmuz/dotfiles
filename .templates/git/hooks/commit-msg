@@ -9,7 +9,7 @@ if hash hunspell 2>/dev/null; then
 
     HIGHLIGHTED=$( \
       grep -v '^#' "$1" | \
-      egrep -w "${WORDS}" --color=always -A 100 -B 100 | \
+      grep -E -w "${WORDS}" --color=always -A 100 -B 100 | \
       sed 's/\x1b\[m/\x1b\[1;30m/g')
 
     echo -e "Possible spelling errors found in commit message:"

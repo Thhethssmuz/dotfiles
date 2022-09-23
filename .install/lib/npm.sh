@@ -9,7 +9,7 @@ list() {
   if [ -d "$USERHOME"/.local/lib/node_modules/ ]; then
     find "$USERHOME"/.local/lib/node_modules/ -mindepth 1 -maxdepth 2 -type d | \
       sed "s|$USERHOME/.local/lib/node_modules/||" | \
-      grep "^\(@[^\/]*\/\)\?[^@][^/]*$" | \
+      grep "^\(@[^/]*/\)\?[^@][^/]*$" | \
       sed 's/$/\.npm/'
   fi
 }
