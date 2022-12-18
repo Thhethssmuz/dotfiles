@@ -231,7 +231,7 @@ gimp: gimp.pac
 libreoffice: libreoffice-fresh.pac
 musescore: midi musescore.pac
 kvm: qemu.pac ovmf.pac
-reaper: reaper-bin.aur carla.pac
+reaper: reaper.pac carla.pac
 redshift: redshift.pac redshift.cfg redshift.usr
 signal: signal-desktop.pac
 steam: steam.pac steam-fonts.aur
