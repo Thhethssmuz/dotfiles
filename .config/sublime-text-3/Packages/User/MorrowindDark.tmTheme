@@ -21,6 +21,8 @@
         <string>#222222</string>
         <key>selection</key>
         <string>#555555</string>
+        <key>highlight</key>
+        <string>#ffffff</string>
       </dict>
     </dict>
     <dict>
