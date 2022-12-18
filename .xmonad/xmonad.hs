@@ -327,11 +327,13 @@ myManageHook
       , resource  =? "guake"       --> doFloat
       , className =? "stalonetray" --> doIgnore
       --, isSticky                   --> doIgnore
+      , isAbove                    --> doFloat
       , manageDocks
       ])
   <+> manageHook def
-  --where
-  --  isSticky = isInProperty "_NET_WM_STATE" "_NET_WM_STATE_STICKY"
+  where
+   -- isSticky = isInProperty "_NET_WM_STATE" "_NET_WM_STATE_STICKY"
+   isAbove = isInProperty "_NET_WM_STATE" "_NET_WM_STATE_ABOVE"
 
 -------------------------------------------------------------------------------
 -- Handle event hooks
