@@ -111,7 +111,7 @@ virtual: \
 base: base.pac linux dbus pacman systemd secret base-tools -.mnt boot.mnt keymap.src timezone.src
 
 dbus: dbus.pac
-gpg: gnupg.pac gpg-agent.usc gpg-agent-browser.usc gpg-agent-extra.usc gpg-agent-ssh.usc
+gpg: gnupg.pac gpg-agent-ssh.usc
 linux: linux.pac linux-firmware.pac
 pacman: pacman.pac pacman-contrib.pac reflector.pac mirrorupgrade.cfg
 systemd: logind.cfg systemd.pac
