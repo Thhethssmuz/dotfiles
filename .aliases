@@ -34,7 +34,7 @@ alias pacman='pacman --color=auto'
 
 # misc
 alias chromium='chromium --proxy-pac-url="$(~/.ssh/genpac)"'
-alias musescore='musescore -x1'
+alias musescore='musescore3 -x1'
 alias mutt='neomutt'
 alias nautilus='nautilus --no-desktop'
 alias nc='ncmpcpp'

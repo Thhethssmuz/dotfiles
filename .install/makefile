@@ -229,7 +229,7 @@ discord: discord.pac
 evince: evince.pac
 gimp: gimp.pac
 libreoffice: libreoffice-fresh.pac
-musescore: midi musescore.pac
+musescore: midi musescore3.aur
 kvm: qemu.pac ovmf.pac
 reaper: reaper.pac carla.pac
 redshift: redshift.pac redshift.cfg redshift.usr
