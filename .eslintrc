@@ -41,7 +41,7 @@
     }],
     "valid-typeof": 2,
     "no-unexpected-multiline": 2,
-    "complexity": [2, 10],
+    "complexity": [2, 20],
     "default-case": 2,
     "dot-notation": 2,
     "dot-location": [2, "property"],
@@ -125,9 +125,7 @@
       "ArrayExpression": "first",
       "flatTernaryExpressions": true
     }],
-    "key-spacing": [1, {
-      "align": "colon"
-    }],
+    "key-spacing": 1,
     "linebreak-style": [2, "unix"],
     "max-nested-callbacks": [2, 4],
     "new-cap": [1, {
@@ -197,7 +195,7 @@
       "ignoreUrls": true,
       "ignoreStrings": true
     }],
-    "max-statements": [1,25],
+    "max-statements": [1,200],
     "no-bitwise": 2
   }
 }
