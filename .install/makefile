@@ -234,7 +234,7 @@ kvm: qemu.pac ovmf.pac
 reaper: reaper.pac carla.pac
 redshift: redshift.pac redshift.cfg redshift.usr
 signal: signal-desktop.pac
-steam: steam.pac steam-fonts.aur
+steam: steam.pac steam-fonts.aur lib32-freetype2.pac
 sublime-text: sublime-text-dev.aur package-control.src
 thunar: thunar.pac
 thunderbird: thunderbird.pac
