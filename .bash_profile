@@ -1,9 +1,9 @@
 #!/bin/bash
 
-source ~/.prompt
-source ~/.exports
-source ~/.aliases
-source ~/.functions
+for file in ~/.{prompt,exports,aliases,functions}; do
+  source "$file"
+  [ -f "$file.$HOSTNAME" ] && source "$file.$HOSTNAME"
+done
 
 # history
 export HISTCONTROL=ignoreboth:erasedupes
