@@ -57,11 +57,11 @@ archbox: \
 	blender discord evince gimp libreoffice musescore reaper redshift signal steam sublime-text thunar virtualbox vlc weechat \
 	dev docker mkvm
 
-archtop: \
+sia-clt: \
 	base intel-ucode.pac mesa input touchpad fs \
 	network networkd wifi dropbox \
 	audio pipewire pulse-tools desktop misc browsers \
-	evince gimp libreoffice musescore redshift sublime-text thunar virtualbox vlc weechat \
+	evince gimp libreoffice musescore redshift sublime-text thunar thunderbird virtualbox vlc weechat \
 	dev docker mkvm mysql sqlite
 
 sia-11: \
