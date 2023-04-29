@@ -125,6 +125,7 @@ base-tools: file.pac grep.pac gzip.pac patch.pac sudo.pac sed.pac which.pac
 
 nvidia: nvidia.pac nvidia-utils.pac lib32-nvidia-utils.pac nvidia-settings.pac initial-nvidia-xorg.src
 mesa: mesa.pac lib32-mesa.pac xf86-video-intel.pac arandr.pac
+radeon: mesa.pac lib32-mesa.pac xf86-video-amdgpu.pac vulkan-radeon.pac lib32-vulkan-radeon.pac
 input: libevdev.pac xf86-input-evdev.pac
 touchpad: xf86-input-synaptics.pac
 fs: dosfstools.pac ntfs-3g.pac mtpfs.pac gvfs-mtp.pac
