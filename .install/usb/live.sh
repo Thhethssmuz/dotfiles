@@ -80,6 +80,9 @@ reflector \
   --country 'United Kingdom' \
   --save /etc/pacman.d/mirrorlist
 
+# update keyring in the live environment, in case of older live medium
+pacman -S --noconfirm archlinux-keyring
+
 # bootstrap
 pacstrap /mnt/arch base base-devel linux linux-firmware
 genfstab -U -p /mnt/arch >> /mnt/arch/etc/fstab
