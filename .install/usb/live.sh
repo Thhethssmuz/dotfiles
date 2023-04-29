@@ -29,9 +29,14 @@ sgdisk \
   -p "$DISK"
 
 # encrypt main partition
-cryptsetup -v --cipher aes-xts-plain64 --key-size 512 --hash sha512 \
-  --use-random luksFormat "${PARTITION2}"
+cryptsetup -v \
+  --cipher aes-xts-plain64 \
+  --key-size 512 \
+  --hash sha512 \
+  --use-random \
+  luksFormat "${PARTITION2}"
 cryptsetup luksOpen "${PARTITION2}" lvm
+cryptsetup --perf-no_write_workqueue --perf-no_read-workqueue --persistent lvm
 
 # create physical volume on top of luks
 pvcreate /dev/mapper/lvm
