@@ -59,7 +59,7 @@ archbox: \
 
 sia-clt: \
 	base intel-ucode.pac mesa input touchpad fs \
-	network networkd wifi dropbox \
+	network networkd sshd nxserver wifi dropbox \
 	audio pipewire pulse-tools desktop misc browsers \
 	evince gimp libreoffice musescore redshift sublime-text thunar thunderbird virtualbox vlc weechat \
 	dev docker mkvm mysql sqlite
