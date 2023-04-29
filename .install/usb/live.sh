@@ -42,28 +42,28 @@ cryptsetup --perf-no_write_workqueue --perf-no_read-workqueue --persistent lvm
 pvcreate /dev/mapper/lvm
 
 # create volume group from physical volume
-vgcreate waifu /dev/mapper/lvm
+vgcreate porn /dev/mapper/lvm
 
 # create logical partitions on the volume group
 if [ -n "$SWAP" ]; then
-  lvcreate -L "$SWAP" -n swap waifu
+  lvcreate -L "$SWAP" -n swap porn
 fi
-lvcreate -l 100%free -n root waifu
+lvcreate -l 100%free -n root porn
 
 # create filesystems
 mkfs.fat -F32 "${PARTITION1}"
-mkfs.ext4 /dev/mapper/waifu-root
+mkfs.ext4 /dev/mapper/porn-root
 if [ -n "$SWAP" ]; then
-  mkswap /dev/mapper/waifu-swap
+  mkswap /dev/mapper/porn-swap
 fi
 
 # mount filesystems
 mkdir -p /mnt/arch
-mount /dev/mapper/waifu-root /mnt/arch
+mount /dev/mapper/porn-root /mnt/arch
 mkdir -p /mnt/arch/boot
 mount "${PARTITION1}" /mnt/arch/boot
 if [ -n "$SWAP" ]; then
-  swapon /dev/mapper/waifu-swap
+  swapon /dev/mapper/porn-swap
 fi
 
 # mount encrypted partition on usb
@@ -96,9 +96,9 @@ arch-chroot /mnt/arch /root/chroot.sh "$PARTITION2" "$CPU_PROFILE" "$HOSTNAME"
 umount -R /mnt/arch
 umount /mnt/crypton
 if [ -n "$SWAP" ]; then
-  swapoff /dev/mapper/waifu-swap
+  swapoff /dev/mapper/porn-swap
 fi
-vgchange -a n waifu
+vgchange -a n porn
 cryptsetup close lvm
 cryptsetup close crypton
 

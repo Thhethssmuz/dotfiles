@@ -52,7 +52,7 @@ linux /vmlinuz-linux
 $([ "$CPU_PROFILE" != "intel" ] && echo '#' || echo '')initrd /intel-ucode.img
 $([ "$CPU_PROFILE" != "amd" ] && echo '#' || echo '')initrd /amd-ucode.img
 initrd /initramfs-linux.img
-options cryptdevice=${PARTITION2}:waifu resume=/dev/mapper/waifu-swap root=/dev/mapper/waifu-root quiet rw
+options cryptdevice=${PARTITION2}:porn resume=/dev/mapper/porn-swap root=/dev/mapper/porn-root quiet rw
 EOF
 
 # bootloader conf
