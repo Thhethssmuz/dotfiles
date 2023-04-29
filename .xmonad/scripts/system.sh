@@ -56,12 +56,55 @@ logout() {
   hdotool key 'shift+alt+F12'
 }
 
+restart_xmonad() {
+  # shellcheck disable=SC2009
+  if ps aux | grep "$HOME/.xmonad/scripts/status-bar.sh" | grep -v grep >/dev/null; then
+    ps aux | \
+      grep "$HOME/.xmonad/scripts/status-bar.sh" | \
+      grep -v grep | \
+      awk '{print $2}' | \
+      xargs kill
+  fi
+  xmonad --restart
+}
 compile_xmonad() {
   ghc --make ~/.xmonad/xmonad.hs -threaded -i"$HOME/.xmonad/lib" -dynamic \
     -fforce-recomp -o ~/.xmonad/xmonad-x86_64-linux
 }
 rexmonad() {
-  compile_xmonad && xmonad --restart
+  compile_xmonad && restart_xmonad
+}
+
+rescreen() {
+  SCREENS="$(while read -r output hex; do
+    printf "%s" "$output $(xxd -r -p <<< "$hex");"
+  done < <(xrandr -q --verbose | awk '
+    !/^[ \t]/ {if (output && hex) print output, hex;output=$1;hex=""}
+    /[:.]/ && h {sub(/.*000000f[ce]00/, "", hex);hex=substr(hex, 0, 26) "0a";sub(/0a.*/, "", hex);h=0}
+    h {sub(/[ \t]+/, ""); hex=hex $0}
+    /EDID.*:/ {h=1}
+    END {if (output && hex) print output, hex}'))"
+
+  echo "$SCREENS"
+  case "$SCREENS" in
+    'eDP1 N140HCR-GA2;DP2 Dell U4919DW;')
+      xrandr --output DP2 --mode 5120x1440 --primary
+      xrandr --fb 5120x1440
+      xrandr --setmonitor DP2-V1 2560/0x1440/1+0+0 DP2
+      xrandr --setmonitor DP2-V2 2560/1x1440/1+2560+0 none
+      restart_xmonad
+      "$HOME"/.xmonad/scripts/keyboard.sh --set 'no(dvorak)'
+      ;;
+
+    'eDP1 N140HCR-GA2;')
+      xrandr --delmonitor DP2-V2
+      xrandr --delmonitor DP2-V1
+      xrandr --fb 1920x1080
+      restart_xmonad
+      ;;
+
+    *) echo 'unknown screen layout' ;;
+  esac
 }
 
 
@@ -82,6 +125,8 @@ OPTIONS:
       --logout
       --restart
       --poweroff
+      --rescreen           reset sreen layout
+      --rex                restart xmonad
       --xmonad             recomplie xmonad
       --rexmonad           recompile and restart xmonad
 
@@ -109,6 +154,8 @@ main() {
       --logout)   cmd="logout";;
       --restart)  cmd="restart";;
       --poweroff) cmd="poweroff";;
+      --rescreen) cmd="rescreen";;
+      --rex)      cmd="restart_xmonad";;
       --xmonad)   cmd="compile_xmonad";;
       --rexmonad) cmd="rexmonad";;
 

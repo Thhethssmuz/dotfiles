@@ -55,14 +55,25 @@ HEIGHT=22
 SPACE=20
 
 # screen where the menu shall appear
-SCREEN="$([[ "$(hostname)" = "sia-11" ]] && echo "0" || echo "1")"
+SCREEN=0
+
+# screen / resolution
+case "$(xrandr --listmonitors | tail -n+2 | awk '{print $1 $3}' | tr '\n' ' ')" in
+  0:2560/0x1440/1+0+0\ 1:2560/1x1440/1+2560+0\ 2:1920/310x1080/170+0+0\ )
+    SCREEN=0
+    RES='5120x1440'
+    ;;
+
+  *)
+    if [ "$SCREEN" == '0' ]; then
+      RES="$(xdpyinfo | grep dimensions | awk '{print $2}')"
+    else
+      RES="$(xrandr | grep -w connected | grep -o '[0-9]\+x[0-9]\+' | head -n"$SCREEN" | tail -n1)"
+    fi
+    ;;
+esac
 
 # get screen res
-if [ "$SCREEN" == '0' ]; then
-  RES="$(xdpyinfo | grep dimensions | awk '{print $2}')"
-else
-  RES="$(xrandr | grep -w connected | grep -o '[0-9]\+x[0-9]\+' | head -n"$SCREEN" | tail -n1)"
-fi
 RESX="$(awk -F'x' '{print $1}' <<< "$RES")"
 RESY="$(awk -F'x' '{print $2}' <<< "$RES")"
 

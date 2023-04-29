@@ -65,6 +65,7 @@ main = do
   home   <- fmap (flip (++) "/") getHomeDirectory
   left   <- spawnPipe $ home ++ ".xmonad/scripts/dzen-bar-left.sh"
   middle <- spawnPipe $ home ++ ".xmonad/scripts/dzen-bar-middle.sh"
+  right  <- spawnPipe $ home ++ ".xmonad/scripts/status-bar.sh"
   hSetEncoding middle utf8
 
   notifd <- runNotifDaemon $ myNotifConf home middle
