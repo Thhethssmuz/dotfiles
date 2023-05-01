@@ -11,6 +11,7 @@ ignore() {
 
 
 check-updates() {
+  # paru -Qau
   local url="https://aur.archlinux.org/rpc/?v=5&type=multiinfo"
 
   for pac in $(pacman -Qqm); do
