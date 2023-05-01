@@ -25,7 +25,7 @@ remove() {
 
 status() {
   if [ ! -f "$(locate "$TMPL")" ]; then
-    echo "initial-nvidia-xorg.src/install/error/Missing"
+    echo -e "initial-nvidia-xorg.src\x1einstall\x1eerror\x1eMissing"
   fi
 }
 

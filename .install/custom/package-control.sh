@@ -19,7 +19,7 @@ remove() {
 
 status() {
   if ! [ -f "$PKGDIR/Package Control.sublime-package" ]; then
-    echo "package-control.src/install/error/Not installed"
+    echo -e "package-control.src\x1einstall\x1eerror\x1eNot installed"
   fi
 }
 

@@ -22,7 +22,7 @@ remove() {
 
 status() {
   if ! hash apacman 2>/dev/null; then
-    echo "apacman.src/install/error/Not installed"
+    echo -e "apacman.src\x1einstall\x1eerror\x1eNot installed"
   fi
 }
 

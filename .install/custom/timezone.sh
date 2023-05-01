@@ -30,7 +30,7 @@ status() {
   for key in "${!TIMEZONE_SETTINGS[@]}"; do
     actual="$(timedatectl show | (grep "^${key}=" || true) | sed 's/^[^=]*=//')"
     if [ "$actual" != "${TIMEZONE_SETTINGS[$key]}" ]; then
-      echo "timezone.src/install/error/${key}"
+      echo -e "timezone.src\x1einstall\x1eerror\x1e${key}"
     fi
   done
 }

@@ -27,13 +27,13 @@ status() {
   local actual
   for key in "${!DCONF_SETTINGS[@]}"; do
     if ! hash dconf 2>/dev/null; then
-      echo "dconf.src/install/error/${key}"
+      echo -e "dconf.src\x1einstall\x1eerror\x1e${key}"
       continue
     fi
 
     actual="$(dconf read "$key")"
     if [ "$actual" != "${DCONF_SETTINGS[$key]}" ]; then
-      echo "dconf.src/install/error/${key}"
+      echo -e "dconf.src\x1einstall\x1eerror\x1e${key}"
     fi
   done
 }

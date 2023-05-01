@@ -46,9 +46,9 @@ status() {
   [ -f "$DICTDIR/nn_NO.dic" ] && ((i+=1))
 
   if [ "$i" -eq "0" ]; then
-    echo "hunspell-no.src/install/error/Not installed"
+    echo -e "hunspell-no.src\x1einstall\x1eerror\x1eNot installed"
   elif [ "$i" -lt "4" ]; then
-    echo "hunspell-no.src/install/error/Only partially installed"
+    echo -e "hunspell-no.src\x1einstall\x1eerror\x1eOnly partially installed"
   fi
 }
 

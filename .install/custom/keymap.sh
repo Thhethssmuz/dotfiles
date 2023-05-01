@@ -29,7 +29,7 @@ status() {
   for key in "${!KEYMAP_SETTINGS[@]}"; do
     actual="$(localectl status | (grep "^\s*${key}:" || true) | sed 's/^[^:]*:\s*//')"
     if [ "$actual" != "${KEYMAP_SETTINGS[$key]}" ]; then
-      echo "keymap.src/install/error/${key}"
+      echo -e "keymap.src\x1einstall\x1eerror\x1e${key}"
     fi
   done
 }

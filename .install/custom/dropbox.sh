@@ -20,12 +20,12 @@ remove() {
 
 status() {
   if [ "$(cat /proc/sys/fs/inotify/max_user_watches)" != "100000" ]; then
-    echo "dropbox.src/install/error/Inotify watch limit not configured"
+    echo -e "dropbox.src\x1einstall\x1eerror\x1eInotify watch limit not configured"
   fi
 
   # shellcheck disable=SC2012
   if ! [ -d "$HOME/.dropbox-dist" ] || ! [ "$(ls -ld "$HOME"/.dropbox-dist | cut -c-10)" = "d---------" ]; then
-    echo "dropbox.src/install/error/Auto update not disabled"
+    echo -e "dropbox.src\x1einstall\x1eerror\x1eAuto update not disabled"
   fi
 }
 

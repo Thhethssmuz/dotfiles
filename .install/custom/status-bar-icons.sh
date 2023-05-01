@@ -21,9 +21,9 @@ status() {
   done
 
   if [ "$i" -eq "0" ]; then
-    echo "status-bar-icons.src/install/error/Not installed"
+    echo -e "status-bar-icons.src\x1einstall\x1eerror\x1eNot installed"
   elif [ "$i" -lt "8" ]; then
-    echo "status-bar-icons.src/install/error/Only partially installed"
+    echo -e "status-bar-icons.src\x1einstall\x1eerror\x1eOnly partially installed"
   fi
 }
 
