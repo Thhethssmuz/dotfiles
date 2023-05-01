@@ -229,6 +229,7 @@ opera: opera.pac
 blender: blender.pac
 discord: discord.pac
 evince: evince.pac
+gamemode: gamemode.pac lib32-gamemode.pac
 gimp: gimp.pac
 libreoffice: libreoffice-fresh.pac
 musescore: midi musescore3.aur
@@ -236,7 +237,7 @@ kvm: qemu.pac ovmf.pac
 reaper: reaper.pac carla.pac
 redshift: redshift.pac redshift.cfg redshift.usr
 signal: signal-desktop.pac
-steam: steam.pac steam-fonts.aur lib32-freetype2.pac
+steam: steam.pac ttf-liberation.pac lib32-freetype2.pac gamemode
 sublime-text: sublime-text-dev.aur package-control.src
 thunar: thunar.pac
 thunderbird: thunderbird.pac
