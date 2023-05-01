@@ -1,0 +1,19 @@
+# /etc/X11/xorg.conf.d/10-monitor.conf
+
+Section "Monitor"
+  Identifier "DisplayPort-1"
+  Option "PreferredMode" "1920x1080_60.00"
+EndSection
+
+Section "Monitor"
+  Identifier "DisplayPort-0"
+  Option "Primary" "true"
+  Option "PreferredMode" "1920x1080_60.00"
+  Option "RightOf" "DisplayPort-1"
+EndSection
+
+Section "Monitor"
+  Identifier "HDMI-A-1"
+  Option "PreferredMode" "1920x1080_60.00"
+  Option "RightOf" "DisplayPort-0"
+EndSection

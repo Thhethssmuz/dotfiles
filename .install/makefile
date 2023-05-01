@@ -51,8 +51,8 @@ iso:
 
 archbox: \
 	media-m.amt \
-	base nvidia input fs mouse-accel \
-	network network-manager sshd dropbox \
+	base amd-ucode.pac radeon input fs mouse-accel archbox-monitors.cfg \
+	network networkd sshd dropbox \
 	audio pipewire pulse-tools desktop compton misc browsers \
 	blender discord evince gimp libreoffice musescore reaper redshift signal steam sublime-text thunar virtualbox vlc weechat \
 	dev docker mkvm
@@ -108,7 +108,7 @@ virtual: \
 # Base
 #
 
-base: base.pac linux dbus pacman systemd secret base-tools -.mnt boot.mnt keymap.src timezone.src
+base: base.pac base-devel.pac linux dbus pacman systemd secret base-tools -.mnt boot.mnt keymap.src timezone.src
 
 dbus: dbus.pac
 gpg: gnupg.pac gpg-agent-ssh.usc
