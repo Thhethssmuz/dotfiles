@@ -50,7 +50,7 @@ iso:
 #
 
 archbox: \
-	media-m.amt \
+	mnt-m.amt \
 	base amd-ucode.pac radeon input fs mouse-accel archbox-monitors.cfg \
 	network networkd sshd dropbox \
 	audio pipewire pulse-tools desktop compton misc browsers \
