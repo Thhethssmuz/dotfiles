@@ -27,8 +27,12 @@ echo "KEYMAP=dvorak" > /etc/vconsole.conf
 echo "Set root password"
 passwd
 
+# install network tools useful for the new environment, can be removed later if
+# not required
+pacman -S --noconfirm iwd inetutils dhcpcd
+
 # install lvm2 before we run mkinitcpio
-pacman -S --noconfirm iwd inetutils lvm2
+pacman -S --noconfirm lvm2
 
 # add mkinitcpio hooks
 if ! grep '^HOOKS=.*encrypt' /etc/mkinitcpio.conf; then
@@ -38,7 +42,7 @@ mkinitcpio -P
 
 if [ "$CPU_PROFILE" = "intel" ]; then
   pacman -S intel-ucode
-else if [ "$CPU_PROFILE" = "amd" ]; then
+elif [ "$CPU_PROFILE" = "amd" ]; then
   pacman -S amd-ucode
 fi
 
