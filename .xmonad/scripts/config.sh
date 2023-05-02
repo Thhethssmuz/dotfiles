@@ -64,6 +64,11 @@ case "$(xrandr --listmonitors | tail -n+2 | awk '{print $1 $3}' | tr '\n' ' ')" 
     RES='5120x1440'
     ;;
 
+  0:1920/597x1080/336+1920+0\ 1:1920/598x1080/336+0+0\ 2:1920/598x1080/336+3840+0\ )
+    SCREEN=1
+    RES='1920x1080'
+    ;;
+
   *)
     if [ "$SCREEN" == '0' ]; then
       RES="$(xdpyinfo | grep dimensions | awk '{print $2}')"

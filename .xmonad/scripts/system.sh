@@ -103,6 +103,9 @@ rescreen() {
       restart_xmonad
       ;;
 
+    'DisplayPort-0 BenQ XL2720T;DisplayPort-1 BenQ GW2760;HDMI-A-1 BenQ GW2760;')
+      ;;
+
     *) echo 'unknown screen layout' ;;
   esac
 }
