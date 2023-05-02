@@ -80,6 +80,8 @@ reflector \
   --country 'United Kingdom' \
   --save /etc/pacman.d/mirrorlist
 
+pacman -Sy
+
 # update keyring in the live environment, in case of older live medium
 pacman -S --noconfirm archlinux-keyring
 
