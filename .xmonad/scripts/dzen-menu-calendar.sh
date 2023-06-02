@@ -8,7 +8,7 @@ title() {
 
 slave() {
   TERM=rxvt-unicode-256color cal -3w --color=always | \
-    sed -e "s/\x1b\[7m/^fg($COLOR1)/" -e "s/\x1b\[27m/^fg()/"
+    sed -e "s/\x1b\\[7m/^fg($COLOR1)/" -e "s/\x1b\\[0m/^fg()/"
 }
 
 main() {
@@ -23,7 +23,7 @@ main() {
     -ta c \
     -sa c \
     -e 'onstart=uncollapse;button3=exit;button4=scrollup;button5=scrolldown' \
-    $@
+    "$@"
 }
 
-$@
+"$@"
