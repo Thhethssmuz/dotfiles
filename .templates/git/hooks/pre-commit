@@ -57,8 +57,9 @@ fi
 # catches whitespace errors and leftover conflict markers
 check ".*" git check
 
-# run all staged .js files through eslint
+# run all staged .js files through eslint and prettier
 check ".*\.js" eslint
+check ".*\.js" prettier --check --single-quote --no-bracket-spacing
 
 # run all staged .json files through jq
 check ".*\.json" jq empty
