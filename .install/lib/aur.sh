@@ -11,28 +11,19 @@ ignore() {
 
 
 check-updates() {
-  # paru -Qau
-  local url="https://aur.archlinux.org/rpc/?v=5&type=multiinfo"
-
-  for pac in $(pacman -Qqm); do
-    url="$url&arg\\[\\]=$pac"
+  paru -Qau | while read -r line; do
+    echo "aur ${line}"
   done
-
-  curl -s "$url" | jshon -e results -a -e Name -u -p -e Version -u | \
-    sed 's/^$/-/' | paste -s -d ' \n' | sort | \
-    comm -23 - <(expac -Q '%n %v' | sort) | while read -r line; do
-      echo "aur ${line/ */} $(expac -Q '%v' "${line/ */}") -> ${line/* /}"
-    done
 }
 
 update() {
-  apacman -Syu --auronly
+  paru -Syua
 }
 
 
 install() {
   sed 's/\.aur$//' | xargs --no-run-if-empty \
-    apacman -S --noconfirm --needed
+    paru -S --skipreview
 }
 
 explicit() {
