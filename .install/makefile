@@ -219,7 +219,7 @@ browsers: chromium firefox opera
 
 chromium: chromium.pac
 firefox: firefox.pac
-opera: opera.pac
+opera: opera.pac opera-ffmpeg-codecs.pac
 
 
 #
