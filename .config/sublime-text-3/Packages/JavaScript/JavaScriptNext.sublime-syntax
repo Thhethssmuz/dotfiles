@@ -959,7 +959,7 @@ contexts:
     - match: '\\(x[\da-fA-F]{2}|u[\da-fA-F]{4}|.)'
       scope: constant.character.escape.js
   support:
-    - match: \b(Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|BigInt|BigInt64Array|BigUint64Array|Int8Array|Int16Array|Int32Array|Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array)\b
+    - match: \b(Array|Boolean|Date|Function|Map|Math|Number|Object|Promise|Proxy|RegExp|Set|String|WeakMap|Float32Array|Float64Array|BigInt|BigInt64Array|BigUint64Array|Int8Array|Int16Array|Int32Array|Uint8Array|Uint8ClampedArray|Uint16Array|Uint32Array)\b
       scope: support.class.builtin.js
     - match: (?<!\.)\b(decodeURI|decodeURIComponent|encodeURI|encodeURIComponent|escape|eval|isFinite|isNaN|parseFloat|parseInt|unescape)\b
       scope: support.function.js
