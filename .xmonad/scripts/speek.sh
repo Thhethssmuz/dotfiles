@@ -1,12 +1,12 @@
 #!/bin/bash
 
-ESPEED=330
+ESPEED=350
 ELANG=en
 TLANG=eng
 
 speek() {
   local selected
-  selected="$(xsel && echo)"
+  selected="$(xsel | tr -dc '[:print:][æøå]' && echo)"
 
   if [ -z "$selected" ]; then
 
