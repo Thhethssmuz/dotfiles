@@ -70,3 +70,7 @@ extract () {
     echo "'$1' is not a valid file!"
   fi
 }
+
+qr() {
+  zbarimg --raw --quiet <(scrot -s - 2>/dev/null)
+}
