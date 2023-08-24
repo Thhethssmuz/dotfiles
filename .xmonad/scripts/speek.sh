@@ -6,10 +6,9 @@ TLANG=eng
 
 speek() {
   local selected
-  selected="$(xsel | tr -dc '[:print:][æøå]' && echo)"
+  selected="$(xsel | tr -dc '[:print:][æøåÆØÅ]' && echo)"
 
   if [ -z "$selected" ]; then
-
     scrot -s - 2>/dev/null | \
       tesseract -l "$TLANG" - - 2>/dev/null | \
       espeak --stdin -s "$ESPEED" -v "$ELANG"
