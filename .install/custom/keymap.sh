@@ -4,9 +4,9 @@ set -euo pipefail
 declare -A KEYMAP_SETTINGS=(\
   ["System Locale"]="LANG=en_GB.UTF-8" \
   ["VC Keymap"]="dvorak" \
-  ["X11 Layout"]="dvorak" \
+  ["X11 Layout"]="no" \
   ["X11 Model"]="pc104" \
-  ["X11 Variant"]="no(dvorak)" \
+  ["X11 Variant"]="dvorak" \
   )
 
 order() {
@@ -15,7 +15,7 @@ order() {
 
 install() {
   sudo localectl set-locale LANG=en_GB.UTF-8
-  sudo localectl set-x11-keymap dvorak pc104 "no(dvorak)"
+  sudo localectl set-x11-keymap no pc104 dvorak
   sudo localectl set-keymap --no-convert dvorak
   echo "KEYMAP=dvorak" | sudo tee /etc/vconsole.conf > /dev/null
 }
