@@ -9,15 +9,10 @@ speek() {
   selected="$(xsel | tr -dc '[:print:][æøåÆØÅ]' && echo)"
 
   if [ -z "$selected" ]; then
-    scrot -s - 2>/dev/null | \
-      tesseract -l "$TLANG" - - 2>/dev/null | \
-      espeak --stdin -s "$ESPEED" -v "$ELANG"
-
-  else
-
-    espeak --stdin -s "$ESPEED" -v "$ELANG" <<< "$selected"
-
+    selected="$(scrot -s - 2>/dev/null | tesseract -l "$TLANG" - - 2>/dev/null)"
   fi
+
+  espeak --stdin -s "$ESPEED" -v "$ELANG" <<< "$selected "
 }
 
 stop() {
