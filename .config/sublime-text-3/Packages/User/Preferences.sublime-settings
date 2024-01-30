@@ -29,9 +29,7 @@
 	"font_size": 13,
 	"ignored_packages":
 	[
-		"Markdown",
 		"Rust",
-		"TypeScript Syntax",
 		"Vintage",
 	],
 	"ignored_words":

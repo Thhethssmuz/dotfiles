@@ -2,7 +2,6 @@
 	"bootstrapped": true,
 	"in_process_packages":
 	[
-		"TypeScript Syntax",
 	],
 	"installed_packages":
 	[
@@ -30,7 +29,6 @@
 		"Stylus",
 		"Stylus-Snippets",
 		"TOML",
-		"TypeScript Syntax",
 		"WordingStatus",
 	],
 }
