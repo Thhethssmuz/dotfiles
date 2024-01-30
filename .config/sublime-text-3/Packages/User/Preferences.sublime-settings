@@ -54,4 +54,5 @@
 	"use_tab_stops": false,
 	"word_wrap": false,
 	"wrap_width": 100000,
+	"index_files": false,
 }
