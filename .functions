@@ -5,8 +5,8 @@ ff() { find "${@:2}" -type f -name "$1" 2>/dev/null; }
 ft() { tree -a -P "$@" --prune --dirsfirst; }
 fs() { ff "$1" "${@:3}" | xargs grep "$2" -n --color=auto 2>/dev/null; }
 
-jsf() { ff "*.js" "$@" | grep -E -v "node_modules|bower_components|lib-cov|coverage|\.min"; }
-jst() { ft "*.js" -I "node_modules|bower_components|lib-cov|coverage|*.min*" "$@"; }
+jsf() { ff "*.js" "$@" | grep -E -v "node_modules|bower_components|dist|lib-cov|coverage|\.min"; }
+jst() { ft "*.js" -I "node_modules|bower_components|dist|lib-cov|coverage|*.min*" "$@"; }
 jss() { jsf "${@:2}" | xargs egrep "$1" -n --color=auto 2>/dev/null; }
 
 # version of ll with git prompt status for top-level git directories
