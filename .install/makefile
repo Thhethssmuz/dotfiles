@@ -215,11 +215,11 @@ sys-info: lshw.pac lsof.pac
 # Browsers
 #
 
-browsers: chromium firefox opera
+browsers: chromium firefox
 
 chromium: chromium.pac
 firefox: firefox.pac
-opera: opera.pac opera-ffmpeg-codecs.pac
+opera: opera.aur opera-ffmpeg-codecs.aur
 
 
 #
