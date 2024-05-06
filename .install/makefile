@@ -262,7 +262,8 @@ latex: \
 	texlive-basic.pac texlive-bibtexextra.pac texlive-fontsextra.pac \
 	texlive-formatsextra.pac texlive-games.pac texlive-humanities.pac \
 	texlive-latexextra.pac texlive-mathscience.pac texlive-music.pac \
-	texlive-pictures.pac texlive-pstricks.pac texlive-publishers.pac
+	texlive-pictures.pac texlive-pstricks.pac texlive-publishers.pac \
+	texlive-xetex.pac texlive-langgreek.pac
 pdf: latex pandoc-cli.pac evince # ppp
 json: jq.pac jshon.pac
 dev-tools: git make.pac testssl.sh.pac the_silver_searcher.pac
