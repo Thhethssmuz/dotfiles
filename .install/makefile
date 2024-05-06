@@ -205,7 +205,7 @@ gtk-theme: dconf.pac dconf.src elementary-icon-theme.pac arc-gtk-theme.pac lxapp
 ranger: ranger.pac highlight.pac
 terminals: alacritty.pac
 terminal-tools: bc.pac calc.pac diffutils.pac less.pac lsb-release.pac man-db.pac man-pages.pac nano.pac ncdu.pac pwgen.pac vim.pac yt-dlp.pac zbar.pac
-hunspell: hunspell.pac hunspell-en_gb.pac hunspell-en_us.pac # hunspell-no.src
+hunspell: hunspell.pac hunspell-en_gb.pac hunspell-en_us.pac hunspell-nb.aur
 archive-tools: gzip.pac tar.pac unrar.pac unzip.pac zip.pac p7zip.pac
 image-tools: imagemagick.pac scrot.pac gimp.pac sxiv.pac
 sys-info: lshw.pac lsof.pac
