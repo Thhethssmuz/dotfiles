@@ -30,6 +30,7 @@
 !.aliases
 !.functions
 !.inputrc
+!.k8s-helpers
 
 # Templates
 !.templates
