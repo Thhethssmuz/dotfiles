@@ -1,46 +1,47 @@
 #! /usr/bin/env bash
 
-. ~/.xmonad/scripts/config.sh
+# shellcheck source=/dev/null
+source ~/.xmonad/scripts/config.sh
 
 case $1 in
   notification-audio-next)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf3fd^fn()"
+    echo -en "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)\\uf051^fn()"
     ;;
 
   notification-audio-play)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf357^fn()"
+    echo -en "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)\\uf04b^fn()"
     ;;
 
   notification-audio-previous)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf37c^fn()"
+    echo -en "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)\\uf048^fn()"
     ;;
 
   notification-audio-volume-high)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf123^fn()"
+    echo -en "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)\\uf028^fn()"
     ;;
 
   notification-audio-volume-low)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf3a1^fn()"
+    echo -en "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)\\uf026^fn()"
     ;;
 
   notification-audio-volume-medium)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf131^fn()"
+    echo -en "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)\\uf027^fn()"
     ;;
 
   notification-audio-volume-muted)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf3a2^fn()"
+    echo -en "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)\\uf6a9^fn()"
     ;;
 
   notification-audio-volume-off)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf3a2^fn()"
+    echo -en "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)\\uf6a9^fn()"
     ;;
 
   notification-battery-low)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf295^fn()"
+    echo -en "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)\\uf244^fn()"
     ;;
 
   notification-device-eject)
-    echo -en ""
+    echo -en "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)\\uf052^fn()"
     ;;
 
   notification-device-firewire)
@@ -68,11 +69,11 @@ case $1 in
     ;;
 
   notification-message-email)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf322^fn()"
+    echo -en "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)\\uf0e0^fn()"
     ;;
 
   notification-message-IM)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf2b6^fn()"
+    echo -en "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)\\uf27a^fn()"
     ;;
 
   notification-network-ethernet-connected)
@@ -108,11 +109,11 @@ case $1 in
     ;;
 
   notification-power-disconnected)
-    echo -en ""
+    echo -en "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)\\ue560^fn()"
     ;;
 
   notification-screen-capture)
-    echo -en "^fn(Ionicons:size=$FONT_SIZE)\\uf2ad^fn()"
+    echo -en "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)\\uf030^fn()"
     ;;
 
   *)
