@@ -63,6 +63,26 @@ render_dropbox_indicator() {
   fi
 }
 
+render_seafile_indicator() {
+  if hash seaf-cli 2>/dev/null; then
+
+    echo -n "^ca(1, ~/.xmonad/scripts/dbus.sh menu Toggle Seafile)"
+
+    if ! seaf-cli status >/dev/null 2>&1; then
+      echo -n "^i($HOME/.xmonad/icons/seafile-off.xpm)"
+    else
+      echo -n "^i($HOME/.xmonad/icons/seafile-ok.xpm)"
+    fi
+
+    echo -n "^ca()"
+
+  else
+
+    echo -n "^i($HOME/.xmonad/icons/seafile-off.xpm)"
+
+  fi
+}
+
 render_power_indicator() {
   local status level icon
 
@@ -152,6 +172,7 @@ run() {
   local updates_state="_"
   local volume_state="_"
   local dropbox_state="_"
+  local seafile_state="_"
   local power_state="_"
   local user_state="_ "
 
@@ -161,6 +182,7 @@ run() {
       "$updates_state"
       "$volume_state"
       "$dropbox_state"
+      "$seafile_state"
       "$power_state"
       "$user_state"
     )
@@ -177,11 +199,19 @@ run() {
   ( sleep 2 && update keyboard ) &
   ( sleep 5 && set_update_interval updates 900 ) &
   ( sleep 3 && update volume ) &
+
   if hash dropbox-cli 2>/dev/null; then
     (sleep 4 && set_update_interval dropbox 5 ) &
   else
     (sleep 4 && update dropbox ) &
   fi
+
+  if hash seaf-cli >/dev/null 2>&1; then
+    (sleep 4 && set_update_interval seafile 5 ) &
+  else
+    (sleep 4 && update seafile ) &
+  fi
+
   ( sleep 2 && set_update_interval power 10 ) &
   ( sleep 1 && update user ) &
 
@@ -193,6 +223,7 @@ run() {
       updates)   updates_state=$(render_updates_indicator)   ;;
       volume)    volume_state=$(render_volume_indicator)     ;;
       dropbox)   dropbox_state=$(render_dropbox_indicator)   ;;
+      seafile)   seafile_state=$(render_seafile_indicator)   ;;
       power)     power_state=$(render_power_indicator)       ;;
       user)      user_state=$(render_user_indicator)         ;;
       quit)      exit 0                                      ;;

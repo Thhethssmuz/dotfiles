@@ -13,24 +13,24 @@ DST="$HOME/.xmonad/icons"
 
 # Make haskell icon separator
 mk_haskell() {
-  convert "$SRC/hsep-fg.png" +level-colors ",$COLOR12" "/tmp/hsep-fg.tmp.png"
-  convert "$SRC/hsep-bg.png" +level-colors ",$COLOR4" "/tmp/hsep-bg.tmp.png"
+  magick "$SRC/hsep-fg.png" +level-colors ",$COLOR12" "/tmp/hsep-fg.tmp.png"
+  magick "$SRC/hsep-bg.png" +level-colors ",$COLOR4" "/tmp/hsep-bg.tmp.png"
   composite "/tmp/hsep-fg.tmp.png" "/tmp/hsep-bg.tmp.png" "/tmp/hsep.tmp.png"
-  convert -resize "x$HEIGHT" -alpha remove -background "$BACKGROUND" "/tmp/hsep.tmp.png" "$DST/hsep.xpm"
+  magick -resize "x$HEIGHT" -alpha remove -background "$BACKGROUND" "/tmp/hsep.tmp.png" "$DST/hsep.xpm"
   rm "/tmp/hsep.tmp.png" "/tmp/hsep-fg.tmp.png" "/tmp/hsep-bg.tmp.png"
 }
 
 
 # Make simple separators
 mk_simple() {
-  convert "$SRC/sep-l.png" \
+  magick "$SRC/sep-l.png" \
     +level-colors ",$BACKGROUND" \
     -background "$COLOR4" \
     -alpha remove \
     -resize "x$HEIGHT" \
     "$DST/sep-l.xpm"
 
-  convert "$SRC/sep-l.png" \
+  magick "$SRC/sep-l.png" \
     +level-colors ",$COLOR4" \
     -background "$BACKGROUND" \
     -alpha remove \
@@ -41,13 +41,13 @@ mk_simple() {
 
 # Make pacman icon
 mk_pacman() {
-  convert "$SRC/pacman.png" \
+  magick "$SRC/pacman.png" \
     +level-colors ",$COLOR15" \
     -background "$BACKGROUND" \
     -alpha remove \
     -resize "x$FONT_SIZE" \
     "$DST/pacman.xpm"
-  convert "$SRC/pacman.png" \
+  magick "$SRC/pacman.png" \
     +level-colors ",$COLOR15" \
     -rotate 90 \
     -background "$BACKGROUND" \
@@ -58,21 +58,21 @@ mk_pacman() {
 
 # Make dropbox icons
 mk_dropbox() {
-  convert "$SRC/dropbox-plain.png" \
+  magick "$SRC/dropbox-plain.png" \
     +level-colors ",$COLOR15" \
     -background "$BACKGROUND" \
     -alpha remove \
     -resize "x$FONT_SIZE" \
     "$DST/dropbox-ok.xpm"
 
-  convert "$SRC/dropbox-sync.png" \
+  magick "$SRC/dropbox-sync.png" \
     +level-colors ",$COLOR15" \
     -background "$BACKGROUND" \
     -alpha remove \
     -resize "x$FONT_SIZE" \
     "$DST/dropbox-sync.xpm"
 
-  convert "$SRC/dropbox-plain.png" \
+  magick "$SRC/dropbox-plain.png" \
     +level-colors ",$COLOR0" \
     -background "$BACKGROUND" \
     -alpha remove \
@@ -80,9 +80,26 @@ mk_dropbox() {
     "$DST/dropbox-off.xpm"
 }
 
+# Make seafile
+mk_seafile() {
+  magick "$SRC/seafile.png" \
+    +level-colors ",$COLOR15" \
+    -background "$BACKGROUND" \
+    -alpha remove \
+    -resize "x$FONT_SIZE" \
+    "$DST/seafile-ok.xpm"
+
+  magick "$SRC/seafile.png" \
+    +level-colors ",$COLOR0" \
+    -background "$BACKGROUND" \
+    -alpha remove \
+    -resize "x$FONT_SIZE" \
+    "$DST/seafile-off.xpm"
+}
+
 # Make redshift icon
 mk_redshift() {
-  convert "$SRC/redshift.png" \
+  magick "$SRC/redshift.png" \
     -background "$BACKGROUND" \
     -alpha remove \
     -resize "x$FONT_SIZE" \
@@ -92,7 +109,7 @@ mk_redshift() {
 # Make layout icons
 mk_layout() {
   for i in "$SRC"/layout_*.png; do
-    convert "$i" \
+    magick "$i" \
       +level-colors "$COLOR15" \
       -background "$BACKGROUND" \
       -alpha remove \
@@ -104,7 +121,7 @@ mk_layout() {
 # Make volume icons
 mk_volume() {
   for i in "$SRC"/volume-*.png; do
-    convert "$i" \
+    magick "$i" \
       +level-colors ",$COLOR15" \
       -background "$BACKGROUND" \
       -alpha remove \
@@ -118,6 +135,7 @@ mk_volume() {
 # mk_simple
 mk_pacman
 mk_dropbox
+mk_seafile
 # mk_redshift
 # mk_layout
 mk_volume

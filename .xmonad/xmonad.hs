@@ -315,6 +315,9 @@ myDzenMenus home notifd =
   , dzenMenu { menuName   = "Dropbox"
              , menuScript = home ++ ".xmonad/scripts/dzen-menu-dropbox.sh"
              }
+  , dzenMenu { menuName   = "Seafile"
+             , menuScript = home ++ ".xmonad/scripts/dzen-menu-seafile.sh"
+             }
   ] ++ maybeToList (notifLogMenu home <$> notifd)
 
 -------------------------------------------------------------------------------
