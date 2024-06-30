@@ -396,7 +396,7 @@ myXPConf = def
   , height              = 22
   , position            = Top
   , historySize         = 2048
-  , changeModeKey       = xK_F24
+  , changeModeKey       = xK_bar
   , promptKeymap        = M.fromList
     [ ((controlMask,            xK_v        ), pasteString)
 
@@ -417,7 +417,7 @@ myXPConf = def
 
     , ((0,                      xK_Escape   ), quit)
 
-    , ((mod1Mask,               xK_space    ), spawn "xdotool key F24")
+    , ((mod1Mask,               xK_space    ), spawn "xdotool key bar")
     , ((0,                      xK_Return   ), setSuccess True >> setDone True)
     ]
   }

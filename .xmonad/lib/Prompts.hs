@@ -23,23 +23,19 @@ import XMonad.Util.Run hiding (getInput)
 data Calc = Calc State
 
 instance XPrompt Calc where
-  showXPrompt        (Calc state) = "calc> "
+  showXPrompt        (Calc state) = "calcu> "
   commandToComplete  (Calc state) = id
   completionFunction (Calc state) = mkCompelFunc state calcTabCompletion calcCompletion
   modeAction (Calc state) _ result =
     spawn $ "echo -n '" ++ result ++ "' | xclip -selection c"
 
-calcCompletion line = fmap ((:[""]) . trim) $ runProcessWithInput "calc" [line] ""
+calcCompletion line = fmap lines $ runProcessWithInput "calcu" ["-"] line
 
 calcTabCompletion :: [String] -> XP ()
 calcTabCompletion xs = case xs of
   []  -> return ()
   [x] -> setInput x >> endOfLine
   x:xs -> setInput x >> endOfLine
-
-trim :: String -> String
-trim = f . f
-  where f = reverse . dropWhile isSpace
 
 -------------------------------------------------------------------------------
 -- Bash
