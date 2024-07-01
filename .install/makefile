@@ -204,7 +204,7 @@ fonts: gnu-free-fonts.pac gucharmap.pac ttf-dejavu-sans-mono-powerline-git.aur t
 gtk-theme: dconf.pac dconf.src elementary-icon-theme.pac arc-gtk-theme.pac lxappearance.pac
 ranger: ranger.pac highlight.pac
 terminals: alacritty.pac
-terminal-tools: bc.pac calc.pac diffutils.pac fd.pac fzf.pac less.pac lsb-release.pac man-db.pac man-pages.pac nano.pac ncdu.pac pwgen.pac vim.pac yt-dlp.pac zbar.pac
+terminal-tools: bat.pac bc.pac calc.pac choose.pac diffutils.pac fd.pac fzf.pac less.pac lsb-release.pac man-db.pac man-pages.pac nano.pac ncdu.pac pwgen.pac vim.pac yt-dlp.pac zbar.pac
 hunspell: hunspell.pac hunspell-en_gb.pac hunspell-en_us.pac hunspell-nb.aur
 archive-tools: gzip.pac tar.pac unrar.pac unzip.pac zip.pac p7zip.pac
 image-tools: imagemagick.pac scrot.pac gimp.pac sxiv.pac
@@ -270,7 +270,7 @@ dev-tools: git make.pac testssl.sh.pac the_silver_searcher.pac
 
 mkvm: archiso.pac
 docker: docker.pac docker.srv loop.mod
-kubectl: kubectl.pac
+kubectl: kubectl.pac helm.pac fluxcd.pac just.pac
 k3s: k3s-bin.aur kubectl.pac helm.pac
 mysql: mariadb.pac mariadb.srv
 sqlite: sqlite.pac

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for file in ~/.{prompt,exports,aliases,functions}; do
+for file in ~/.{prompt,exports,aliases,functions,k8s-helpers}; do
   source "$file"
   [ -f "$file.$HOSTNAME" ] && source "$file.$HOSTNAME"
 done
