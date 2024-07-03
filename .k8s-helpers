@@ -5,7 +5,7 @@
 
 # Allow kubectl/kube-rs to use contexts from all kubeconfig files in ~/.kube/
 export KUBECONFIG
-KUBECONFIG="$(fd . ~/.kube --max-depth 1 --type f | tr '\n' ':')"
+KUBECONFIG="$( [ -d ~/.kube ] && fd . ~/.kube --max-depth 1 --type f | tr '\n' ':' || echo )"
 
 # context switcher
 kc() {
