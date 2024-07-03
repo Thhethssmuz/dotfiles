@@ -62,7 +62,7 @@ sia-clt: \
 	network networkd sshd nxserver wifi dropbox \
 	audio pipewire pulse-tools desktop misc browsers \
 	evince gimp libreoffice musescore redshift sublime-text thunar thunderbird virtualbox vlc weechat \
-	dev docker mkvm mysql sqlite
+	dev docker kubectl mkvm mysql sqlite
 
 sia-11: \
 	mnt-winfil1-public.amt mnt-winfil1-operations.amt mnt-winfil1-sensors.amt \
