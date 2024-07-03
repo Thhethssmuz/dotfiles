@@ -795,7 +795,7 @@ contexts:
         1: punctuation.definition.string.begin.js
       push:
         - meta_scope: string.regexp.js
-        - match: '(/)([gimy]*)'
+        - match: '(/)([gimuy]*)'
           captures:
             1: punctuation.definition.string.end.js
             2: keyword.other.js
