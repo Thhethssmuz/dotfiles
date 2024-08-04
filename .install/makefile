@@ -169,7 +169,7 @@ midi: timidity++.pac freepats-general-midi.pac
 mpd: mpd.pac mpd.usr
 mpc: mpc.pac ncmpcpp.pac
 espeak: espeak-ng.pac
-audio-tools: id3v2.pac
+audio-tools: id3v2.pac mplayer.pac
 
 
 #
