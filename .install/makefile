@@ -52,7 +52,7 @@ iso:
 archbox: \
 	mnt-m.amt \
 	base amd-ucode.pac radeon input fs mouse-accel archbox-monitors.cfg \
-	network networkd sshd dropbox \
+	network networkd sshd dropbox seafile \
 	audio pipewire pulse-tools desktop compton misc browsers \
 	blender discord evince gimp libreoffice musescore reaper redshift signal steam sublime-text thunar virtualbox vlc weechat \
 	dev docker kubectl mkvm
@@ -150,6 +150,7 @@ smbd: smb smbd.srv nmbd.srv smbd.cfg
 nxserver: nxclient nxserver.srv
 dropbox: dropbox.aur dropbox-cli.aur dropbox.usr dropbox.src
 remmina: remmina.pac freerdp.pac
+seafile: seafile.aur
 vpn: openconnect.pac
 wifi: iwd.pac iwd.srv
 
