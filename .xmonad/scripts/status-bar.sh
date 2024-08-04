@@ -198,20 +198,9 @@ run() {
 
   ( sleep 2 && update keyboard ) &
   ( sleep 5 && set_update_interval updates 900 ) &
-  ( sleep 3 && update volume ) &
-
-  if hash dropbox-cli 2>/dev/null; then
-    (sleep 4 && set_update_interval dropbox 5 ) &
-  else
-    (sleep 4 && update dropbox ) &
-  fi
-
-  if hash seaf-cli >/dev/null 2>&1; then
-    (sleep 4 && set_update_interval seafile 5 ) &
-  else
-    (sleep 4 && update seafile ) &
-  fi
-
+  ( sleep 5 && update volume ) &
+  ( sleep 5 && set_update_interval dropbox 15 ) &
+  ( sleep 5 && set_update_interval seafile 15 ) &
   ( sleep 2 && set_update_interval power 10 ) &
   ( sleep 1 && update user ) &
 
