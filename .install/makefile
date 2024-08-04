@@ -267,11 +267,11 @@ latex: \
 	texlive-xetex.pac texlive-langgreek.pac
 pdf: latex pandoc-cli.pac evince # ppp
 json: jq.pac jshon.pac
-dev-tools: git make.pac testssl.sh.pac the_silver_searcher.pac
+dev-tools: git just.pac make.pac testssl.sh.pac the_silver_searcher.pac
 
 mkvm: archiso.pac
 docker: docker.pac docker.srv loop.mod
-kubectl: kubectl.pac helm.pac fluxcd.pac just.pac
+kubectl: kubectl.pac helm.pac fluxcd.pac
 k3s: k3s-bin.aur kubectl.pac helm.pac
 mysql: mariadb.pac mariadb.srv
 sqlite: sqlite.pac
