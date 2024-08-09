@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ESPEED=350
+ESPEED=360
 ELANG=en
 TLANG=eng
 
