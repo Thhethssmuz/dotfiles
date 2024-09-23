@@ -11,7 +11,7 @@ ignore() {
 
 
 check-updates() {
-  paru -Qau | while read -r line; do
+  ( paru -Qau || : ) | while read -r line; do
     echo "aur ${line}"
   done
 }
