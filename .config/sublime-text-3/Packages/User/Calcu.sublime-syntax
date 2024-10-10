@@ -1,0 +1,264 @@
+%YAML 1.2
+---
+name: Calcu
+file_extensions: [calcu]
+scope: source.calcu
+
+contexts:
+  main:
+    - include: comments
+    - include: literal-keywords
+    - include: literal-bool
+    - include: literal-number
+    - include: literal-unitfunction
+    - include: literal-operators
+
+  comments:
+    - match: /\*
+      captures:
+        0: punctuation.definition.comment.calcu
+      push:
+        - meta_scope: comment.block.calcu
+        - match: \*/
+          pop: true
+    - match: (//).*$\n?
+      scope: comment.line.double-slash.calcu
+    - match: ^(#!).*$\n?
+      scope: comment.line.shebang.calcu
+  literal-keywords:
+    - match: (?<!\.)\b(let|unit)\b
+      scope: storage.type.calcu
+    - match: (?<!\.)\b(if|then|else)\b
+      scope: keyword.control.conditional.calcu
+  literal-bool:
+    - match: (?<!\.)\btrue\b
+      scope: constant.language.boolean.true.calcu
+    - match: (?<!\.)\bfalse\b
+      scope: constant.language.boolean.false.calcu
+  literal-number:
+    - match: '[⁰¹²³⁴⁵⁶⁷⁸⁹]+'
+      scope: constant.numeric.calcu
+    - match: '(?i)(?:\B[-+]|\b)0x[0-9a-f]*\.(\B|\b[0-9]+)'
+      scope: invalid.illegal.numeric.hex.calcu
+    - match: '(?:\B[-+]|\b)[oO][0-9]+\.(\B|\b[0-9]+)'
+      scope: invalid.illegal.numeric.octal.calcu
+    - match: |-
+        (?xi)
+        (?:
+          \b[oO][0-7]+|               # octal
+          \b0x[0-9a-f]*|              # hex
+          (
+            \B\.[0-9]+|               # e.g. .999
+            \b[0-9]+(\.[0-9]*)?       # e.g. 999.999, 999. or 999
+          )(e[-+]?[0-9]+)?            # e.g. e+123, E-123
+        )
+      scope: constant.numeric.calcu
+      set: literal-unitfunction-chain
+  literal-unitfunction:
+    - match: '\b(?=[a-zA-Z])'
+      set: literal-unitfunction-chain
+  literal-unitfunction-chain:
+    - match: '(pi|e|NaN|Infinity)\b'
+      scope: constant.language.calcu
+      pop: true
+    - match: |-
+        (?x)
+        (
+          quecto           |
+          ronto            |
+          yocto            |
+          zepto            |
+          atto             |
+          femto            |
+          pico             |
+          nano             |
+          micro            |
+          milli            |
+          centi            |
+          deci             |
+          deca             |
+          hecto            |
+          kilo             |
+          mega             |
+          giga             |
+          tera             |
+          peta             |
+          exa              |
+          zetta            |
+          yotta            |
+          ronna            |
+          quetta           |
+
+          kibi             |
+          mebi             |
+          gibi             |
+          tebi             |
+          pebi             |
+          exbi             |
+          zebi             |
+          yobi             |
+
+          metre(s)?        |
+          meter(s)?        |
+          (q|r|y|z|a|f|p|n|µ|m|c|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?m |
+
+          second(s)?       |
+          minute(s)?       |
+          h(our(s)?)?      |
+          d(ay(s)?)?       |
+          fortnight(s)?    |
+          (q|r|y|z|a|f|p|n|µ|m|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?s |
+
+          gram(s)?         |
+          tonne(s)?        |
+          (q|r|y|z|a|f|p|n|µ|m|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?g |
+
+          ampere(s)?       |
+          (q|r|y|z|a|f|p|n|µ|m|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?A |
+
+          kelvin(s)?       |
+          (q|r|y|z|a|f|p|n|µ|m|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?K |
+
+          mole(s)?         |
+          (q|r|y|z|a|f|p|n|µ|m|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?mol |
+
+          candela(s)?      |
+          (q|r|y|z|a|f|p|n|µ|m|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?cd |
+
+          hertz            |
+          (q|r|y|z|a|f|p|n|µ|m|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?Hz |
+
+          newton(s)?       |
+          (q|r|y|z|a|f|p|n|µ|m|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?N |
+
+          pascal(s)?       |
+          (q|r|y|z|a|f|p|n|µ|m|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?Pa |
+
+          joule(s)?        |
+          (q|r|y|z|a|f|p|n|µ|m|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?J |
+
+          watt(s)?         |
+          (q|r|y|z|a|f|p|n|µ|m|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?W |
+
+          coulomb(s)?      |
+
+          volt(s)?         |
+          (q|r|y|z|a|f|p|n|µ|m|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?V |
+
+          farad(s)?        |
+          ohm(s)?          |
+          siemens          |
+          weber(s)?        |
+          tesla(s)?        |
+          henry(s)?        |
+
+
+          thousand         |
+          million          |
+          billion          |
+          trillion         |
+          quadrillion      |
+          quintillion      |
+          sextillion       |
+          septillion       |
+          octillion        |
+
+          lb               |
+          pound(s)?        |
+          oz               |
+          ounce(s)?        |
+
+          inch(s)?         |
+          foot             |
+          feet             |
+          yard(s)?         |
+          furlong(s)?      |
+          mile(s)?         |
+
+          au               |
+          astronomical_unit(s)?|
+          light_second(s)? |
+          ly               |
+          light_year(s)?   |
+          speed_of_light   |
+
+          nautical_mile(s)?|
+          knot(s)?         |
+
+          calorie(s)?      |
+          horsepower       |
+
+          litre(s)?        |
+          liter(s)?        |
+
+          bit(s)?          |
+          (q|r|y|z|a|f|p|n|µ|m|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?b |
+
+          byte(s)?          |
+          (q|r|y|z|a|f|p|n|µ|m|k|M|G|T|P|E|Z|Y|R|Q|Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi)?B |
+
+          q|r|y|z|a|f|p|n|µ|k|M|G|T|P|E|Z|Y|R|Q|
+          Ki|Mi|Gi|Ti|Pi|Ei|Zi|Yi
+        )\b
+      scope: support.function.calcu
+      pop: true
+    - match: |-
+        (?x)
+        (
+          abs       |
+          sign      |
+          ceil      |
+          round     |
+          floor     |
+          min       |
+          max       |
+          log       |
+          log2      |
+          log10     |
+          sin       |
+          cos       |
+          tan       |
+          asin      |
+          acos      |
+          atan      |
+          sinh      |
+          cosh      |
+          tanh      |
+          asinh     |
+          acosh     |
+          atanh     |
+          nroot     |
+          cbrt      |
+          sqrt      |
+          mod       |
+          degC      |
+          degF
+        )\b
+      scope: entity.name.function.calcu
+      pop: true
+    - match: '[_$a-zA-Z][$\w]*'
+      pop: true
+    - match: '\b'
+      pop: true
+  literal-operators:
+    - match: (?<!\.)\b(not|and|or)\b
+      scope: keyword.operator.calcu
+    - match: |-
+        (?x)
+        \\    | # lambda
+        ->    | # lambda
+        <-    | # conversion
+        =(?!=)| # assignment
+        ==    | # equality
+        !=    | # equality
+        <=    | # comparison
+        >=    | # comparison
+        <     | # comparison
+        >     | # comparison
+        \^    | # pow
+        /     | # division
+        \*    | # multiplication
+        \+    | # addition
+        -     | # subtraction / negation
+        \|      # convertion
+      scope: keyword.operator.calcu

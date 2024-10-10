@@ -1,0 +1,15 @@
+{
+  "selector": "source.calcu",
+  "variants": [
+    {
+      "name": "Run",
+      "cmd": ["calcu", "$file"],
+      "file_regex": "^\\s*at (.*):(\\d+):(\\d+)$"
+    },
+    {
+      "name": "Build",
+      "cmd": ["calcu", "$file"],
+      "file_regex": "^\\s*at (.*):(\\d+):(\\d+)$"
+    }
+  ]
+}
