@@ -7,8 +7,8 @@ order() {
 
 install() {
   cd ~
-  git clone https://aur.archlinux.org/paru-git.git
-  cd paru-git
+  git clone https://aur.archlinux.org/paru.git
+  cd paru
   makepkg -si
   cd ~
   rm  -rf paru
