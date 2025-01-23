@@ -207,7 +207,7 @@ ranger: ranger.pac highlight.pac
 terminals: alacritty.pac
 terminal-tools: bat.pac bc.pac calc.pac choose.pac diffutils.pac fd.pac fzf.pac less.pac lsb-release.pac man-db.pac man-pages.pac nano.pac ncdu.pac pwgen.pac sd.pac vim.pac yt-dlp.pac zbar.pac
 hunspell: hunspell.pac hunspell-en_gb.pac hunspell-en_us.pac hunspell-nb.aur
-archive-tools: gzip.pac tar.pac unrar.pac unzip.pac zip.pac p7zip.pac
+archive-tools: gzip.pac tar.pac unrar.pac unzip.pac zip.pac 7zip.pac
 image-tools: imagemagick.pac scrot.pac gimp.pac sxiv.pac
 sys-info: lshw.pac lsof.pac
 
