@@ -180,7 +180,7 @@ desktop: xorg slock xmonad environment
 
 xorg: xorg-server.pac xorg-xinit.pac xorg-apps.pag
 lxdm: lxdm.pac archlinux-lxdm-theme-full.aur lxdm.cfg lxdm.srv
-slock: slock.pac xautolock.pac
+slock: slock.pac
 xmonad: xmonad.pac xmonad-contrib.pac xmonadupgrade.cfg
 environment: dzen2.pac haskell-async.pac haskell-dbus.pac ghc-libs.pac hsetroot.pac tesseract status-bar-icons.src
 
