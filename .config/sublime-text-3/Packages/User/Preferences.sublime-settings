@@ -14,7 +14,7 @@
 	"auto_indent": true,
 	"color_scheme": "Packages/User/MorrowindDark.tmTheme",
 	"detect_indentation": false,
-	"dictionary": "Packages/Language - English/en_GB.dic",
+	"dictionary": "Dictionaries/en_GB.dic",
 	"draw_indent_guides": false,
 	"enable_tab_scrolling": false,
 	"ensure_newline_at_eof_on_save": true,

@@ -33,4 +33,7 @@
 
   { "keys": ["ctrl+|"], "command": "show_panel", "args": {"panel": "console", "toggle": true} },
 
+  { "keys": ["ctrl+t"], "command": "set_user_setting", "args": { "file": "Preferences.sublime-settings", "setting": "dictionary", "value": "Dictionaries/en_GB.dic" } },
+  { "keys": ["ctrl+shift+t"], "command": "set_user_setting", "args": { "file": "Preferences.sublime-settings", "setting": "dictionary", "value": "Dictionaries/nb_NO.dic" } },
+
 ]
