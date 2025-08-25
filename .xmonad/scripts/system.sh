@@ -106,6 +106,9 @@ rescreen() {
     'DisplayPort-0 BenQ XL2720T;DisplayPort-1 BenQ GW2760;HDMI-A-1 BenQ GW2760;')
       ;;
 
+    'DisplayPort-0 EA244WMi;DisplayPort-1 EA244WMi;HDMI-A-0 EA244WMi;')
+      ;;
+
     *) echo 'unknown screen layout' ;;
   esac
 }
