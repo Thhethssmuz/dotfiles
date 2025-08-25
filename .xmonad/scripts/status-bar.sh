@@ -17,7 +17,7 @@ render_keyboard_indicator() {
   # echo -n  "^ca(1, exec ~/.xmonad/scripts/dzen-menu-keyboard.sh)"
   echo -n  "^ca(4, exec ~/.xmonad/scripts/keyboard.sh --prev)"
   echo -n  "^ca(5, exec ~/.xmonad/scripts/keyboard.sh --next)"
-  echo -ne "^fn(Font Awesome 6 Free:size=$FONT_SIZE)\\uf11c^fn() "
+  echo -ne "^fn(Font Awesome 7 Free:size=$FONT_SIZE)\\uf11c^fn() "
   echo -n  "$(~/.xmonad/scripts/keyboard.sh --code)"
   echo -n  "^ca()"
   echo -n  "^ca()"
@@ -28,7 +28,7 @@ render_updates_indicator() {
   updates=$(~/.xmonad/scripts/updates.sh -g)
   line+="^i($HOME/.xmonad/icons/pacman.xpm) $(awk '{print $1}' <<< "$updates") "
   line+="^i($HOME/.xmonad/icons/aur.xpm) $(awk '{print $2}' <<< "$updates") "
-  line+="^fn(Font Awesome 6 Brands:size=$FONT_SIZE)\\uf3d4^fn() $(awk '{print $3}' <<< "$updates")"
+  line+="^fn(Font Awesome 7 Brands:size=$FONT_SIZE)\\uf3d4^fn() $(awk '{print $3}' <<< "$updates")"
   echo -ne "^ca(1, ~/.xmonad/scripts/dbus.sh menu Toggle Updates)$line^ca()"
 }
 
@@ -114,7 +114,7 @@ render_power_indicator() {
     icon="\\ue55b"
   fi
 
-  echo -ne "^fn(Font Awesome 6 Free Solid:size=$FONT_SIZE)$icon^fn() $level%"
+  echo -ne "^fn(Font Awesome 7 Free Solid:size=$FONT_SIZE)$icon^fn() $level%"
 }
 
 render_user_indicator() {
